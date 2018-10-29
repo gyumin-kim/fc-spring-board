@@ -1,6 +1,7 @@
 package example.springboard.dto;
 
 import java.util.Date;
+import java.util.List;
 
 public class Board {
     private Long id;
@@ -12,6 +13,7 @@ public class Board {
     private String title;
     private Date regDate;
     private String ipAddr;
+    private List<BoardBody> boardBodyList;
 
     public Long getId() {
         return id;
@@ -83,5 +85,13 @@ public class Board {
 
     public void setIpAddr(String ipAddr) {
         this.ipAddr = ipAddr;
+    }
+
+    public List<BoardBody> getBoardBodyList() {
+        return boardBodyList;
+    }
+
+    public void setBoardBodyList(List<BoardBody> boardBodyList) {
+        this.boardBodyList = boardBodyList;
     }
 }
