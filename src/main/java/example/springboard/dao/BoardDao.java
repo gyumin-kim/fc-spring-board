@@ -12,7 +12,7 @@ public interface BoardDao {
     List<Board> getBoardListByContent(Long categoryId, String content);
     List<Board> getBoardListByTitleOrContent(Long categoryId, String titleOrContent);
     Board getBoardDetail(int id);
-    int saveBoard(Board board);
+    int addBoard(Board board);
     int updateBoard(Board board);
     int addBoardReply(Long id, Long originId, int depth, int replySeq, Long categoryId, Long memberId, String title, String ipAddr, Date regDate);
 }

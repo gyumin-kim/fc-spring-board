@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -32,6 +33,9 @@ public class BoardDaoImpl implements BoardDao {
                 .usingGeneratedKeyColumns("id");
     }
 
+    /**
+     * 특정 category의 모든 글을 불러옴
+     */
     @Override
     public List<Board> getBoardListAll(Long categoryId) {
         String sql = BoardDaoSqls.GET_BOARD_LIST_ALL;
@@ -39,6 +43,10 @@ public class BoardDaoImpl implements BoardDao {
         return jdbcTemplate.query(sql, params, rowMapper);
     }
 
+    /**
+     * 'board_body' 테이블의 작성자(member)로 검색한 결과
+     * (작성자로 해당 글의 목록을 조회하되, 작성자를 불러오지는 않는다)
+     */
     @Override
     public List<Board> getBoardListByMember(Long categoryId, Long memberId) {
         String sql = BoardDaoSqls.GET_BOARD_LIST_BY_MEMBER;
@@ -50,7 +58,7 @@ public class BoardDaoImpl implements BoardDao {
 
     /**
      * 'board_body' 테이블의 제목(title)으로 검색한 결과
-     * (제목을 불러오지는 않고 해당 글의 목록만 조회하는 메소드)
+     * (제목으로 해당 글의 목록을 조회하되, 제목을 불러오지는 않는다)
      */
     @Override
     public List<Board> getBoardListByTitle(Long categoryId, String title) {
@@ -63,7 +71,7 @@ public class BoardDaoImpl implements BoardDao {
 
     /**
      * 'board_body' 테이블의 내용(content)으로 검색한 결과
-     * (내용을 불러오지는 않고 해당 글의 목록만 조회하는 메소드)
+     * (내용으로 해당 글의 목록을 조회하되, 내용을 불러오지는 않는다)
      */
     @Override
     public List<Board> getBoardListByContent(Long categoryId, String content) {
@@ -76,7 +84,7 @@ public class BoardDaoImpl implements BoardDao {
 
     /**
      * 'board_body' 테이블의 제목(title) 혹은 내용(content)으로 검색한 결과
-     * (제목이나 내용을 불러오지는 않고 해당 글의 목록만 조회하는 메소드)
+     * (제목 혹은 내용으로 해당 글의 목록을 조회하되, 제목이나 내용을 불러오지는 않는다)
      */
     @Override
     public List<Board> getBoardListByTitleOrContent(Long categoryId, String titleOrContent) {
@@ -95,12 +103,24 @@ public class BoardDaoImpl implements BoardDao {
         return null;
     }
 
+    /**
+     * Board(글) 객체를 데이터베이스에 INSERT
+     */
     @Override
-    public int saveBoard(Board board) {
+    public int addBoard(Board board) {
         // 'is_deleted'는 생략(DEFAULT 0)
+        // BeanPropertySqlParameterSource를 사용할 경우
+        // 'is_deleted'가 NULL로 insert되는 문제가 있어 NamedParameterJdbcTemplate 사용
         String sql = BoardDaoSqls.SAVE_BOARD;
         SqlParameterSource beanProps = new BeanPropertySqlParameterSource(board);
-        return jdbcTemplate.update(sql, beanProps);
+        return jdbcTemplate.update(sql, new MapSqlParameterSource()
+                .addValue("origin_id", board.getOriginId())
+                .addValue("depth", board.getDepth())
+                .addValue("reply_seq", board.getReplySeq())
+                .addValue("category_id", board.getCategoryId())
+                .addValue("member_id", board.getMemberId())
+                .addValue("title", board.getTitle())
+                .addValue("ip_addr", board.getIpAddr()));
     }
 
     @Override
