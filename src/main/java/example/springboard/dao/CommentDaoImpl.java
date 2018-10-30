@@ -10,10 +10,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class CommentDaoImpl implements CommentDao {
@@ -27,14 +24,15 @@ public class CommentDaoImpl implements CommentDao {
         this.insertAction = new SimpleJdbcInsert(dataSource).withTableName("comment");
     }
     @Override
-    public List<Comment> getCommentList(int parentCommentId) {
-        String sql = "SELECT c.id, c.parent_comment_id, c.seq, m.id, c.content, c.ip_addr, c.reg_date \n" +
-                "FROM comment AS c INNER JOIN member AS m ON c.member_id = m.id\n" +
-                "WHERE board_id = :board_id \n" +
+    public List<Comment> getCommentList(Long boardId) {
+        String sql = "SELECT c.id, c.parent_comment_id, c.seq, m.id, c.content, c.ip_addr, c.reg_date " +
+                "FROM comment AS c INNER JOIN member AS m ON c.member_id = m.id " +
+                "WHERE board_id = :board_id " +
                 "ORDER BY parent_comment_id DESC, seq ASC";
         try{
             RowMapper<Comment> rowMapper = BeanPropertyRowMapper.newInstance(Comment.class);
-            return jdbc.query(sql,rowMapper);
+            Map<String, ?> params = Collections.singletonMap("board_id", boardId);
+            return jdbc.query(sql,params,rowMapper);
         }catch (Exception ex){
             System.out.println("리스트를 가져오지 못하였습니다.");
             return null;
@@ -49,8 +47,14 @@ public class CommentDaoImpl implements CommentDao {
 
     @Override
     public int updateComment(Comment comment) {
-        String sql = "UPDATE comment SET content = :content, reg_date = :reg_date, ip_addr = :ip_addr \n" +
-                "WHERE member_id = :member_id and id = :id";
+        String sql = "UPDATE comment SET content = :content, reg_date = :regdate, ip_addr = :ipAddr " +
+                "WHERE member_id = :memberId and id = :id;";
+//        Map<String,Object> map = new HashMap<>();
+//        map.put("content",comment.getContent());
+//        map.put("ip_addr",comment.getIpAddr());
+//        map.put("id",comment.getId());
+//        map.put("member_id",comment.getMemberId());
+//        map.put("reg_date",comment.getRegdate());
         SqlParameterSource params = new BeanPropertySqlParameterSource(comment);
         return jdbc.update(sql,params);
     }
