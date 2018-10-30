@@ -28,7 +28,6 @@ public class MemberDaoImpl implements MemberDao {
 
     @Override
     public int insertMember(Member member) {
-        int count = 0;
         SqlParameterSource params = new BeanPropertySqlParameterSource(member);
         return jdbcInsert.executeAndReturnKey(params).intValue();
     }
