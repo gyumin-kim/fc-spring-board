@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface CommentDao {
     List<Comment> getCommentList(int parentCommentId);
-    int addComment(Long id, Long boardId, Long parentCommentId, int seq, Long memberId, String content, String ipAddr, Date regDate);
-    int updateComment(Long id, Long memberId, String content, Date regDate, String ipAddr);
-    int deleteComment(Long id, Long memberId);
+    int addComment(Comment comment);
+    int updateComment(Comment comment);
+    int deleteComment(Long id);
 }
