@@ -13,7 +13,6 @@ public class Board {
     private String title;
     private Date regDate;
     private String ipAddr;
-    private List<BoardBody> boardBodyList;
 
     public Long getId() {
         return id;
@@ -87,11 +86,18 @@ public class Board {
         this.ipAddr = ipAddr;
     }
 
-    public List<BoardBody> getBoardBodyList() {
-        return boardBodyList;
-    }
-
-    public void setBoardBodyList(List<BoardBody> boardBodyList) {
-        this.boardBodyList = boardBodyList;
+    @Override
+    public String toString() {
+        return "Board{" +
+                "id=" + id +
+                ", originId=" + originId +
+                ", depth=" + depth +
+                ", replySeq=" + replySeq +
+                ", categoryId=" + categoryId +
+                ", memberId=" + memberId +
+                ", title='" + title + '\'' +
+                ", regDate=" + regDate +
+                ", ipAddr='" + ipAddr + '\'' +
+                '}';
     }
 }

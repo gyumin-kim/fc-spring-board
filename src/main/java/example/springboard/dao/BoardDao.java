@@ -9,8 +9,8 @@ public interface BoardDao {
     List<Board> getBoardListAll(Long categoryId);
     List<Board> getBoardListByMember(Long categoryId, Long memberId);
     List<Board> getBoardListByTitle(Long categoryId, String title);
-    Board getBoardListByContent(Long categoryId, String content);
-    List<Board> getBoardListByTitleOrContent(Long categoryId, String title, String content);
+    List<Board> getBoardListByContent(Long categoryId, String content);
+    List<Board> getBoardListByTitleOrContent(Long categoryId, String titleOrContent);
     Board getBoardDetail(int id);
     int saveBoard(Board board);
     int updateBoard(Board board);
