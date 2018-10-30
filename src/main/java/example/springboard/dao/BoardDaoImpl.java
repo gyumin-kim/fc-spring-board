@@ -130,9 +130,26 @@ public class BoardDaoImpl implements BoardDao {
         return jdbcTemplate.update(sql, params);
     }
 
+//    @Override
+//    public int addBoardReply(Long id, Long originId, int depth, int replySeq, Long categoryId, Long memberId, String title, String ipAddr, Date regDate) {
+//        String sql = "";
+//        return 0;
+//    }
+
+    // SELECT origin_id, depth, reply_seq FROM board WHERE id = :id
     @Override
-    public int addBoardReply(Long id, Long originId, int depth, int replySeq, Long categoryId, Long memberId, String title, String ipAddr, Date regDate) {
-        String sql = "";
-        return 0;
+    public Board getBoardInfoForReply(Long id) {
+        String sql = BoardDaoSqls.GET_BOARD_INFO_FOR_REPLY;
+        RowMapper<Board> rowMapper = BeanPropertyRowMapper.newInstance(Board.class);
+        Map<String, ?> parmas = Collections.singletonMap("id", id);
+        return jdbcTemplate.queryForObject(sql, parmas, rowMapper);
+    }
+
+    // UPDATE board SET reply_seq = reply_seq + 1 WHERE origin_id = :origin_id AND reply_seq > :reply_seq
+    @Override
+    public int updateBoardForReply(Board board) {
+        String sql = BoardDaoSqls.UPDATE_BOARD_FOR_REPLY;
+        SqlParameterSource params = new BeanPropertySqlParameterSource(board);
+        return jdbcTemplate.update(sql, params);
     }
 }

@@ -14,5 +14,8 @@ public interface BoardDao {
     Board getBoardDetail(int id);
     int addBoard(Board board);
     int updateBoard(Board board);
-    int addBoardReply(Long id, Long originId, int depth, int replySeq, Long categoryId, Long memberId, String title, String ipAddr, Date regDate);
+//    int addBoardReply(Long id, Long originId, int depth, int replySeq, Long categoryId, Long memberId, String title, String ipAddr, Date regDate);
+
+    Board getBoardInfoForReply(Long id);
+    int updateBoardForReply(Board board);
 }

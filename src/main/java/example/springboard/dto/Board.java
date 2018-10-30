@@ -13,6 +13,24 @@ public class Board {
     private String title;
     private Date regDate;
     private String ipAddr;
+    private BoardBody boardBody;
+    private Member member;
+
+    public BoardBody getBoardBody() {
+        return boardBody;
+    }
+
+    public void setBoardBody(BoardBody boardBody) {
+        this.boardBody = boardBody;
+    }
+
+    public Member getMember() {
+        return member;
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
+    }
 
     public Long getId() {
         return id;

@@ -34,4 +34,9 @@ class BoardDaoSqls {
             "VALUES (null, :origin_id, :depth, :reply_seq, :category_id, :member_id, :title, :ip_addr, NOW())";
     static final String UPDATE_BOARD = "UPDATE board SET title = :title, reg_date = NOW(), ip_addr = :ip_addr " +
             "WHERE member_id = :member_id and id = :id";
+
+    static final String UPDATE_BOARD_FOR_REPLY = "UPDATE board SET reply_seq = reply_seq + 1 " +
+            "WHERE origin_id = :origin_id AND reply_seq > :reply_seq";
+    static final String GET_BOARD_INFO_FOR_REPLY = "SELECT origin_id, depth, reply_seq " +
+            "FROM board WHERE id = :id";
 }
