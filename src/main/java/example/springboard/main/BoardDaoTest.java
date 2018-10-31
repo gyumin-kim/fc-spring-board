@@ -13,6 +13,9 @@ import java.util.List;
 
 public class BoardDaoTest {
     public static void main(String[] args) {
-      
+        ApplicationContext ac = new AnnotationConfigApplicationContext(ApplicationConfig.class);
+        BoardDao boardDao = ac.getBean(BoardDao.class);
+
+        boardDao.deleteBoard(2L);
     }
 }

@@ -20,4 +20,6 @@ public interface BoardDao {
 
     Board getBoardInfoForReply(Long id);
     int updateBoardForReply(Board board);
+
+    int deleteBoard(Long id);
 }

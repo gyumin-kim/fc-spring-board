@@ -178,4 +178,13 @@ public class BoardDaoImpl implements BoardDao {
         map.put("reply_seq", board.getReplySeq());
         return jdbcTemplate.update(sql, map);
     }
+
+    // 'is_deleted'를 1로 설정
+    // 목록 조회 시 답글이 있는 경우 "삭제된 글 입니다" / 답글이 없는 경우 UI에 표시되지 않도록 JavaScrip로 따로 구현
+    @Override
+    public int deleteBoard(Long id){
+        String sql = BoardDaoSqls.DELETE_BOARD;
+        Map<String, Long> map = Collections.singletonMap("id", id);
+        return jdbcTemplate.update(sql, map);
+    }
 }
