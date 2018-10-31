@@ -13,6 +13,6 @@ import java.util.List;
 
 public class BoardDaoTest {
     public static void main(String[] args) {
-
+      
     }
 }

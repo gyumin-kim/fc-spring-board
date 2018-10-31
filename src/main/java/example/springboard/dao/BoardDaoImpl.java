@@ -108,9 +108,8 @@ public class BoardDaoImpl implements BoardDao {
     public int addBoard(Board board) {
         // 'is_deleted'는 생략(DEFAULT 0)
         // BeanPropertySqlParameterSource를 사용할 경우
-        // 'is_deleted'가 NULL로 insert되는 문제가 있어 NamedParameterJdbcTemplate 사용
-        String sql = BoardDaoSqls.SAVE_BOARD;
-        SqlParameterSource beanProps = new BeanPropertySqlParameterSource(board);
+        // 'is_deleted'가 NULL로 insert되는 문제가 있어 NamedParameterJdbcTemplate.update() 사용
+        String sql = BoardDaoSqls.ADD_BOARD;
         return jdbcTemplate.update(sql, new MapSqlParameterSource()
                 .addValue("origin_id", board.getOriginId())
                 .addValue("depth", board.getDepth())
@@ -130,6 +129,13 @@ public class BoardDaoImpl implements BoardDao {
     }
 
     // 게시글을 수정하면 board table, board_body table 이 같이 수정되어야 한다.(updateBoardBody 와 같 처리되어야 함)
+    @Override
+    public int addBoardBody(BoardBody boardBody) {
+        String sql = BoardDaoSqls.ADD_BOARD_BODY;
+        SqlParameterSource params = new BeanPropertySqlParameterSource(boardBody);
+        return jdbcTemplate.update(sql, params);
+    }
+
     @Override
     public int updateBoard(Board board) {
         String sql = BoardDaoSqls.UPDATE_BOARD;

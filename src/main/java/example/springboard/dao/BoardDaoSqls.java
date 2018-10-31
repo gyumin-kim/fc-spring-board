@@ -30,9 +30,9 @@ class BoardDaoSqls {
             "b.member_id, b.title, b.ip_addr, b.reg_date, bb.content " +
             "FROM board AS b JOIN board_body AS bb ON b.id = bb.id " +
             "WHERE bb.id = :b.id";
-    static final String SAVE_BOARD = "INSERT INTO board (id, origin_id, depth, reply_seq, category_id, member_id, title, ip_addr, reg_date) " +
+    static final String ADD_BOARD = "INSERT INTO board (id, origin_id, depth, reply_seq, category_id, member_id, title, ip_addr, reg_date) " +
             "VALUES (null, :origin_id, :depth, :reply_seq, :category_id, :member_id, :title, :ip_addr, NOW())";
-    static final String SAVE_BOARD_BODY = "INSERT INTO board_body (id, content) VALUES (:board_id, :content)";
+    static final String ADD_BOARD_BODY = "INSERT INTO board_body (id, content) VALUES (:board_id, :content)";
     static final String UPDATE_BOARD = "UPDATE board SET title = :title, reg_date = NOW(), ip_addr = :ip_addr " +
             "WHERE member_id = :member_id and id = :id";
     static final String UPDATE_BOARD_BODY = "UPDATE board_body SET content = :content WHERE id = :id";

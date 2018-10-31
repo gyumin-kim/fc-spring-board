@@ -26,12 +26,18 @@ public class MemberDaoImpl implements MemberDao {
                             .usingGeneratedKeyColumns("id");
     }
 
+    /**
+     * 회원가입
+     */
     @Override
-    public int insertMember(Member member) {
+    public Long insertMember(Member member) {
         SqlParameterSource params = new BeanPropertySqlParameterSource(member);
-        return jdbcInsert.executeAndReturnKey(params).intValue();
+        return jdbcInsert.executeAndReturnKey(params).longValue();
     }
 
+    /**
+     * 게시글 조회(제목, 내용, 제목+내용) 시 작성자 이름(name)을 가져오기 위한 메소드
+     */
     @Override
     public String selectNameById(Long id) {
         String sql = "SELECT name FROM member WHERE id = :member_id";
@@ -43,6 +49,10 @@ public class MemberDaoImpl implements MemberDao {
         }
     }
 
+    /**
+     * 로그인 화면에서 사용자가 입력한 name을 바탕으로 password를 가져옴
+     * 가져온 password를 사용자가 입력한 password와 service에서 비교
+     */
     @Override
     public String selectPasswordByName(String name) {
         String sql = "SELECT password FROM member WHERE name = :name";
@@ -61,16 +71,41 @@ public class MemberDaoImpl implements MemberDao {
         }
     }
 
+    /**
+     * 회원정보 보기 및 수정 용도
+     */
     @Override
-    public Member selectMemberByName(String name) {
-        String sql = "SELECT id, name, email, password FROM member WHERE name = :name";
+    public Member selectMemberById(Long id) {
+        String sql = "SELECT id, name, email, password FROM member WHERE id = :id";
         try {
             RowMapper<Member> rowMapper = BeanPropertyRowMapper.newInstance(Member.class);
-            Map<String, ?> params = Collections.singletonMap("name", name);
-
+            Map<String, ?> params = Collections.singletonMap("id", id);
             return jdbcTemplate.queryForObject(sql, params, rowMapper);
-        } catch(Exception ex){
+        } catch (Exception ex) {
             return null;
         }
+    }
+
+//    @Override
+//    public Member selectMemberByName(String name) {
+//        String sql = "SELECT id, name, email, password FROM member WHERE name = :name";
+//        try {
+//            RowMapper<Member> rowMapper = BeanPropertyRowMapper.newInstance(Member.class);
+//            Map<String, ?> params = Collections.singletonMap("name", name);
+//            return jdbcTemplate.queryForObject(sql, params, rowMapper);
+//        } catch (Exception ex) {
+//            return null;
+//        }
+//    }
+
+    /**
+     * 회원정보 수정
+     */
+    @Override
+    public int updateMember(Member member) {
+        String sql = "UPDATE member SET id = :id, name = :name, email = :email, password = :password " +
+                "WHERE id = :id";
+        SqlParameterSource params = new BeanPropertySqlParameterSource(member);
+        return jdbcTemplate.update(sql, params);
     }
 }
