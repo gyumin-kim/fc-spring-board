@@ -13,6 +13,9 @@ public class MemberServiceImpl implements MemberService {
         this.memberDao = memberDao;
     }
 
+    /**
+     * 회원가입
+     */
     @Transactional
     @Override
     public Member addMember(Member member) {
@@ -21,18 +24,28 @@ public class MemberServiceImpl implements MemberService {
         return member;
     }
 
+    /**
+     * 게시글 조회(제목, 내용, 제목+내용) 시 작성자 이름(name)을 가져오기 위한 메소드
+     */
     @Transactional(readOnly = true)
     @Override
     public String findNameById(Long MemberId) {
         return memberDao.selectNameById(MemberId);
     }
 
+    /**
+     * 로그인 화면에서 사용자가 입력한 name을 바탕으로 password를 가져옴
+     * 가져온 password를 사용자가 입력한 password와 service에서 비교
+     */
     @Transactional(readOnly = true)
     @Override
     public String findPasswordByName(String memberName) {
         return memberDao.selectPasswordByName(memberName);
     }
 
+    /**
+     * 회원정보 보기 및 수정 용도
+     */
     @Transactional(readOnly = true)
     @Override
     public Member findMemberById(Long memberId) {
@@ -45,6 +58,9 @@ public class MemberServiceImpl implements MemberService {
 //        return memberDao.selectMemberByName(memberName);
 //    }
 
+    /**
+     * 회원정보 수정
+     */
     @Transactional
     @Override
     public int updateMemberInfo(Member member) {
