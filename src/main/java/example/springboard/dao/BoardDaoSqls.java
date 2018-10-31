@@ -34,5 +34,5 @@ class BoardDaoSqls {
             "VALUES (null, :origin_id, :depth, :reply_seq, :category_id, :member_id, :title, :ip_addr, NOW())";
     static final String ADD_BOARD_BODY = "INSERT INTO board_body (id, content) VALUES (:id, :content)";
     static final String UPDATE_BOARD = "UPDATE board SET title = :title, reg_date = NOW(), ip_addr = :ip_addr " +
-            "WHERE member_id = :member_id and id = :id";
+            "WHERE member_id = :member_id AND id = :id";
 }
