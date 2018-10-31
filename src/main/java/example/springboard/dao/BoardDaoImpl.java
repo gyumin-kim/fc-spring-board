@@ -122,20 +122,13 @@ public class BoardDaoImpl implements BoardDao {
     // TODO board_body insert 미구현
     // board_body 테이블에 입력받은 정보를 저장이 (addBoard와 같이 처리되어야 함)
     @Override
-    public int addBoardBody(BoardBody boardBody){
-        String sql = BoardDaoSqls.SAVE_BOARD_BODY;
-        SqlParameterSource params = new BeanPropertySqlParameterSource(boardBody);
-        return jdbcTemplate.update(sql, params);
-    }
-
-    // 게시글을 수정하면 board table, board_body table 이 같이 수정되어야 한다.(updateBoardBody 와 같 처리되어야 함)
-    @Override
     public int addBoardBody(BoardBody boardBody) {
         String sql = BoardDaoSqls.ADD_BOARD_BODY;
         SqlParameterSource params = new BeanPropertySqlParameterSource(boardBody);
         return jdbcTemplate.update(sql, params);
     }
 
+    // 게시글을 수정하면 board table, board_body table 이 같이 수정되어야 한다.(updateBoardBody 와 같이 처리되어야 함)
     @Override
     public int updateBoard(Board board) {
         String sql = BoardDaoSqls.UPDATE_BOARD;
