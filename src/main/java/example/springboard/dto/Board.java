@@ -13,23 +13,23 @@ public class Board {
     private String title;
     private Date regDate;
     private String ipAddr;
-    private BoardBody boardBody;
-    private Member member;
+    private String content;
+    private String name;
 
-    public BoardBody getBoardBody() {
-        return boardBody;
+    public String getName() {
+        return name;
     }
 
-    public void setBoardBody(BoardBody boardBody) {
-        this.boardBody = boardBody;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Member getMember() {
-        return member;
+    public String getContent() {
+        return content;
     }
 
-    public void setMember(Member member) {
-        this.member = member;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public Long getId() {
@@ -116,6 +116,8 @@ public class Board {
                 ", title='" + title + '\'' +
                 ", regDate=" + regDate +
                 ", ipAddr='" + ipAddr + '\'' +
+                ", name='" + name + '\'' +
+                ", board_body_content='" + content + '\'' +
                 '}';
     }
 }

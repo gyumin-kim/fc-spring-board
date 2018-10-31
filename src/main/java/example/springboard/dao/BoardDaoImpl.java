@@ -2,10 +2,7 @@ package example.springboard.dao;
 
 import example.springboard.dto.Board;
 import example.springboard.dto.BoardBody;
-import example.springboard.dto.Member;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -15,8 +12,6 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.*;
 
 @Repository
@@ -97,10 +92,13 @@ public class BoardDaoImpl implements BoardDao {
         return jdbcTemplate.query(sql, paramMap, rowMapper);
     }
 
+    // board 테이블의 속성(id)에 해당하는 board_body의 content를 가져오는 역할
     @Override
-    public Board getBoardDetail(int id) {
+    public Board getBoardDetail(Long id) {
         String sql = BoardDaoSqls.GET_BOARD_DETAIL;
-        return null;
+        RowMapper<Board> rowMapper = BeanPropertyRowMapper.newInstance(Board.class);
+        Map<String, ?> params = Collections.singletonMap("b.id", id);
+        return jdbcTemplate.queryForObject(sql, params, rowMapper);
     }
 
     /**
@@ -122,12 +120,36 @@ public class BoardDaoImpl implements BoardDao {
                 .addValue("title", board.getTitle())
                 .addValue("ip_addr", board.getIpAddr()));
     }
+    // TODO board_body insert 미구현
+    // board_body 테이블에 입력받은 정보를 저장이 (addBoard와 같이 처리되어야 함)
+    @Override
+    public int addBoardBody(BoardBody boardBody){
+        String sql = BoardDaoSqls.SAVE_BOARD_BODY;
+        SqlParameterSource params = new BeanPropertySqlParameterSource(boardBody);
+        return jdbcTemplate.update(sql, params);
+    }
 
+    // 게시글을 수정하면 board table, board_body table 이 같이 수정되어야 한다.(updateBoardBody 와 같 처리되어야 함)
     @Override
     public int updateBoard(Board board) {
         String sql = BoardDaoSqls.UPDATE_BOARD;
-        SqlParameterSource params = new BeanPropertySqlParameterSource(board);
-        return jdbcTemplate.update(sql, params);
+        Map<String, Object> map = new HashMap<>();
+        map.put("title", board.getTitle());
+        map.put("ip_addr", board.getIpAddr());
+        map.put("member_id", board.getMemberId());
+        map.put("id", board.getId());
+        return jdbcTemplate.update(sql, map);
+//        SqlParameterSource params = new BeanPropertySqlParameterSource(board);
+//        return jdbcTemplate.update(sql, params);
+    }
+    // 해당 글의 수정한 본문 내용과 id 값을 받아서 업데이트 한다. (updateBoard와 같이 처리되어야 함)
+    @Override
+    public int updateBoardBody(String content, Long id){
+        String sql = BoardDaoSqls.UPDATE_BOARD_BODY;
+        Map<String, Object> map = new HashMap<>();
+        map.put("content", content);
+        map.put("id", id);
+        return jdbcTemplate.update(sql, map);
     }
 
 //    @Override
@@ -136,7 +158,8 @@ public class BoardDaoImpl implements BoardDao {
 //        return 0;
 //    }
 
-    // SELECT origin_id, depth, reply_seq FROM board WHERE id = :id
+    // 답글을 달 때 부모글의 정보를 가져오는 역할
+    // 실행 후 updateBoardForReply가 실행되어야 한다.
     @Override
     public Board getBoardInfoForReply(Long id) {
         String sql = BoardDaoSqls.GET_BOARD_INFO_FOR_REPLY;
@@ -145,11 +168,15 @@ public class BoardDaoImpl implements BoardDao {
         return jdbcTemplate.queryForObject(sql, parmas, rowMapper);
     }
 
-    // UPDATE board SET reply_seq = reply_seq + 1 WHERE origin_id = :origin_id AND reply_seq > :reply_seq
+    // 답글을 달 때 seq 값을 증가시켜주는 역할
+    // 실행 후 부모글의 origin_id 값은 그대로 board에 저장하고 reply_seq 값과 depth 값은 1씩 증가시켜서 새로운 board에 저장한다.
+    // getBoardInfoForReply 와 updateBoardForReply, addBoard는 하나의 트랜잭션이다??
     @Override
     public int updateBoardForReply(Board board) {
         String sql = BoardDaoSqls.UPDATE_BOARD_FOR_REPLY;
-        SqlParameterSource params = new BeanPropertySqlParameterSource(board);
-        return jdbcTemplate.update(sql, params);
+        Map<String, Object> map = new HashMap<>();
+        map.put("origin_id", board.getOriginId());
+        map.put("reply_seq", board.getReplySeq());
+        return jdbcTemplate.update(sql, map);
     }
 }
