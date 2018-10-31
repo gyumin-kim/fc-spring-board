@@ -13,6 +13,24 @@ public class Board {
     private String title;
     private Date regDate;
     private String ipAddr;
+    private String content;
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 
     public Long getId() {
         return id;
@@ -98,6 +116,8 @@ public class Board {
                 ", title='" + title + '\'' +
                 ", regDate=" + regDate +
                 ", ipAddr='" + ipAddr + '\'' +
+                ", name='" + name + '\'' +
+                ", board_body_content='" + content + '\'' +
                 '}';
     }
 }
