@@ -32,7 +32,7 @@ public class BoardDaoImpl implements BoardDao {
      * 특정 category의 모든 글을 불러옴
      */
     @Override
-    public List<Board> getBoardListAll(Long categoryId) {
+    public List<Board> selectBoardListAll(Long categoryId) {
         String sql = BoardDaoSqls.GET_BOARD_LIST_ALL;
         Map<String, ?> params = Collections.singletonMap("category_id", categoryId);
         return jdbcTemplate.query(sql, params, rowMapper);
@@ -43,7 +43,7 @@ public class BoardDaoImpl implements BoardDao {
      * (작성자로 해당 글의 목록을 조회하되, 작성자를 불러오지는 않는다)
      */
     @Override
-    public List<Board> getBoardListByMember(Long categoryId, Long memberId) {
+    public List<Board> selectBoardListByMember(Long categoryId, Long memberId) {
         String sql = BoardDaoSqls.GET_BOARD_LIST_BY_MEMBER;
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("category_id", categoryId);
@@ -56,7 +56,7 @@ public class BoardDaoImpl implements BoardDao {
      * (제목으로 해당 글의 목록을 조회하되, 제목을 불러오지는 않는다)
      */
     @Override
-    public List<Board> getBoardListByTitle(Long categoryId, String title) {
+    public List<Board> selectBoardListByTitle(Long categoryId, String title) {
         String sql = BoardDaoSqls.GET_BOARD_LIST_BY_TITLE;
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("b.category_id", categoryId);
@@ -69,7 +69,7 @@ public class BoardDaoImpl implements BoardDao {
      * (내용으로 해당 글의 목록을 조회하되, 내용을 불러오지는 않는다)
      */
     @Override
-    public List<Board> getBoardListByContent(Long categoryId, String content) {
+    public List<Board> selectBoardListByContent(Long categoryId, String content) {
         String sql = BoardDaoSqls.GET_BOARD_LIST_BY_CONTENT;
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("b.category_id", categoryId);
@@ -82,7 +82,7 @@ public class BoardDaoImpl implements BoardDao {
      * (제목 혹은 내용으로 해당 글의 목록을 조회하되, 제목이나 내용을 불러오지는 않는다)
      */
     @Override
-    public List<Board> getBoardListByTitleOrContent(Long categoryId, String titleOrContent) {
+    public List<Board> selectBoardListByTitleOrContent(Long categoryId, String titleOrContent) {
         // 제목과 내용 모두로 검색하는 쿼리문
         String sql = BoardDaoSqls.GET_BOARD_LIST_BY_TITLE_OR_CONTENT;
         Map<String, Object> paramMap = new HashMap<>();
@@ -94,7 +94,7 @@ public class BoardDaoImpl implements BoardDao {
 
     // board 테이블의 속성(id)에 해당하는 board_body의 content를 가져오는 역할
     @Override
-    public Board getBoardDetail(Long id) {
+    public Board selectBoardDetail(Long id) {
         String sql = BoardDaoSqls.GET_BOARD_DETAIL;
         RowMapper<Board> rowMapper = BeanPropertyRowMapper.newInstance(Board.class);
         Map<String, ?> params = Collections.singletonMap("b.id", id);
@@ -105,7 +105,7 @@ public class BoardDaoImpl implements BoardDao {
      * Board(글) 객체를 데이터베이스에 INSERT
      */
     @Override
-    public int addBoard(Board board) {
+    public int insertBoard(Board board) {
         // 'is_deleted'는 생략(DEFAULT 0)
         // BeanPropertySqlParameterSource를 사용할 경우
         // 'is_deleted'가 NULL로 insert되는 문제가 있어 NamedParameterJdbcTemplate.update() 사용
@@ -122,7 +122,7 @@ public class BoardDaoImpl implements BoardDao {
     // TODO board_body insert 미구현
     // board_body 테이블에 입력받은 정보를 저장이 (addBoard와 같이 처리되어야 함)
     @Override
-    public int addBoardBody(BoardBody boardBody) {
+    public int insertBoardBody(BoardBody boardBody) {
         String sql = BoardDaoSqls.ADD_BOARD_BODY;
         SqlParameterSource params = new BeanPropertySqlParameterSource(boardBody);
         return jdbcTemplate.update(sql, params);
@@ -152,7 +152,7 @@ public class BoardDaoImpl implements BoardDao {
     }
 
 //    @Override
-//    public int addBoardReply(Long id, Long originId, int depth, int replySeq, Long categoryId, Long memberId, String title, String ipAddr, Date regDate) {
+//    public int insertBoardReply(Long id, Long originId, int depth, int replySeq, Long categoryId, Long memberId, String title, String ipAddr, Date regDate) {
 //        String sql = "";
 //        return 0;
 //    }
@@ -160,7 +160,7 @@ public class BoardDaoImpl implements BoardDao {
     // 답글을 달 때 부모글의 정보를 가져오는 역할
     // 실행 후 updateBoardForReply가 실행되어야 한다.
     @Override
-    public Board getBoardInfoForReply(Long id) {
+    public Board selectBoardInfoForReply(Long id) {
         String sql = BoardDaoSqls.GET_BOARD_INFO_FOR_REPLY;
         RowMapper<Board> rowMapper = BeanPropertyRowMapper.newInstance(Board.class);
         Map<String, ?> parmas = Collections.singletonMap("id", id);
@@ -169,7 +169,7 @@ public class BoardDaoImpl implements BoardDao {
 
     // 답글을 달 때 seq 값을 증가시켜주는 역할
     // 실행 후 부모글의 origin_id 값은 그대로 board에 저장하고 reply_seq 값과 depth 값은 1씩 증가시켜서 새로운 board에 저장한다.
-    // getBoardInfoForReply 와 updateBoardForReply, addBoard는 하나의 트랜잭션이다??
+    // selectBoardInfoForReply 와 updateBoardForReply, insertBoard는 하나의 트랜잭션이다??
     @Override
     public int updateBoardForReply(Board board) {
         String sql = BoardDaoSqls.UPDATE_BOARD_FOR_REPLY;

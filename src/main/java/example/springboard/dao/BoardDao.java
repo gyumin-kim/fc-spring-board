@@ -6,19 +6,19 @@ import example.springboard.dto.BoardBody;
 import java.util.List;
 
 public interface BoardDao {
-    List<Board> getBoardListAll(Long categoryId);
-    List<Board> getBoardListByMember(Long categoryId, Long memberId);
-    List<Board> getBoardListByTitle(Long categoryId, String title);
-    List<Board> getBoardListByContent(Long categoryId, String content);
-    List<Board> getBoardListByTitleOrContent(Long categoryId, String titleOrContent);
-    Board getBoardDetail(Long id);
-    int addBoard(Board board);
-    int addBoardBody(BoardBody boardBody);
+    List<Board> selectBoardListAll(Long categoryId);
+    List<Board> selectBoardListByMember(Long categoryId, Long memberId);
+    List<Board> selectBoardListByTitle(Long categoryId, String title);
+    List<Board> selectBoardListByContent(Long categoryId, String content);
+    List<Board> selectBoardListByTitleOrContent(Long categoryId, String titleOrContent);
+    Board selectBoardDetail(Long id);
+    int insertBoard(Board board);
+    int insertBoardBody(BoardBody boardBody);
     int updateBoard(Board board);
     int updateBoardBody(String content, Long id);
-//    int addBoardReply(Long id, Long originId, int depth, int replySeq, Long categoryId, Long memberId, String title, String ipAddr, Date regDate);
+//    int insertBoardReply(Long id, Long originId, int depth, int replySeq, Long categoryId, Long memberId, String title, String ipAddr, Date regDate);
 
-    Board getBoardInfoForReply(Long id);
+    Board selectBoardInfoForReply(Long id);
     int updateBoardForReply(Board board);
 
     int deleteBoard(Long id);
