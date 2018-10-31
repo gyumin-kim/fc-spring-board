@@ -112,7 +112,6 @@ public class BoardDaoImpl implements BoardDao {
         // BeanPropertySqlParameterSource를 사용할 경우
         // 'is_deleted'가 NULL로 insert되는 문제가 있어 NamedParameterJdbcTemplate.update() 사용
         String sql = BoardDaoSqls.ADD_BOARD;
-        SqlParameterSource beanProps = new BeanPropertySqlParameterSource(board);
         return jdbcTemplate.update(sql, new MapSqlParameterSource()
                 .addValue("origin_id", board.getOriginId())
                 .addValue("depth", board.getDepth())
@@ -121,6 +120,13 @@ public class BoardDaoImpl implements BoardDao {
                 .addValue("member_id", board.getMemberId())
                 .addValue("title", board.getTitle())
                 .addValue("ip_addr", board.getIpAddr()));
+    }
+
+    @Override
+    public int addBoardBody(BoardBody boardBody) {
+        String sql = BoardDaoSqls.ADD_BOARD_BODY;
+        SqlParameterSource params = new BeanPropertySqlParameterSource(boardBody);
+        return jdbcTemplate.update(sql, params);
     }
 
     @Override
