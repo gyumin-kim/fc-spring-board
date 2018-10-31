@@ -1,7 +1,11 @@
 package example.springboard.config;
 
-import java.util.Properties;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import java.util.Properties;
+@Configuration
+@EnableTransactionManagement
 public class DBProperties {
     // 2) 자기 자신을 참조하는 private static 변수
     private static DBProperties instance = new DBProperties();
@@ -16,9 +20,9 @@ public class DBProperties {
         try {
             Properties prop = new Properties();
             prop.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("application.properties"));
-            jdbcDriver = prop.getProperty("jdbcDriver");
+            jdbcDriver = prop.getProperty("dbDriver");
             dbUrl = prop.getProperty("dbUrl");
-            dbUser = prop.getProperty("dbUser");
+            dbUser = prop.getProperty("dbId");
             dbPassword = prop.getProperty("dbPassword");
             System.out.println("'application.properties'에서 값 읽어옴");
         } catch (Exception ex) {

@@ -1,5 +1,7 @@
 package example.springboard.dto;
 
+import java.util.Date;
+
 public class Comment {
     private Long id;
     private Long boardId;
@@ -8,6 +10,7 @@ public class Comment {
     private Long memberId;
     private String content;
     private String ipAddr;
+    private Date regdate;
 
     public Long getId() {
         return id;
@@ -63,5 +66,27 @@ public class Comment {
 
     public void setIpAddr(String ipAddr) {
         this.ipAddr = ipAddr;
+    }
+
+    public Date getRegdate() {
+        return regdate;
+    }
+
+    public void setRegdate(Date regdate) {
+        this.regdate = regdate;
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", boardId=" + boardId +
+                ", parentCommentId=" + parentCommentId +
+                ", seq=" + seq +
+                ", memberId=" + memberId +
+                ", content='" + content + '\'' +
+                ", ipAddr='" + ipAddr + '\'' +
+                ", Regdate='" + regdate + '\'' +
+                '}';
     }
 }
