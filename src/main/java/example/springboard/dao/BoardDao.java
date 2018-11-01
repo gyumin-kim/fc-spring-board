@@ -16,9 +16,9 @@ public interface BoardDao {
     int insertBoardBody(Long id, String content);
     int updateBoard(Board board);
     int updateBoardBody(String content, Long id);
-//    int addBoardReply(Long id, Long originId, int depth, int replySeq, Long categoryId, Long memberId, String title, String ipAddr, Date regDate);
+//    int insertBoardReply(Long id, Long originId, int depth, int replySeq, Long categoryId, Long memberId, String title, String ipAddr, Date regDate);
 
-    Board getBoardInfoForReply(Long id);
+    Board selectBoardInfoForReply(Long id);
     int updateBoardForReply(Board board);
 
     int deleteBoard(Long id);

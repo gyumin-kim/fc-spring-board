@@ -162,7 +162,7 @@ public class BoardDaoImpl implements BoardDao {
     }
 
 //    @Override
-//    public int addBoardReply(Long id, Long originId, int depth, int replySeq, Long categoryId, Long memberId, String title, String ipAddr, Date regDate) {
+//    public int insertBoardReply(Long id, Long originId, int depth, int replySeq, Long categoryId, Long memberId, String title, String ipAddr, Date regDate) {
 //        String sql = "";
 //        return 0;
 //    }
@@ -170,7 +170,7 @@ public class BoardDaoImpl implements BoardDao {
     // 답글을 달 때 부모글의 정보를 가져오는 역할
     // 실행 후 updateBoardForReply가 실행되어야 한다.
     @Override
-    public Board getBoardInfoForReply(Long id) {
+    public Board selectBoardInfoForReply(Long id) {
         String sql = BoardDaoSqls.GET_BOARD_INFO_FOR_REPLY;
         RowMapper<Board> rowMapper = BeanPropertyRowMapper.newInstance(Board.class);
         Map<String, ?> parmas = Collections.singletonMap("id", id);
@@ -179,7 +179,7 @@ public class BoardDaoImpl implements BoardDao {
 
     // 답글을 달 때 seq 값을 증가시켜주는 역할
     // 실행 후 부모글의 origin_id 값은 그대로 board에 저장하고 reply_seq 값과 depth 값은 1씩 증가시켜서 새로운 board에 저장한다.
-    // getBoardInfoForReply 와 updateBoardForReply, addBoard는 하나의 트랜잭션이다??
+    // selectBoardInfoForReply 와 updateBoardForReply, insertBoard는 하나의 트랜잭션이다??
     @Override
     public int updateBoardForReply(Board board) {
         String sql = BoardDaoSqls.UPDATE_BOARD_FOR_REPLY;
