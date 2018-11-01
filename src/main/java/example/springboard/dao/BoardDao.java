@@ -12,8 +12,8 @@ public interface BoardDao {
     List<Board> selectBoardListByContent(Long categoryId, String content);
     List<Board> selectBoardListByTitleOrContent(Long categoryId, String titleOrContent);
     Board selectBoardDetail(Long id);
-    int insertBoard(Board board);
-    int insertBoardBody(BoardBody boardBody);
+    Long insertBoard(Board board);
+    int insertBoardBody(Long id, String content);
     int updateBoard(Board board);
     int updateBoardBody(String content, Long id);
 //    int insertBoardReply(Long id, Long originId, int depth, int replySeq, Long categoryId, Long memberId, String title, String ipAddr, Date regDate);
