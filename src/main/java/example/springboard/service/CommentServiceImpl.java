@@ -34,14 +34,14 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public Comment upComment(Comment comment) {
+    public Comment updateComment(Comment comment) {
         commentDao.updateComment(comment);//controller에서 수정된 몇몇 content,regdate,ipadd,memberid,id값을 넘겨줘야함
         return comment;
     }
 
     @Override
     @Transactional
-    public void delComment(Long id) {//댓글 삭제만하면 되니깐 리턴값이 필요없을거 같아서 타입을 void로 했습니다.
+    public void deleteComment(Long id) {//댓글 삭제만하면 되니깐 리턴값이 필요없을거 같아서 타입을 void로 했습니다.
         commentDao.deleteComment(id);
     }
 }
