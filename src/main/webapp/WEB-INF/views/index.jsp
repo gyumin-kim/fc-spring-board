@@ -20,20 +20,16 @@
         </c:if>
     </div>
 
-    <%-- 로그인 되어 있지 않으면 로그인 페이지로 이동 --%>
-    <%--<c:if test="${sessionScope.authUser == null}">--%>
-        <a href="#" class="enter" data-toggle="modal" data-target="#exampleModalCenter"><p>ENTER</p></a>
-    <%--</c:if>--%>
-    <%-- 로그인 되어 있으면 리스트로 이동 --%>
-    <%--<c:if test="${sessionScope.authUser != null}">--%>
-        <%--<a href="/list" class="enter" data-toggle="modal" data-target="#exampleModalCenter"><p>ENTER</p></a>--%>
-    <%--</c:if>--%>
+    <%-- 클릭하면 modal(로그인 or 회원가입) popup --%>
+    <a href="#" class="enter" data-toggle="modal" data-target="#exampleModalCenter">
+        <p>ENTER</p>
+    </a>
 
     <a href="https://github.com/gyumin-kim/fc-spring-board" target="_blank" class="github-link">
         <i class="fab fa-github"></i>
     </a>
 
-    <!-- Modal -->
+    <!-- Modal(로그인 or 회원가입) -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
