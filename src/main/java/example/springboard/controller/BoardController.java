@@ -11,5 +11,5 @@ public class BoardController {
         this.boardService = boardService;
     }
 
-    
+
 }
