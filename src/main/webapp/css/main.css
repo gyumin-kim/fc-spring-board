@@ -1,0 +1,86 @@
+body, html {
+    height: 100%;
+}
+
+.bg {
+    background: rgba(23, 23, 23, 0.96) url("../img/FSH-1537176706700-18khomemodehv4desktop.webp");
+    height: 100%;
+    background-size: cover;
+    margin: 0;
+}
+
+.top-header {
+    border-bottom: 0.2px white solid;
+    width: 75%;
+    font-size: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 18px 0;
+}
+
+.top-header .logo {
+    margin: 15px 0;
+    color: white;
+    font-weight: bold;
+    /*font-family: 'Alegreya', serif;*/
+    font-family: 'Pacifico', cursive;
+    /*font-family: 'Trocchi', serif;*/
+}
+
+.top-header .logout-button {
+    position: absolute;
+    top: 3%;
+    right: 15%;
+    padding: 8px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: #4CAF50; /* Green */
+    color: white;
+    border: 2px solid #4CAF50;
+    border-radius: 8px;
+    transition-duration: 0.4s;
+}
+
+.enter {
+    position: absolute;
+    width: 22%;
+    height: 14%;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 0.2em white solid;
+    text-align: center;
+    text-decoration: none;
+    background-color: rgba(200, 197, 197, 0.3);
+}
+
+.enter:hover {
+    background-color: rgba(68, 67, 67, 0.5);
+}
+
+.enter p {
+    font-size: 45px;
+    color: white;
+    line-height: 100px;
+    font-weight: 500;
+    text-decoration: none;
+    /* font-family: 'Song Myung', serif; */
+    /*font-family: 'Yeon Sung', cursive;*/
+    font-family: 'Trocchi', serif;
+}
+
+.github-link {
+    position:absolute;
+    font-size: 34px;
+    color: white;
+    top: 92%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    text-decoration: none;
+}
+
+.github-link:hover {
+    color: #dbdbdbb4;
+}
