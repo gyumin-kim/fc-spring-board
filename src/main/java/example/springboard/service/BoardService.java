@@ -14,5 +14,5 @@ public interface BoardService {
     Board writeBoard(Board board);
     int updateBoard(Board board);
     int deleteBoard(Board board);
-    int writeBoardReply(Long id, Board board);
+    Long writeBoardReply(Long id, Board board);
 }

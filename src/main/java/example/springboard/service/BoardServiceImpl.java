@@ -54,8 +54,9 @@ public class BoardServiceImpl implements BoardService {
     @Transactional
     @Override
     public Board writeBoard(Board board) {
-        int id = boardDao.insertBoard(board);
-        board.setId((long) id);
+        Long id = boardDao.insertBoard(board);  // Board
+        board.setId(id);
+        boardDao.insertBoardBody(id, board.getContent());   // BoardBody(본문)
         return board;
     }
 
@@ -79,7 +80,7 @@ public class BoardServiceImpl implements BoardService {
      */
     @Transactional
     @Override
-    public int writeBoardReply(Long id, Board board) {
+    public Long writeBoardReply(Long id, Board board) {
         Board tmp = boardDao.selectBoardInfoForReply(id);
         boardDao.updateBoardForReply(tmp);  // 원글에 달린 답글들의 reply_seq를 1씩 증가시킴
 

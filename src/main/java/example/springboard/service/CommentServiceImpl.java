@@ -19,10 +19,11 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public Comment addComment(Comment comment) {
         commentDao.addComment(comment);
-        return comment;//여기서 다시 comment를 리턴해주는 이유는 comment를 리다이렉트나 다른데 뿌려줄 수 있기때문이다.
+        // 여기서 다시 comment를 리턴해주는 이유는 comment를 리다이렉트나 다른데 뿌려줄 수 있기 때문이다.
+        return comment;
     }
 
-//    @Override 댓글하나씩 가져오는거는 필요없을거 같아서 getComment는 하지않았습니다.
+//    @Override 댓글하나씩 가져오는거는 필요없을거 같아서 getComment는 하지 않았습니다.
 //    public Comment getComment(Long id) {
 //        return null;
 //    }
@@ -38,13 +39,14 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional
     public Comment updateComment(Comment comment) {
-        commentDao.updateComment(comment);//controller에서 수정된 몇몇 content,regdate,ipadd,memberid,id값을 넘겨줘야함
+        //controller에서 수정된 몇몇 content, reg_date, ip_addr, member_id, id값을 넘겨줘야함
+        commentDao.updateComment(comment);
         return comment;
     }
 
     @Override
     @Transactional
-    public void deleteComment(Long id) {//댓글 삭제만하면 되니깐 리턴값이 필요없을거 같아서 타입을 void로 했습니다.
-        commentDao.deleteComment(id);
+    public int deleteComment(Long id) {
+        return commentDao.deleteComment(id);
     }
 }

@@ -20,6 +20,7 @@ public class MemberDaoImpl implements MemberDao {
 
     // Constructor Injection
     public MemberDaoImpl(DataSource dataSource) {
+        System.out.println("MemberDaoImpl()");
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
         this.jdbcInsert = new SimpleJdbcInsert(dataSource)
                             .withTableName("member")

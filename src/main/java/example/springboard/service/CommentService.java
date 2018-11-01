@@ -9,5 +9,5 @@ public interface CommentService {
 //    public Comment getComment(Long id);
     List<Comment> getComments(Long boardId);
     Comment updateComment(Comment comment);
-    void deleteComment(Long id);
+    int deleteComment(Long id);
 }

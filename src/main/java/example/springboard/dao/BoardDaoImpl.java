@@ -22,6 +22,7 @@ public class BoardDaoImpl implements BoardDao {
 
     // Constructor Injection
     public BoardDaoImpl(DataSource dataSource) {
+        System.out.println("BoardDaoImpl()");
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
         this.jdbcInsert = new SimpleJdbcInsert(dataSource)
                 .withTableName("board")
