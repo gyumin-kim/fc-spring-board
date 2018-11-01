@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface BoardDao {
     List<Board> selectBoardListAll(Long categoryId);
-    List<Board> selectBoardListByMember(Long categoryId, Long memberId);
+    List<Board> selectBoardListByMember(Long categoryId, String memberName);
     List<Board> selectBoardListByTitle(Long categoryId, String title);
     List<Board> selectBoardListByContent(Long categoryId, String content);
     List<Board> selectBoardListByTitleOrContent(Long categoryId, String titleOrContent);

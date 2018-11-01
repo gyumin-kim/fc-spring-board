@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface BoardService {
     List<Board> showBoardListAll(Long categoryId);
-    List<Board> showBoardListByMember(Long categoryId, Long memberId);
+    List<Board> showBoardListByMember(Long categoryId, String memberName);
     List<Board> showBoardListByTitle(Long categoryId, String title);
     List<Board> showBoardListByContent(Long categoryId, String content);
     List<Board> showBoardListByTitleOrContent(Long categoryId, String titleOrContent);

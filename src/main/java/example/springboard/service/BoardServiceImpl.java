@@ -23,14 +23,14 @@ public class BoardServiceImpl implements BoardService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<Board> showBoardListByMember(Long categoryId, Long memberId) {
-        return boardDao.selectBoardListByMember(categoryId, memberId);
+    public List<Board> showBoardListByMember(Long categoryId, String memberName) {
+        return boardDao.selectBoardListByMember(categoryId, memberName);
     }
 
     @Transactional(readOnly = true)
     @Override
     public List<Board> showBoardListByTitle(Long categoryId, String title) {
-        return null;
+        return boardDao.selectBoardListByTitle(categoryId, title);
     }
 
     @Transactional(readOnly = true)
@@ -66,11 +66,10 @@ public class BoardServiceImpl implements BoardService {
         return boardDao.updateBoard(board);
     }
 
-    // TODO: 미완성. DAO에서 board 삭제하는 메소드 구현해야 함.
     @Transactional
     @Override
     public int deleteBoard(Board board) {
-        return 0;
+        return boardDao.deleteBoard(board.getId());
     }
 
     /**

@@ -31,11 +31,11 @@ public class BoardDaoTest {
         board.setContent("this is content test 1.");
 
         // Service에서 수행될 과정??
-        Long id = boardDao.addBoard(board);
+        Long id = boardDao.insertBoard(board);
         board.setId(id);
         // return board
 
-        boardDao.addBoardBody(id, board.getContent());
+        boardDao.insertBoardBody(id, board.getContent());
 
     }
 }
