@@ -17,12 +17,12 @@ public class CommentDaoImpl implements CommentDao {
     private NamedParameterJdbcTemplate jdbcTemplate;
     private SimpleJdbcInsert jdbcInsert;
 
-
-    public  CommentDaoImpl(DataSource dataSource){
+    public CommentDaoImpl(DataSource dataSource){
         System.out.println("CommentDaoImpl()");
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
         this.jdbcInsert = new SimpleJdbcInsert(dataSource).withTableName("comment");
     }
+
     @Override
     public List<Comment> getCommentList(Long boardId) {
         String sql = "SELECT c.id, c.parent_comment_id, c.seq, m.id, c.content, c.ip_addr, c.reg_date " +

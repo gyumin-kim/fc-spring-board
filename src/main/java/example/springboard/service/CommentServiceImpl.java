@@ -10,9 +10,11 @@ import java.util.List;
 @Service
 public class CommentServiceImpl implements CommentService {
     private CommentDao commentDao;
+
     public CommentServiceImpl(CommentDao commentDao){
         this.commentDao = commentDao;
     }
+
     @Override
     @Transactional
     public Comment addComment(Comment comment) {
@@ -26,9 +28,10 @@ public class CommentServiceImpl implements CommentService {
 //    }
 
     @Override
-    @Transactional
-    public List<Comment> getComments(Long boardId) {//boardId 넘겨주는 이유가 어떤 게시물의 댓글인지 알 수 있게 하려고 boardId값을 받는다 .
-                                                     //그러면 controller에서 그 게시물의 id값을 받아야 하지 않을까?
+    @Transactional(readOnly = true)
+    public List<Comment> getComments(Long boardId) {
+        // boardId 넘겨주는 이유가 어떤 게시물의 댓글인지 알 수 있게 하려고 boardId값을 받는다
+        // 그러면 controller에서 그 게시물의 id값을 받아야 하지 않을까?
         return commentDao.getCommentList(boardId);
     }
 

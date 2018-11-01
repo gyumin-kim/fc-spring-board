@@ -25,7 +25,7 @@ public class BoardDaoImpl implements BoardDao {
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
         this.jdbcInsert = new SimpleJdbcInsert(dataSource)
                 .withTableName("board")
-                .usingGeneratedKeyColumns("id");
+                .usingGeneratedKeyColumns("id", "is_deleted");
     }
 
     /**
