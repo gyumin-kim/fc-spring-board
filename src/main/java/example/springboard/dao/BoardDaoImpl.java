@@ -26,8 +26,8 @@ public class BoardDaoImpl implements BoardDao {
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
         this.jdbcInsert = new SimpleJdbcInsert(dataSource)
                 .withTableName("board")
-                .usingGeneratedKeyColumns("id", "is_deleted");
-    }
+                .usingGeneratedKeyColumns("id", "is_deleted");//여기서 "id"는 자동생성이여서 받아서 service에서 setter로 넣어야하지만 is_deleted는 default값이 있기 때문에 따로 값은 받지않는다.
+}
 
     /**
      * 특정 category의 모든 글을 불러옴

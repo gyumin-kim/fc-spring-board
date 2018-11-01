@@ -30,7 +30,7 @@ public class BoardServiceImpl implements BoardService {
     @Transactional(readOnly = true)
     @Override
     public List<Board> showBoardListByTitle(Long categoryId, String title) {
-        return null;
+        return boardDao.selectBoardListByTitle(categoryId,title);
     }
 
     @Transactional(readOnly = true)
