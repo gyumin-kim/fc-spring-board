@@ -9,5 +9,6 @@
 <body>
     <h1>index</h1>
     <a href="/login"><div>login</div></a>
+    <a href="/boards/write">글쓰기</a>
 </body>
 </html>
