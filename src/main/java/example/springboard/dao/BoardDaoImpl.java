@@ -104,28 +104,40 @@ public class BoardDaoImpl implements BoardDao {
     /**
      * Board(글) 객체를 데이터베이스에 INSERT
      */
+//    @Override
+//    public int addBoard(Board board) {
+//        // 'is_deleted'는 생략(DEFAULT 0)
+//        // BeanPropertySqlParameterSource를 사용할 경우
+//        // 'is_deleted'가 NULL로 insert되는 문제가 있어 NamedParameterJdbcTemplate.update() 사용
+//        String sql = BoardDaoSqls.ADD_BOARD;
+//        return jdbcTemplate.update(sql, new MapSqlParameterSource()
+//                .addValue("origin_id", board.getOriginId())
+//                .addValue("depth", board.getDepth())
+//                .addValue("reply_seq", board.getReplySeq())
+//                .addValue("category_id", board.getCategoryId())
+//                .addValue("member_id", board.getMemberId())
+//                .addValue("title", board.getTitle())
+//                .addValue("ip_addr", board.getIpAddr()));
+//    }
+
+    // Board 객체를 DB에 INSERT, 새롭게 만들어진 Board 는 'is_delete = 0' 으로 넣어주어야 한다.
     @Override
-    public int addBoard(Board board) {
-        // 'is_deleted'는 생략(DEFAULT 0)
-        // BeanPropertySqlParameterSource를 사용할 경우
-        // 'is_deleted'가 NULL로 insert되는 문제가 있어 NamedParameterJdbcTemplate.update() 사용
+    public Long addBoard(Board board){
         String sql = BoardDaoSqls.ADD_BOARD;
-        return jdbcTemplate.update(sql, new MapSqlParameterSource()
-                .addValue("origin_id", board.getOriginId())
-                .addValue("depth", board.getDepth())
-                .addValue("reply_seq", board.getReplySeq())
-                .addValue("category_id", board.getCategoryId())
-                .addValue("member_id", board.getMemberId())
-                .addValue("title", board.getTitle())
-                .addValue("ip_addr", board.getIpAddr()));
+        SqlParameterSource params = new BeanPropertySqlParameterSource(board);
+        return jdbcInsert.executeAndReturnKey(params).longValue();
     }
+
+
     // TODO board_body insert 미구현
     // board_body 테이블에 입력받은 정보를 저장이 (addBoard와 같이 처리되어야 함)
     @Override
-    public int addBoardBody(BoardBody boardBody) {
+    public int addBoardBody(Long id, String content) {
         String sql = BoardDaoSqls.ADD_BOARD_BODY;
-        SqlParameterSource params = new BeanPropertySqlParameterSource(boardBody);
-        return jdbcTemplate.update(sql, params);
+        Map<String, Object> map = new HashMap<>();
+        map.put("board_id", id);
+        map.put("content", content);
+        return jdbcTemplate.update(sql, map);
     }
 
     // 게시글을 수정하면 board table, board_body table 이 같이 수정되어야 한다.(updateBoardBody 와 같이 처리되어야 함)
