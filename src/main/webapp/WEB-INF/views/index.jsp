@@ -8,5 +8,6 @@
 </head>
 <body>
     <h1>index</h1>
+    <a href="/login"><div>login</div></a>
 </body>
 </html>
