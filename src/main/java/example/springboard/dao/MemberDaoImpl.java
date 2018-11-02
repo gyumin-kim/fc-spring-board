@@ -76,11 +76,11 @@ public class MemberDaoImpl implements MemberDao {
      * 회원정보 보기 및 수정 용도
      */
     @Override
-    public Member selectMemberById(Long id) {
-        String sql = "SELECT id, name, email, password FROM member WHERE id = :id";
+    public Member selectMemberByEmail(String email) {
+        String sql = "SELECT id, name, email, password FROM member WHERE email = :email";
         try {
             RowMapper<Member> rowMapper = BeanPropertyRowMapper.newInstance(Member.class);
-            Map<String, ?> params = Collections.singletonMap("id", id);
+            Map<String, ?> params = Collections.singletonMap("email", email);
             return jdbcTemplate.queryForObject(sql, params, rowMapper);
         } catch (Exception ex) {
             return null;
