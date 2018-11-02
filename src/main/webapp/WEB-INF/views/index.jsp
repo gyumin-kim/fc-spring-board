@@ -20,47 +20,69 @@
         </c:if>
     </div>
 
-    <%-- 클릭하면 modal(로그인 or 회원가입) popup --%>
-    <a href="#" class="enter" data-toggle="modal" data-target="#exampleModalCenter">
+    <%-- 로그인 되어 있지 않을 경우 --%>
+    <c:if test="${sessionScope.authUser == null}">
+    <%-- 클릭하면 로그인 modal popup --%>
+    <a href="#" class="enter" data-toggle="modal" data-target="#loginModalCenter">
         <p>ENTER</p>
     </a>
+    </c:if>
 
+    <%-- 로그인 되어 있을 경우 --%>
+    <c:if test="${sessionScope.authUser != null}">
+        <div class="board-category">게시판 1</div>
+        <div class="board-category">게시판 2</div>
+        <div class="board-category">게시판 3</div>
+        <div class="board-category">게시판 4</div>
+    </c:if>
+
+    <%-- 하단 GitHub 아이콘(Font Awesome) --%>
     <a href="https://github.com/gyumin-kim/fc-spring-board" target="_blank" class="github-link">
         <i class="fab fa-github"></i>
     </a>
 
-    <!-- Modal(로그인 or 회원가입) -->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <!-- 로그인 Modal -->
+    <div class="modal fade" id="loginModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">
-                        <c:if test="${sessionScope.authUser == null}">로그인</c:if>
-                        <c:if test="${sessionScope.authUser != null}">회원가입</c:if>
-                    </h5>
+                    <h5 class="modal-title" id="loginModalCenterTitle">로그인</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <c:if test="${sessionScope.authUser == null}">
-                        <form method="POST" action="/login">
-                            아이디 : <input type="text" name="name" required><br>
-                            암호 : <input type="password" name="password" required><br><br>
-                            <%-- modal-footer --%>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <input type="submit" class="btn btn-primary" value="Submit"/>
-                        </form>
-                    </c:if>
-                    <c:if test="${sessionScope.authUser != null}">
-                        <form method="POST" action="/signup">
-                            아이디 : <input type="text" name="name" required><br>
-                            암호 : <input type="password" name="password" required minlength="3" maxlength="20"><br>
-                            <%-- modal-footer --%>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <input type="submit" class="btn btn-primary" value="Submit"/>
-                        </form>
-                    </c:if>
+                    <form method="POST" action="/login">
+                        아이디 : <input type="text" name="name" required><br>
+                        암호 : <input type="password" name="password" required minlength="3" maxlength="20"><br><br>
+                        <%-- 클릭하면 로그인 modal 사라지고, 회원가입 modal popup --%>
+                        <a href="/signup" data-toggle="modal" data-dismiss="modal" data-target="#signupModalCenter">
+                            <button type="button" class="btn btn-secondary">Sign up</button>
+                        </a>
+                        <input type="submit" class="btn btn-primary" value="Submit"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 회원가입 Modal -->
+    <div class="modal fade" id="signupModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="signupModalCenterTitle">회원가입</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="/signup">
+                        아이디 : <input type="text" name="name" required><br>
+                        암호 : <input type="password" name="password" required minlength="3" maxlength="20"><br>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-primary" value="Sign up"/>
+                    </form>
                 </div>
             </div>
         </div>
