@@ -1,8 +1,11 @@
 package example.springboard.service;
 
 import example.springboard.dto.Board;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BoardService {
     List<Board> showBoardListAll(Long categoryId);
@@ -15,4 +18,5 @@ public interface BoardService {
     int updateBoard(Board board);
     int deleteBoard(Board board);
     Long writeBoardReply(Long id, Board board);
+//    public void upload(Map<String, Object> map,@RequestParam("file") MultipartFile file);
 }

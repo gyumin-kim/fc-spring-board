@@ -15,6 +15,7 @@ public class Board {
     private String ipAddr;
     private String content;
     private String name;
+    private FileInfo fileInfo;
 
     public String getName() {
         return name;
@@ -102,6 +103,14 @@ public class Board {
 
     public void setIpAddr(String ipAddr) {
         this.ipAddr = ipAddr;
+    }
+
+    public FileInfo getFileInfo() {
+        return fileInfo;
+    }
+
+    public void setFileInfo(FileInfo fileInfo) {
+        this.fileInfo = fileInfo;
     }
 
     @Override

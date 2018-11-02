@@ -1,16 +1,21 @@
 package example.springboard.service;
 
 import example.springboard.dao.BoardDao;
+import example.springboard.dao.FileUploadDao;
 import example.springboard.dto.Board;
+import example.springboard.dto.FileInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BoardServiceImpl implements BoardService {
     private BoardDao boardDao;
-
+    private FileUploadDao fileUploadDao;
     public BoardServiceImpl(BoardDao boardDao) {
         this.boardDao = boardDao;
     }
@@ -57,6 +62,9 @@ public class BoardServiceImpl implements BoardService {
         Long id = boardDao.insertBoard(board);  // Board
         board.setId(id);
         boardDao.insertBoardBody(id, board.getContent());   // BoardBody(본문)
+        FileInfo fileInfo = board.getFileInfo();
+        fileInfo.setBoardIdx(id);
+        fileUploadDao.addfile(fileInfo);
         return board;
     }
 
@@ -90,4 +98,15 @@ public class BoardServiceImpl implements BoardService {
 
         return boardDao.insertBoard(board);
     }
+//    @Transactional
+//    @Override
+//    public void upload(Map<String, Object> map, MultipartFile file) {
+//        System.out.println("------file info start ----");
+//        System.out.println(file.getContentType());
+//        System.out.println(file.getOriginalFilename());
+//        System.out.println(file.getName());
+//        System.out.println(file.getSize());
+//        System.out.println("------file info end ----");
+//
+//    }
 }
