@@ -21,5 +21,7 @@ public class LoginController {
         Member member = new Member();
 
         memberService.findPasswordByName(email);
+
+        return "redirect:index/";
     }
 }
