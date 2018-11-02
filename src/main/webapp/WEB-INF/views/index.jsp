@@ -20,11 +20,23 @@
         </c:if>
     </div>
 
+    <%-- 로그인 되어 있지 않을 경우 --%>
+    <c:if test="${sessionScope.authUser == null}">
     <%-- 클릭하면 로그인 modal popup --%>
     <a href="#" class="enter" data-toggle="modal" data-target="#loginModalCenter">
         <p>ENTER</p>
     </a>
+    </c:if>
 
+    <%-- 로그인 되어 있을 경우 --%>
+    <c:if test="${sessionScope.authUser != null}">
+        <div class="board-category">게시판 1</div>
+        <div class="board-category">게시판 2</div>
+        <div class="board-category">게시판 3</div>
+        <div class="board-category">게시판 4</div>
+    </c:if>
+
+    <%-- 하단 GitHub 아이콘(Font Awesome) --%>
     <a href="https://github.com/gyumin-kim/fc-spring-board" target="_blank" class="github-link">
         <i class="fab fa-github"></i>
     </a>
