@@ -15,16 +15,11 @@ public class LoginController {
         this.memberService = memberService;
     }
 
-//    @GetMapping("/login")
-//    public String showLoginForm() {
-//        return "login";
-//    }
+    @PostMapping("/login")
+    public String login(@RequestParam(name = "email") String email,
+                        @RequestParam(name = "password") String password) {
+        Member member = new Member();
 
-//    @PostMapping("/login")
-//    public String login(@RequestParam(name = "email") String email,
-//                        @RequestParam(name = "password") String password) {
-//        Member member = new Member();
-//
-//        memberService.findPasswordByName(email);
-//    }
+        memberService.findPasswordByName(email);
+    }
 }
