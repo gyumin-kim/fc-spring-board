@@ -26,6 +26,6 @@ public class MemberController {
         // member 정보 받아 회원가입 처리
         memberService.addMember(member);
 
-        return "index";
+        return "redirect:/";
     }
 }
