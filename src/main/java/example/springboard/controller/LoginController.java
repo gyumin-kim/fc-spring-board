@@ -2,20 +2,19 @@ package example.springboard.controller;
 
 import example.springboard.dto.Member;
 import example.springboard.service.MemberService;
-import org.springframework.http.HttpRequest;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.logging.Logger;
 
 @Controller
 public class LoginController {
+    private static final Log log = LogFactory.getLog(LoginController.class);
     private MemberService memberService;
 
     public LoginController(MemberService memberService) {
@@ -44,7 +43,7 @@ public class LoginController {
             // 비밀번호 일치할 경우 (로그인 성공)
             else {
                 httpSession.setAttribute("authUser", member);
-                System.out.println(member.toString());
+                log.info(member.toString());
                 return "redirect:/";
             }
         }

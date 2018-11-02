@@ -1,7 +1,10 @@
 package example.springboard.dao;
 
+import example.springboard.controller.LoginController;
 import example.springboard.dto.Board;
 import example.springboard.dto.BoardBody;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -10,20 +13,20 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import sun.rmi.runtime.Log;
 
 import javax.sql.DataSource;
 import java.util.*;
 
 @Repository
 public class BoardDaoImpl implements BoardDao {
+    private static final Log log = LogFactory.getLog(BoardDaoImpl.class);
     private NamedParameterJdbcTemplate jdbcTemplate;
     private SimpleJdbcInsert jdbcInsert;
     private RowMapper<Board> rowMapper = BeanPropertyRowMapper.newInstance(Board.class);
 
     // Constructor Injection
     public BoardDaoImpl(DataSource dataSource) {
-        System.out.println("BoardDaoImpl()");
+        log.info("BoardDaoImpl()");
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
         this.jdbcInsert = new SimpleJdbcInsert(dataSource)
                 .withTableName("board")

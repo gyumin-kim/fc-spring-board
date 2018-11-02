@@ -1,6 +1,9 @@
 package example.springboard.dao;
 
+import example.springboard.controller.LoginController;
 import example.springboard.dto.Member;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -15,12 +18,13 @@ import java.util.Map;
 
 @Repository
 public class MemberDaoImpl implements MemberDao {
+    private static final Log log = LogFactory.getLog(MemberDaoImpl.class);
     private NamedParameterJdbcTemplate jdbcTemplate;
     private SimpleJdbcInsert jdbcInsert;
 
     // Constructor Injection
     public MemberDaoImpl(DataSource dataSource) {
-        System.out.println("MemberDaoImpl()");
+        log.info("MemberDaoImpl()");
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
         this.jdbcInsert = new SimpleJdbcInsert(dataSource)
                             .withTableName("member")
