@@ -53,7 +53,7 @@
                 </div>
                 <div class="modal-body">
                     <form method="POST" action="/login">
-                        아이디 : <input type="text" name="name" required><br>
+                        이메일 : <input type="email" name="email" required><br>
                         암호 : <input type="password" name="password" required minlength="3" maxlength="20"><br><br>
                         <%-- 클릭하면 로그인 modal 사라지고, 회원가입 modal popup --%>
                         <a href="/signup" data-toggle="modal" data-dismiss="modal" data-target="#signupModalCenter">
@@ -78,7 +78,8 @@
                 </div>
                 <div class="modal-body">
                     <form method="POST" action="/signup">
-                        아이디 : <input type="text" name="name" required><br>
+                        이메일 : <input type="email" name="email" required><br>
+                        이름 : <input type="text" name="name" required><br>
                         암호 : <input type="password" name="password" required minlength="3" maxlength="20"><br>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <input type="submit" class="btn btn-primary" value="Sign up"/>
