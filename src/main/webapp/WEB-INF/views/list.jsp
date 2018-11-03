@@ -6,23 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>게시판 목록</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <script>
-        $(document).ready(function () {
-            $("#btnWrite").click(function(){
-                // 페이지 주소 변경
-                location.href="${path}/boards/list";
-            });
-        });
-        // 원하는 페이지로 이동 시 검색 조건, 키워드 값을 유지하기 위함
-        function list(page){
-            location.href="${path}/boards/list?categoryId="+categoryId+"&startPage="+startPage;
-        }
-    </script>
-
 </head>
 <body>
-<b> 글 목 록</b>
+<div align="center">
+    <b>글 목 록</b>
+    <table border="0" width="100%">
+        <tr bgcolor="white">
+            <td align="right"><a href="/boards/write">글쓰기</a></td>
+        </tr>
+    </table>
+
 <table border="1" width="100%">
     <tr bgcolor="gray">
         <th>글 번호</th>
@@ -41,5 +34,19 @@
         <td>${board.ipAddr}</td>
     </tr>
     </c:forEach>
+</table>
+    <br>
+    <c:if test="${pageMaker.prev}">
+        [<a href="/boards/list?categoryId=${categoryId}&Page=${pageMaker.startPage - 1}">&laquo;</a>]
+    </c:if>
+
+    <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="page">
+            [<a href="/boards/list?categoryId=${categoryId}&Page=${page}">${page}</a>]
+    </c:forEach>
+
+    <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+        [<a href="/boards/list?categoryId=${categoryId}&Page=${pageMaker.endPage + 1}">&raquo;</a>]
+    </c:if>
+</div>
 </body>
 </html>

@@ -2,7 +2,7 @@ package example.springboard.dto;
 
 public class PageMaker {
     private int totalBoardCount;          // 게시판 전체 데이터 수
-    private int displayPageNum = 5; // 게시판 버튼 번호의 개수
+    private int displayPageNum = 2; // 게시판 버튼 번호의 개수
 
     private int startPage;          // 현재 화면에서 보이는 startPage 번호
     private int endPage;            // 현재 화면에서 보이는 endPage 번호
@@ -32,7 +32,7 @@ public class PageMaker {
             endPage = tempEndPage;
         }
 
-        prev = startPage == 1 ? false : true;   // startPage 번호가 1이면 이전 페이지는 0, 따라서 이전 페이지로 이동할 수 없음
+        prev = startPage == 1 ? false : true;   // startPage 번호가 1이면 이전 페이지는 0, 따라서 이전 페이지로 이동할 수 없음(displayPageNum 단위로 움직임)
 //        next = endPage * criteria.getPerPageNum() >= totalBoardCount ? false : true;
         next = endPage >= tempEndPage ? false : true;
     }
