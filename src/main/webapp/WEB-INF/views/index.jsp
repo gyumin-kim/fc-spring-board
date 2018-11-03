@@ -52,15 +52,14 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="/login">
-                        이메일 : <input type="email" name="email" required><br>
-                        암호 : <input type="password" name="password" required minlength="3" maxlength="20"><br><br>
-                        <%-- 클릭하면 로그인 modal 사라지고, 회원가입 modal popup --%>
-                        <a href="/signup" data-toggle="modal" data-dismiss="modal" data-target="#signupModalCenter">
-                            <button type="button" class="btn btn-secondary">Sign up</button>
-                        </a>
-                        <input type="submit" class="btn btn-primary" value="Submit"/>
-                    </form>
+                    <%-- form을 submit하면 main.js에서 AJAX 이벤트 처리 --%>
+                    이메일 : <input type="email" name="email" id="login-email" autocomplete="email" required><br>
+                    암호 : <input type="password" name="password" id="login-password" autocomplete="off" required minlength="3" maxlength="20"><br><br>
+                    <%-- 클릭하면 로그인 modal 사라지고, 회원가입 modal popup --%>
+                    <a href="/signup" id="signup-btn" data-toggle="modal" data-dismiss="modal" data-target="#signupModalCenter">
+                        <button type="button" class="btn btn-secondary">Sign up</button>
+                    </a>
+                    <input type="button" id="loginSubmit" class="btn btn-primary" value="Submit"/>
                 </div>
             </div>
         </div>
@@ -89,8 +88,8 @@
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="/js/main.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </body>
