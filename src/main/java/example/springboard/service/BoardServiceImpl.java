@@ -17,6 +17,7 @@ import java.util.Map;
 public class BoardServiceImpl implements BoardService {
     private BoardDao boardDao;
     private FileUploadDao fileUploadDao;
+
     public BoardServiceImpl(BoardDao boardDao,FileUploadDao fileUploadDao) {
         this.boardDao = boardDao;
         this.fileUploadDao = fileUploadDao;
