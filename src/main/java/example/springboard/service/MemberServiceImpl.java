@@ -27,6 +27,7 @@ public class MemberServiceImpl implements MemberService {
     /**
      * 게시글 조회(제목, 내용, 제목+내용) 시 작성자 이름(name)을 가져오기 위한 메소드
      */
+    // 작성자 이름 가져오는 메소드 -> board 테이블에 다 조인으로 해놔서 필요가 있나...?
     @Transactional(readOnly = true)
     @Override
     public String findNameById(Long MemberId) {

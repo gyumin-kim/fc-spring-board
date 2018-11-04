@@ -61,6 +61,7 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public Board writeBoard(Board board) {
         Long id = boardDao.insertBoard(board);  // Board
+        boardDao.updateOriginId(id);
         board.setId(id);
         boardDao.insertBoardBody(id, board.getContent());   // BoardBody(본문)
         FileInfo fileInfo = board.getFileInfo();

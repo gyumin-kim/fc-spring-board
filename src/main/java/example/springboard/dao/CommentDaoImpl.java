@@ -32,6 +32,7 @@ public class CommentDaoImpl implements CommentDao {
 
     @Override
     public List<Comment> getCommentList(Long boardId) {
+        // Comment : id가 아닌 member name이 보여져야 함.(SQL 수정 필요)
         String sql = "SELECT c.id, c.parent_comment_id, c.seq, m.id, c.content, c.ip_addr, c.reg_date " +
                 "FROM comment AS c INNER JOIN member AS m ON c.member_id = m.id " +
                 "WHERE board_id = :board_id " +

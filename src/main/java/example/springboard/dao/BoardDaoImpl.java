@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import sun.rmi.runtime.Log;
 
 import javax.sql.DataSource;
 import java.util.*;
@@ -196,6 +197,15 @@ public class BoardDaoImpl implements BoardDao {
     public int deleteBoard(Long id){
         String sql = BoardDaoSqls.DELETE_BOARD;
         Map<String, Long> map = Collections.singletonMap("id", id);
+        return jdbcTemplate.update(sql, map);
+    }
+
+    @Override
+    public int updateOriginId(Long id){
+        String sql = "UPDATE board SET origin_id = :origin_id WHERE id = :id";
+        Map<String, Object> map = new HashMap<>();
+        map.put("origin_id", id);
+        map.put("id", id);
         return jdbcTemplate.update(sql, map);
     }
 }

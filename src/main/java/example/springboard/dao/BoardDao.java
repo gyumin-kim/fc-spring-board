@@ -22,4 +22,6 @@ public interface BoardDao {
     int updateBoardForReply(Board board);
 
     int deleteBoard(Long id);
+
+    int updateOriginId(Long id);
 }

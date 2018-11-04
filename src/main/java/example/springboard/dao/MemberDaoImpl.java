@@ -102,6 +102,7 @@ public class MemberDaoImpl implements MemberDao {
     /**
      * 회원정보 수정
      */
+    // 회원정보 수정 메소드 -> SET id = :id 를 빼자
     @Override
     public int updateMember(Member member) {
         String sql = "UPDATE member SET id = :id, name = :name, email = :email, password = :password " +
