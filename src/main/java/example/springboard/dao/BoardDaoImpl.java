@@ -2,6 +2,7 @@ package example.springboard.dao;
 
 import example.springboard.dto.Board;
 import example.springboard.dto.BoardBody;
+import example.springboard.dto.Criteria;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -30,13 +31,24 @@ public class BoardDaoImpl implements BoardDao {
                 .usingGeneratedKeyColumns("id", "is_deleted");//여기서 "id"는 자동생성이여서 받아서 service에서 setter로 넣어야하지만 is_deleted는 default값이 있기 때문에 따로 값은 받지않는다.
 }
 
+    @Override
+    public int selectBoardCount(Long categoryId) {
+        String sql = BoardDaoSqls.GET_BOARD_COUNT;
+        Map<String, Object> map = new HashMap<>();
+        map.put("category_id", categoryId);
+        return jdbcTemplate.queryForObject(sql, map, Integer.class);
+    }
     /**
      * 특정 category의 모든 글을 불러옴
      */
     @Override
-    public List<Board> selectBoardListAll(Long categoryId) {
+    public List<Board> selectBoardListAll(Long categoryId, Criteria criteria) {
         String sql = BoardDaoSqls.GET_BOARD_LIST_ALL;
-        Map<String, ?> params = Collections.singletonMap("category_id", categoryId);
+        RowMapper<Board> rowMapper = BeanPropertyRowMapper.newInstance(Board.class);
+        Map<String, Object> params = new HashMap<>();
+        params.put("category_id", categoryId);
+        params.put("pageStart", criteria.getPageStart());
+        params.put("perPageNum", criteria.getPerPageNum());
         return jdbcTemplate.query(sql, params, rowMapper);
     }
 
