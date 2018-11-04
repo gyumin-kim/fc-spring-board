@@ -8,6 +8,7 @@ public class Comment {
     private Long parentCommentId;
     private int seq;
     private Long memberId;
+    private String name;
     private String content;
     private String ipAddr;
     private Date regdate;
@@ -50,6 +51,14 @@ public class Comment {
 
     public void setMemberId(Long memberId) {
         this.memberId = memberId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getContent() {
