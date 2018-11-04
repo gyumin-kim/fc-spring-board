@@ -11,6 +11,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class BoardController {
         this.boardService = boardService;
     }
 
-    @RequestMapping("/boards/list")
+    @GetMapping("/boards/list")
     public String list(@RequestParam(value = "categoryId", defaultValue ="1")Long categoryId,
                        @ModelAttribute("criteria") Criteria criteria,
                        ModelMap modelMap) throws Exception{

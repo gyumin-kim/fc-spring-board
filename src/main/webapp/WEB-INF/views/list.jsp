@@ -6,6 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>게시판 목록</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script>
+        function list(categoryId, page){
+            location.href="${path}/boards/list?categoryId="+categoryId+"&Page="+page;
+        }
+    </script>
 </head>
 <body>
 <div align="center">
@@ -37,15 +43,15 @@
 </table>
     <br>
     <c:if test="${pageMaker.prev}">
-        [<a href="/boards/list?categoryId=${categoryId}&Page=${pageMaker.startPage - 1}">&laquo;</a>]
+        [<a href="javascript:list('${map.boards.categoryId}', '${pageMaker.startPage - 1}')">&laquo;</a>]
     </c:if>
 
     <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="page">
-            [<a href="/boards/list?categoryId=${categoryId}&Page=${page}">${page}</a>]
+        [<a href="javascript:list('${map.boards.categoryId}','${page}')">${page}</a>]
     </c:forEach>
 
     <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-        [<a href="/boards/list?categoryId=${categoryId}&Page=${pageMaker.endPage + 1}">&raquo;</a>]
+        [<a href="javascript:list('${map.boards.categoryId}','${pageMaker.endPage + 1}')">&raquo;</a>]
     </c:if>
 </div>
 </body>
