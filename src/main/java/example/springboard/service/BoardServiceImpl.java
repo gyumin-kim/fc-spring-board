@@ -1,24 +1,37 @@
 package example.springboard.service;
 
 import example.springboard.dao.BoardDao;
+import example.springboard.dao.FileUploadDao;
 import example.springboard.dto.Board;
+import example.springboard.dto.FileInfo;
+import example.springboard.dto.Criteria;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BoardServiceImpl implements BoardService {
     private BoardDao boardDao;
-
-    public BoardServiceImpl(BoardDao boardDao) {
+    private FileUploadDao fileUploadDao;
+    public BoardServiceImpl(BoardDao boardDao,FileUploadDao fileUploadDao) {
         this.boardDao = boardDao;
+        this.fileUploadDao = fileUploadDao;
+    }
+
+    @Transactional
+    @Override
+    public int getBoardCount(Long categoryId){
+        return boardDao.selectBoardCount(categoryId);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public List<Board> showBoardListAll(Long categoryId) {
-        return boardDao.selectBoardListAll(categoryId);
+    public List<Board> showBoardListAll(Long categoryId, Criteria criteria) {
+        return boardDao.selectBoardListAll(categoryId, criteria);
     }
 
     @Transactional(readOnly = true)
@@ -58,6 +71,9 @@ public class BoardServiceImpl implements BoardService {
         boardDao.updateOriginId(id);
         board.setId(id);
         boardDao.insertBoardBody(id, board.getContent());   // BoardBody(본문)
+        FileInfo fileInfo = board.getFileInfo();
+        fileInfo.setBoardIdx(id);
+        fileUploadDao.addfile(fileInfo);
         return board;
     }
 

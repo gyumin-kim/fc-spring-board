@@ -1,11 +1,13 @@
 package example.springboard.service;
 
 import example.springboard.dto.Board;
+import example.springboard.dto.Criteria;
 
 import java.util.List;
 
 public interface BoardService {
-    List<Board> showBoardListAll(Long categoryId);
+    int getBoardCount(Long categoryId);
+    List<Board> showBoardListAll(Long categoryId, Criteria criteria);
     List<Board> showBoardListByMember(Long categoryId, String memberName);
     List<Board> showBoardListByTitle(Long categoryId, String title);
     List<Board> showBoardListByContent(Long categoryId, String content);
@@ -15,4 +17,5 @@ public interface BoardService {
     int updateBoard(Board board);
     int deleteBoard(Board board);
     Long writeBoardReply(Long id, Board board);
+//    public void upload(Map<String, Object> map,@RequestParam("file") MultipartFile file);
 }
