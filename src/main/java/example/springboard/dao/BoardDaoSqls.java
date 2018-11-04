@@ -7,6 +7,12 @@ class BoardDaoSqls {
             "FROM board AS b INNER JOIN member AS m ON b.member_id = m.id " +
             "WHERE category_id = :category_id and is_deleted=0 " +
             "ORDER BY origin_id DESC, reply_seq ASC LIMIT :pageStart , :perPageNum";
+
+    static String GET_BOARD_LIST_BY_SERACH =
+            "SELECT b.id, b.origin_id, b.depth, b.reply_seq, b.category_id, m.name, b.title, b.ip_addr, b.reg_date " +
+            "FROM board AS b INNER JOIN member AS m ON b.member_id = m.id " +
+            "WHERE category_id = :category_id AND ";
+
     static final String GET_BOARD_LIST_BY_MEMBER =
             "SELECT b.id, b.origin_id, b.depth, b.reply_seq, b.category_id, m.name, b.title, b.ip_addr, b.reg_date " +
             "FROM board AS b INNER JOIN member AS m ON b.member_id = m.id " +

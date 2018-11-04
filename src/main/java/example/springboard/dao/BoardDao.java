@@ -9,10 +9,13 @@ import java.util.List;
 public interface BoardDao {
     int selectBoardCount(Long categoryId);
     List<Board> selectBoardListAll(Long categoryId, Criteria criteria);
+    List<Board> selectBoardListBySearch(Long categoryId, Criteria criteria);
+
     List<Board> selectBoardListByMember(Long categoryId, String memberName);
     List<Board> selectBoardListByTitle(Long categoryId, String title);
     List<Board> selectBoardListByContent(Long categoryId, String content);
     List<Board> selectBoardListByTitleOrContent(Long categoryId, String titleOrContent);
+
     Board selectBoardDetail(Long id);
     Long insertBoard(Board board);
     int insertBoardBody(Long id, String content);

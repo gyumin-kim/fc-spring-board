@@ -72,4 +72,13 @@ public class BoardController {
 
         return "list";
     }
+
+    // TODO : categoryId의 defaultValue는 나중에 지우자
+    @GetMapping("/search")
+    public String list(@RequestParam(value = "categoryId", defaultValue = "1")Long categoryId,
+                       @RequestParam("searchType")String searchType,
+                       @RequestParam("keyword")String keyword,
+                       @ModelAttribute("criteria")Criteria criteria, ModelMap modelMap) throws Exception{
+        return "list";
+    }
 }

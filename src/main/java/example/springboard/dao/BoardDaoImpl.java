@@ -58,6 +58,17 @@ public class BoardDaoImpl implements BoardDao {
     }
 
     /**
+     * 다이나믹 sql로 수정
+     */
+    @Override
+    public List<Board> selectBoardListBySearch(Long categoryId, Criteria criteria){
+        String sql = BoardDaoSqls.GET_BOARD_LIST_BY_SERACH;
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("category_id", categoryId);
+    }
+
+    /**
      * 'board_body' 테이블의 작성자(member)로 검색한 결과
      * (작성자로 해당 글의 목록을 조회하되, 작성자를 불러오지는 않는다)
      */
