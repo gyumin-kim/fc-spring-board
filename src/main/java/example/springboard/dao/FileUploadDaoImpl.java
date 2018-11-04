@@ -5,10 +5,11 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.io.File;
-
+@Component
 public class FileUploadDaoImpl implements FileUploadDao {
     private SimpleJdbcInsert jdbcInsert;
     private NamedParameterJdbcTemplate jdbcTemplate;

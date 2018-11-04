@@ -5,11 +5,11 @@ import java.util.Date;
 public class FileInfo {
     private Long idx;
     private Long boardIdx;
-    private String originFileName;
+    private String originalFileName;
     private String StoredFileName;
     private long fileSize;
     private Date regdate;
-    private boolean deldb;
+    private boolean delGb;
 
     public Long getIdx() {
         return idx;
@@ -19,8 +19,8 @@ public class FileInfo {
         return boardIdx;
     }
 
-    public String getOriginFileName() {
-        return originFileName;
+    public String getOriginalFileName() {
+        return originalFileName;
     }
 
     public String getStoredFileName() {
@@ -35,8 +35,8 @@ public class FileInfo {
         return regdate;
     }
 
-    public boolean isDeldb() {
-        return deldb;
+    public boolean isDelGb() {
+        return delGb;
     }
 
     public void setIdx(Long idx) {
@@ -47,8 +47,8 @@ public class FileInfo {
         this.boardIdx = boardIdx;
     }
 
-    public void setOriginFileName(String originFileName) {
-        this.originFileName = originFileName;
+    public void setOriginalFileName(String originalFileName) {
+        this.originalFileName = originalFileName;
     }
 
     public void setStoredFileName(String storedFileName) {
@@ -63,8 +63,8 @@ public class FileInfo {
         this.regdate = regdate;
     }
 
-    public void setDeldb(boolean deldb) {
-        this.deldb = deldb;
+    public void setDelGb(boolean delGb) {
+        this.delGb = delGb;
     }
 
     @Override
@@ -72,11 +72,11 @@ public class FileInfo {
         return "FileInfo{" +
                 "idx=" + idx +
                 ", boardIdx=" + boardIdx +
-                ", originFileName='" + originFileName + '\'' +
+                ", originalFileName='" + originalFileName + '\'' +
                 ", StoredFileName='" + StoredFileName + '\'' +
                 ", fileSize=" + fileSize +
                 ", regdate=" + regdate +
-                ", deldb=" + deldb +
+                ", delGb=" + delGb +
                 '}';
     }
 }

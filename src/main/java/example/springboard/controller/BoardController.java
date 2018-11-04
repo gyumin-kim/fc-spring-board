@@ -41,6 +41,7 @@ public class BoardController {
     }
     @GetMapping
     public String list(){
-        return "list";
+        return "index";
     }
+
 }

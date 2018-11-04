@@ -68,7 +68,7 @@ public class FileUtilImpl implements FileUtil{
         System.out.println("------file info end ----");
 
         FileInfo fileInfo = new FileInfo();
-        fileInfo.setOriginFileName(file.getOriginalFilename());
+        fileInfo.setOriginalFileName(file.getOriginalFilename());
         fileInfo.setStoredFileName(saveFile);
         fileInfo.setFileSize(file.getSize());
         return fileInfo;
