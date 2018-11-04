@@ -22,12 +22,6 @@ public class FileUtilImpl implements FileUtil{
     String saveFile = saveDir + "/" + UUIDGenerator.getRandomString();
 
     public FileInfo handleFileStream(MultipartFile file){
-        System.out.println("------file info start ----");
-        System.out.println(file.getContentType());
-        System.out.println(file.getOriginalFilename());
-        System.out.println(file.getName());
-        System.out.println(file.getSize());
-
         String uuidStr = UUIDGenerator.getRandomString();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
         String dateStr = simpleDateFormat.format(new Date());
@@ -65,8 +59,6 @@ public class FileUtilImpl implements FileUtil{
                 }
             }
         }
-        System.out.println("------file info end ----");
-
         FileInfo fileInfo = new FileInfo();
         fileInfo.setOriginalFileName(file.getOriginalFilename());
         fileInfo.setStoredFileName(saveFile);

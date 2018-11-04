@@ -1,71 +1,27 @@
 package example.springboard.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Date;
 
 public class FileInfo {
+    @Setter
+    @Getter
     private Long idx;
+    @Setter @Getter
     private Long boardIdx;
+    @Setter @Getter
     private String originalFileName;
+    @Setter @Getter
     private String StoredFileName;
+    @Setter @Getter
     private long fileSize;
+    @Setter @Getter
     private Date regdate;
+    @Setter @Getter
     private boolean delGb;
 
-    public Long getIdx() {
-        return idx;
-    }
-
-    public Long getBoardIdx() {
-        return boardIdx;
-    }
-
-    public String getOriginalFileName() {
-        return originalFileName;
-    }
-
-    public String getStoredFileName() {
-        return StoredFileName;
-    }
-
-    public long getFileSize() {
-        return fileSize;
-    }
-
-    public Date getRegdate() {
-        return regdate;
-    }
-
-    public boolean isDelGb() {
-        return delGb;
-    }
-
-    public void setIdx(Long idx) {
-        this.idx = idx;
-    }
-
-    public void setBoardIdx(Long boardIdx) {
-        this.boardIdx = boardIdx;
-    }
-
-    public void setOriginalFileName(String originalFileName) {
-        this.originalFileName = originalFileName;
-    }
-
-    public void setStoredFileName(String storedFileName) {
-        StoredFileName = storedFileName;
-    }
-
-    public void setFileSize(long fileSize) {
-        this.fileSize = fileSize;
-    }
-
-    public void setRegdate(Date regdate) {
-        this.regdate = regdate;
-    }
-
-    public void setDelGb(boolean delGb) {
-        this.delGb = delGb;
-    }
 
     @Override
     public String toString() {

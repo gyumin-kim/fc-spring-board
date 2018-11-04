@@ -82,6 +82,12 @@
             <version>8.0.13</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok-maven-plugin</artifactId>
+            <version>1.18.2.0</version>
+        </dependency>
+
         <!-- basic data source -->
         <dependency>
             <groupId>org.apache.commons</groupId>
