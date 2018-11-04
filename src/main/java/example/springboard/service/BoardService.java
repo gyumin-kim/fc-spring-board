@@ -1,14 +1,13 @@
 package example.springboard.service;
 
 import example.springboard.dto.Board;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
+import example.springboard.dto.Criteria;
 
 import java.util.List;
-import java.util.Map;
 
 public interface BoardService {
-    List<Board> showBoardListAll(Long categoryId);
+    int getBoardCount(Long categoryId);
+    List<Board> showBoardListAll(Long categoryId, Criteria criteria);
     List<Board> showBoardListByMember(Long categoryId, String memberName);
     List<Board> showBoardListByTitle(Long categoryId, String title);
     List<Board> showBoardListByContent(Long categoryId, String content);

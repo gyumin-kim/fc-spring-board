@@ -4,6 +4,7 @@ import example.springboard.dao.BoardDao;
 import example.springboard.dao.FileUploadDao;
 import example.springboard.dto.Board;
 import example.springboard.dto.FileInfo;
+import example.springboard.dto.Criteria;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,10 +22,16 @@ public class BoardServiceImpl implements BoardService {
         this.fileUploadDao = fileUploadDao;
     }
 
+    @Transactional
+    @Override
+    public int getBoardCount(Long categoryId){
+        return boardDao.selectBoardCount(categoryId);
+    }
+
     @Transactional(readOnly = true)
     @Override
-    public List<Board> showBoardListAll(Long categoryId) {
-        return boardDao.selectBoardListAll(categoryId);
+    public List<Board> showBoardListAll(Long categoryId, Criteria criteria) {
+        return boardDao.selectBoardListAll(categoryId, criteria);
     }
 
     @Transactional(readOnly = true)
@@ -100,15 +107,4 @@ public class BoardServiceImpl implements BoardService {
 
         return boardDao.insertBoard(board);
     }
-//    @Transactional
-//    @Override
-//    public void upload(Map<String, Object> map, MultipartFile file) {
-//        System.out.println("------file info start ----");
-//        System.out.println(file.getContentType());
-//        System.out.println(file.getOriginalFilename());
-//        System.out.println(file.getName());
-//        System.out.println(file.getSize());
-//        System.out.println("------file info end ----");
-//
-//    }
 }
