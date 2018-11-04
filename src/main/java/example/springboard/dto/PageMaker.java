@@ -1,19 +1,22 @@
 package example.springboard.dto;
 
-public class PageMaker {
-    private int totalBoardCount;          // 게시판 전체 데이터 수
-    private int displayPageNum = 2; // 게시판 버튼 번호의 개수
+import lombok.Getter;
+import lombok.Setter;
 
+public class PageMaker {
+    @Setter
+    @Getter
+    private int totalBoardCount;          // 게시판 전체 데이터 수
+    @Setter @Getter
+    private int displayPageNum = 2; // 게시판 버튼 번호의 개수
+    @Setter @Getter
     private int startPage;          // 현재 화면에서 보이는 startPage 번호
+    @Setter @Getter
     private int endPage;            // 현재 화면에서 보이는 endPage 번호
     private boolean prev;           // 이전 버튼 활성화 여부
     private boolean next;           // 다음 버튼 활성화 여부
-
+    @Setter @Getter
     private Criteria criteria;
-
-    public int getTotalBoardCount(){
-        return totalBoardCount;
-    }
 
     public void setTotalBoardCount(int totalBoardCount){
         this.totalBoardCount = totalBoardCount;
@@ -36,31 +39,6 @@ public class PageMaker {
 //        next = endPage * criteria.getPerPageNum() >= totalBoardCount ? false : true;
         next = endPage >= tempEndPage ? false : true;
     }
-
-    public int getDisplayPageNum() {
-        return displayPageNum;
-    }
-
-    public void setDisplayPageNum(int displayPageNum) {
-        this.displayPageNum = displayPageNum;
-    }
-
-    public int getStartPage() {
-        return startPage;
-    }
-
-    public void setStartPage(int startPage) {
-        this.startPage = startPage;
-    }
-
-    public int getEndPage() {
-        return endPage;
-    }
-
-    public void setEndPage(int endPage) {
-        this.endPage = endPage;
-    }
-
     public boolean isPrev() {
         return prev;
     }
@@ -75,13 +53,5 @@ public class PageMaker {
 
     public void setNext(boolean next) {
         this.next = next;
-    }
-
-    public Criteria getCriteria() {
-        return criteria;
-    }
-
-    public void setCriteria(Criteria criteria) {
-        this.criteria = criteria;
     }
 }

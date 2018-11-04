@@ -1,117 +1,38 @@
 package example.springboard.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
+
 import java.util.Date;
 import java.util.List;
 
 public class Board {
+    @Setter @Getter
     private Long id;
+    @Setter @Getter
     private Long originId;
+    @Setter @Getter
     private int depth;
+    @Setter @Getter
     private int replySeq;
+    @Setter @Getter
     private Long categoryId;
+    @Setter @Getter
     private Long memberId;
+    @Setter @Getter
     private String title;
+    @Setter @Getter
     private Date regDate;
+    @Setter @Getter
     private String ipAddr;
+    @Setter @Getter
     private String content;
+    @Setter @Getter
     private String name;
+    @Setter @Getter
     private FileInfo fileInfo;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getOriginId() {
-        return originId;
-    }
-
-    public void setOriginId(Long originId) {
-        this.originId = originId;
-    }
-
-    public int getDepth() {
-        return depth;
-    }
-
-    public void setDepth(int depth) {
-        this.depth = depth;
-    }
-
-    public int getReplySeq() {
-        return replySeq;
-    }
-
-    public void setReplySeq(int replySeq) {
-        this.replySeq = replySeq;
-    }
-
-    public Long getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public Long getMemberId() {
-        return memberId;
-    }
-
-    public void setMemberId(Long memberId) {
-        this.memberId = memberId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Date getRegDate() {
-        return regDate;
-    }
-
-    public void setRegDate(Date regDate) {
-        this.regDate = regDate;
-    }
-
-    public String getIpAddr() {
-        return ipAddr;
-    }
-
-    public void setIpAddr(String ipAddr) {
-        this.ipAddr = ipAddr;
-    }
-
-    public FileInfo getFileInfo() {
-        return fileInfo;
-    }
-
-    public void setFileInfo(FileInfo fileInfo) {
-        this.fileInfo = fileInfo;
-    }
 
     @Override
     public String toString() {
