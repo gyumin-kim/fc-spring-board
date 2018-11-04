@@ -52,10 +52,10 @@ public class BoardController {
         board.setFileInfo(fileInfo);
         boardService.writeBoard(board);
 
-        return "redirect:/boards/list";          // redirect 하라는 뜻!
+        return "redirect:/boards";          // redirect 하라는 뜻!
     }
 
-    @GetMapping("/list")
+    @GetMapping
     public String list(@RequestParam(value = "categoryId", defaultValue ="1")Long categoryId,
                        @ModelAttribute("criteria") Criteria criteria,
                        ModelMap modelMap) throws Exception{
