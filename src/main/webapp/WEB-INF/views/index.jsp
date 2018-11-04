@@ -53,13 +53,13 @@
                 </div>
                 <div class="modal-body">
                     <%-- form을 submit하면 main.js에서 AJAX 이벤트 처리 --%>
-                    이메일 : <input type="email" name="email" id="login-email" autocomplete="email" required><br>
-                    암호 : <input type="password" name="password" id="login-password" autocomplete="off" required minlength="3" maxlength="20"><br><br>
+                    이메일 : <input type="email" name="email" id="login-email" autocomplete="email" placeholder="이메일을 입력하세요" required><br>
+                    암호 : <input type="password" name="password" id="login-password" autocomplete="off" placeholder="비밀번호를 입력하세요" required minlength="3" maxlength="20"><br><br>
                     <%-- 클릭하면 로그인 modal 사라지고, 회원가입 modal popup --%>
                     <a href="/signup" id="signup-btn" data-toggle="modal" data-dismiss="modal" data-target="#signupModalCenter">
                         <button type="button" class="btn btn-secondary">Sign up</button>
                     </a>
-                    <input type="button" id="loginSubmit" class="btn btn-primary" value="Submit"/>
+                    <input type="button" id="login-submit" class="btn btn-primary" value="Submit"/>
                 </div>
             </div>
         </div>
@@ -76,13 +76,13 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="/signup">
-                        이메일 : <input type="email" name="email" required><br>
-                        이름 : <input type="text" name="name" required><br>
-                        암호 : <input type="password" name="password" required minlength="3" maxlength="20"><br>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <input type="submit" class="btn btn-primary" value="Sign up"/>
-                    </form>
+                    <%--<form method="POST" action="/signup">--%>
+                        이메일 : <input type="email" name="email" id="signup-email" placeholder="이메일을 입력하세요" required><br>
+                        이름 : <input type="text" name="name" id="signup-name" placeholder="이름을 입력하세요" required><br>
+                        암호 : <input type="password" name="password" id="signup-password" placeholder="비밀번호를 입력하세요" required minlength="3" maxlength="20"><br>
+                        <button type="button" id="signup-close" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <input type="button" id="signup-submit" class="btn btn-primary" value="Sign up"/>
+                    <%--</form>--%>
                 </div>
             </div>
         </div>
