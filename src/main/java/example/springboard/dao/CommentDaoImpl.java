@@ -1,6 +1,9 @@
 package example.springboard.dao;
 
+import example.springboard.controller.LoginController;
 import example.springboard.dto.Comment;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -14,12 +17,13 @@ import java.util.*;
 
 @Repository
 public class CommentDaoImpl implements CommentDao {
+    private static final Log log = LogFactory.getLog(CommentDaoImpl.class);
     private NamedParameterJdbcTemplate jdbcTemplate;
     private SimpleJdbcInsert jdbcInsert;
 
     // Constructor Injection
     public CommentDaoImpl(DataSource dataSource){
-        System.out.println("CommentDaoImpl()");
+        log.info("CommentDaoImpl()");
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
         this.jdbcInsert = new SimpleJdbcInsert(dataSource).withTableName("comment");
     }
@@ -42,7 +46,7 @@ public class CommentDaoImpl implements CommentDao {
             Map<String, ?> params = Collections.singletonMap("board_id", boardId);
             return jdbcTemplate.query(sql, params, rowMapper);
         }catch (Exception ex){
-            System.out.println("리스트를 가져오지 못하였습니다.");
+            log.info("리스트를 가져오지 못하였습니다.");
             return null;
         }
     }
