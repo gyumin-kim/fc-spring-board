@@ -1,5 +1,6 @@
 let loginFormBtn = document.querySelector('#login-submit');
 let signupFormBtn = document.querySelector('#signup-submit');
+let commentFormBtn = document.querySelector('#comment-submit');
 
 loginFormBtn.addEventListener('click', () => {
     let loginEmail = document.getElementById('login-email').value;          // input 태그에 입력된 email
@@ -40,9 +41,9 @@ loginFormBtn.addEventListener('click', () => {
 });
 
 signupFormBtn.addEventListener('click', () => {
-    let signupEmail = document.getElementById('signup-email').value;          // input 태그에 입력된 email
-    let signupName = document.getElementById('signup-name').value;    // input 태그에 입력된 password
-    let signupPassword = document.getElementById('signup-password').value;    // input 태그에 입력된 password
+    let signupEmail = document.getElementById('signup-email').value;        // input 태그에 입력된 email
+    let signupName = document.getElementById('signup-name').value;          // input 태그에 입력된 password
+    let signupPassword = document.getElementById('signup-password').value;  // input 태그에 입력된 password
     let signupCloseBtn = document.querySelector('#signup-close');
 
     let signupData = {
@@ -78,6 +79,27 @@ signupFormBtn.addEventListener('click', () => {
             }
         },
         error: handleError
+    });
+});
+
+commentFormBtn.addEventListener('click', () => {
+    let content = document.getElementById('content').value;   // input 태그에 입력된 comment
+    let boardId = document.getElementById('board-id').value;  // 댓글이 속해있는 게시물의 id
+    let memberId = document.getElementById('member-id').value;  // 댓글이 속해있는 게시물의 id
+
+    let commentData = {
+        'content': content,
+        'boardId': boardId,
+        'memberId': memberId
+    };
+
+    $.ajax({
+        method: 'POST',
+        url: `/boards/${boardId}`,
+        data: commentData,
+        success: function(data) {
+            console.log(data);
+        }
     });
 });
 

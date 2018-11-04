@@ -17,19 +17,25 @@
     ${board.regDate}<br>
     ${board.ipAddr}<br><br>
 
+    <%-- 댓글 입력 --%>
     <form>
         <div class="form-group">
-            <label for="exampleFormControlTextarea1">댓글 달기</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            <label for="content">댓글 달기</label>
+            <textarea class="form-control" id="content" rows="3"></textarea>
         </div>
-        <input type="submit" value="Submit">
+        <input type="hidden" id="board-id" value="${board.id}">
+        <input type="hidden" id="member-id" value="${authUser.id}">
+        <input type="button" id="comment-submit" value="등록"><br><br>
     </form>
 
+    <%-- 댓글 목록 --%>
     <c:forEach var="comment" items="${commentList}">
         ${comment.name}<br>
         ${comment.content}<br><br>
     </c:forEach>
 
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="/js/main.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </body>
 </html>

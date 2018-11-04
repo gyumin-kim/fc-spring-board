@@ -76,7 +76,7 @@ public class BoardController {
         return "list";
     }
 
-    @GetMapping("/detail/{id}")
+    @GetMapping("/{id}")
     public String detail(@PathVariable Long id, ModelMap modelMap) {
         Board board = boardService.showBoardDetail(id);
         List<Comment> commentList = commentService.getComments(id);
