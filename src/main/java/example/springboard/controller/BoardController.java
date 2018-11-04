@@ -25,8 +25,14 @@ public class BoardController {
     public String write(){return "write";}
 
     @PostMapping
-    public String write(@RequestParam("file")MultipartFile file){
+    public String write(@RequestParam("title")String title,
+                         @RequestParam("content")String content,
+                         @RequestParam("file")MultipartFile file){
         Board board = new Board();
+        board.setTitle(title);
+        board.setContent(content);
+        board.setCategoryId(1L);
+        board.setMemberId(1L);
         FileInfo fileInfo = fileUtil.handleFileStream(file);
         board.setFileInfo(fileInfo);
         boardService.writeBoard(board);
