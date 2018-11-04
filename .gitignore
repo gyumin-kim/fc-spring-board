@@ -77,6 +77,3 @@ target/
 
 .idea
 *.iml
-
-# Configuration
-application.properties
