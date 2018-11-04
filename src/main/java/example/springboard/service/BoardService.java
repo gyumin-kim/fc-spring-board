@@ -8,6 +8,9 @@ import java.util.List;
 public interface BoardService {
     int getBoardCount(Long categoryId);
     List<Board> showBoardListAll(Long categoryId, Criteria criteria);
+
+    List<Board> showBoardListSearch(Long categoryId, Criteria criteria);
+
     List<Board> showBoardListByMember(Long categoryId, String memberName);
     List<Board> showBoardListByTitle(Long categoryId, String title);
     List<Board> showBoardListByContent(Long categoryId, String content);

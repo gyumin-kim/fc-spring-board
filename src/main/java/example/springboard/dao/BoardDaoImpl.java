@@ -62,10 +62,28 @@ public class BoardDaoImpl implements BoardDao {
      */
     @Override
     public List<Board> selectBoardListBySearch(Long categoryId, Criteria criteria){
+        String keyword = "%" + criteria.getKeyword() + "%";
         String sql = BoardDaoSqls.GET_BOARD_LIST_BY_SERACH;
 
+        if(criteria.getSearchType().equals("title")){
+            sql += "b.title LIKE :keyword ";
+        }else if(criteria.getSearchType().equals("content")){
+            sql += "bb.content LIKE :keyword ";
+        }else if(criteria.getSearchType().equals("name")){
+            sql += "m.name = :keyword ";
+        }else if(criteria.getSearchType().equals("titleOrContent")){
+            sql += "(bb.content LIKE :keyword OR b.title LIKE :keyword) ";
+        }
+
+        sql += "ORDER BY origin_id DESC, reply_seq ASC LIMIT :pageStart , :perPageNum";
+
+        RowMapper<Board> rowMapper = BeanPropertyRowMapper.newInstance(Board.class);
         Map<String, Object> params = new HashMap<>();
         params.put("category_id", categoryId);
+        params.put("pageStart", criteria.getPageStart());
+        params.put("perPageNum", criteria.getPerPageNum());
+        params.put("keyword", keyword);
+        return jdbcTemplate.query(sql, params, rowMapper);
     }
 
     /**

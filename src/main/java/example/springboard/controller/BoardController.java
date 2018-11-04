@@ -75,10 +75,19 @@ public class BoardController {
 
     // TODO : categoryId의 defaultValue는 나중에 지우자
     @GetMapping("/search")
-    public String list(@RequestParam(value = "categoryId", defaultValue = "1")Long categoryId,
-                       @RequestParam("searchType")String searchType,
-                       @RequestParam("keyword")String keyword,
-                       @ModelAttribute("criteria")Criteria criteria, ModelMap modelMap) throws Exception{
+    public String search(@RequestParam(value = "categoryId", defaultValue = "1")Long categoryId,
+                         @ModelAttribute("criteria")Criteria criteria, ModelMap modelMap) throws Exception{
+        // 게시판 글 리스트
+        modelMap.addAttribute("boards", boardService.showBoardListSearch(categoryId, criteria));
+
+        // 페이지 나누기 관련 처리
+        PageMaker pageMaker = new PageMaker();
+        pageMaker.setCriteria(criteria);
+        pageMaker.setTotalBoardCount(boardService.getBoardCount(categoryId));  // 게시글의 총 개수
+
+        // 게시판 하단의 페이징 관련, 이전 / 페이지 링크 / 다음
+        modelMap.addAttribute("pageMaker", pageMaker);
+
         return "list";
     }
 }
