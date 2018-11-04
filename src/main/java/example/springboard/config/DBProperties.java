@@ -20,9 +20,9 @@ public class DBProperties {
         try {
             Properties prop = new Properties();
             prop.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("application.properties"));
-            jdbcDriver = prop.getProperty("jdbcDriver");
+            jdbcDriver = prop.getProperty("dbDriver");
             dbUrl = prop.getProperty("dbUrl");
-            dbUser = prop.getProperty("dbUser");
+            dbUser = prop.getProperty("dbId");
             dbPassword = prop.getProperty("dbPassword");
             System.out.println("'application.properties'에서 값 읽어옴");
         } catch (Exception ex) {
