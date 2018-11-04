@@ -84,3 +84,19 @@ body, html {
 .github-link:hover {
     color: #dbdbdbb4;
 }
+
+.index-cards {
+    display: block;
+    margin-top: 12%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+}
+
+.index-card {
+    text-decoration: none;
+}
+
+.index-card:hover {
+    background-color: #c0c0c0;
+}

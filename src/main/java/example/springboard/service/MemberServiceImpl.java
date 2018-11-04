@@ -49,8 +49,8 @@ public class MemberServiceImpl implements MemberService {
      */
     @Transactional(readOnly = true)
     @Override
-    public Member findMemberById(Long memberId) {
-        return memberDao.selectMemberById(memberId);
+    public Member findMemberByEmail(String email) {
+        return memberDao.selectMemberByEmail(email);
     }
 
 //    @Transactional(readOnly = true)

@@ -17,6 +17,7 @@ import java.util.Map;
 public class BoardServiceImpl implements BoardService {
     private BoardDao boardDao;
     private FileUploadDao fileUploadDao;
+
     public BoardServiceImpl(BoardDao boardDao,FileUploadDao fileUploadDao) {
         this.boardDao = boardDao;
         this.fileUploadDao = fileUploadDao;
@@ -24,8 +25,14 @@ public class BoardServiceImpl implements BoardService {
 
     @Transactional
     @Override
-    public int getBoardCount(Long categoryId){
-        return boardDao.selectBoardCount(categoryId);
+    public int getBoardCountAll(Long categoryId){
+        return boardDao.selectBoardCountAll(categoryId);
+    }
+
+    @Transactional
+    @Override
+    public int getBoardCountBySearch(Long categoryId, Criteria criteria){
+        return boardDao.selectBoardCountBySearch(categoryId, criteria);
     }
 
     @Transactional(readOnly = true)
@@ -36,26 +43,8 @@ public class BoardServiceImpl implements BoardService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<Board> showBoardListByMember(Long categoryId, String memberName) {
-        return boardDao.selectBoardListByMember(categoryId, memberName);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public List<Board> showBoardListByTitle(Long categoryId, String title) {
-        return boardDao.selectBoardListByTitle(categoryId,title);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public List<Board> showBoardListByContent(Long categoryId, String content) {
-        return boardDao.selectBoardListByContent(categoryId, content);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public List<Board> showBoardListByTitleOrContent(Long categoryId, String titleOrContent) {
-        return boardDao.selectBoardListByTitleOrContent(categoryId, titleOrContent);
+    public List<Board> showBoardListSearch(Long categoryId, Criteria criteria){
+        return boardDao.selectBoardListBySearch(categoryId, criteria);
     }
 
     @Transactional(readOnly = true)

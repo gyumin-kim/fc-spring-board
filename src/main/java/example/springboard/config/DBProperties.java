@@ -1,15 +1,13 @@
 package example.springboard.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import java.util.Properties;
 @Configuration
+@PropertySource("classpath:application.properties")
 @EnableTransactionManagement
 public class DBProperties {
-    // 2) 자기 자신을 참조하는 private static 변수
-    private static DBProperties instance = new DBProperties();
-
     private String jdbcDriver;
     private String dbUrl;
     private String dbUser;

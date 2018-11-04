@@ -1,35 +1,48 @@
 package example.springboard.dao;
 
 class BoardDaoSqls {
+    // 게시글의 총 개수를 구하는 sql
     static final String GET_BOARD_COUNT = "SELECT count(*) FROM board WHERE category_id=:category_id AND is_deleted=0";
+    static final String GET_BOARD_COUNT_BY_MEMBER =
+            "SELECT count(*) FROM board AS b INNER JOIN member AS m ON b.member_id = m.id " +
+            "WHERE category_id=:category_id AND is_deleted=0 AND m.name=:keyword";
+    static final String GET_BOARD_COUNT_BY_TITLE =
+            "SELECT count(*) FROM board AS b INNER JOIN member AS m ON b.member_id = m.id " +
+            "WHERE category_id=:category_id AND is_deleted=0 AND b.title LIKE :keyword";
+    static final String GET_BOARD_COUNT_BY_CONTENT =
+            "SELECT count(*) FROM board AS b INNER JOIN member AS m ON b.member_id = m.id INNER JOIN board_body AS bb ON b.id = bb.id " +
+            "WHERE category_id = :category_id AND is_deleted=0 AND bb.content LIKE :keyword";
+    static final String GET_BOARD_COUNT_BY_TITLE_OR_CONTENT =
+            "SELECT count(*) FROM board AS b INNER JOIN member AS m ON b.member_id = m.id INNER JOIN board_body AS bb ON b.id = bb.id " +
+            "WHERE category_id = :category_id AND is_deleted=0 AND (bb.content LIKE :keyword OR b.title LIKE :keyword)";
+
     static final String GET_BOARD_LIST_ALL =
             "SELECT b.id, b.origin_id, b.depth, b.reply_seq, b.category_id, m.name, b.title, b.ip_addr, b.reg_date " +
             "FROM board AS b INNER JOIN member AS m ON b.member_id = m.id " +
-            "WHERE category_id = :category_id and is_deleted=0 " +
+            "WHERE category_id = :category_id AND is_deleted=0 " +
             "ORDER BY origin_id DESC, reply_seq ASC LIMIT :pageStart , :perPageNum";
     static final String GET_BOARD_LIST_BY_MEMBER =
             "SELECT b.id, b.origin_id, b.depth, b.reply_seq, b.category_id, m.name, b.title, b.ip_addr, b.reg_date " +
             "FROM board AS b INNER JOIN member AS m ON b.member_id = m.id " +
-            "WHERE category_id = :category_id AND m.name = m.name " +
-            "ORDER BY b.origin_id DESC, b.reply_seq ASC";
+            "WHERE category_id = :category_id AND is_deleted=0 AND m.name = :keyword " +
+            "ORDER BY origin_id DESC, reply_seq ASC LIMIT :pageStart , :perPageNum";
     static final String GET_BOARD_LIST_BY_TITLE =
             "SELECT b.id, b.origin_id, b.depth, b.reply_seq, b.category_id, m.name, b.title, b.ip_addr, b.reg_date " +
             "FROM board AS b INNER JOIN member AS m ON b.member_id = m.id " +
-            "WHERE b.category_id = :b.category_id AND b.title LIKE :b.title " +
-            "ORDER BY b.origin_id DESC, b.reply_seq ASC";
+            "WHERE category_id = :category_id  AND is_deleted=0 AND b.title LIKE :keyword " +
+            "ORDER BY origin_id DESC, reply_seq ASC LIMIT :pageStart , :perPageNum";
     static final String GET_BOARD_LIST_BY_CONTENT =
             "SELECT b.id, b.origin_id, b.depth, b.reply_seq, b.category_id, m.name, b.title, b.ip_addr, b.reg_date " +
             "FROM board AS b INNER JOIN member AS m ON b.member_id = m.id " +
             "INNER JOIN board_body AS bb ON b.id = bb.id " +
-            "WHERE b.category = :b.category AND bb.content LIKE :bb.content AND b.is_deleted = 0 " +
-            "ORDER BY b.origin_id DESC, b.reply_seq ASC";
+            "WHERE category_id = :category_id AND is_deleted=0 AND bb.content LIKE :keyword " +
+            "ORDER BY origin_id DESC, reply_seq ASC LIMIT :pageStart , :perPageNum";
     static final String GET_BOARD_LIST_BY_TITLE_OR_CONTENT =
             "SELECT b.id, b.origin_id, b.depth, b.reply_seq, b.category_id, m.name, b.title, b.ip_addr, b.reg_date " +
             "FROM board AS b INNER JOIN member AS m ON b.member_id = m.id " +
             "INNER JOIN board_body AS bb ON b.id = bb.id " +
-            "WHERE b.category=:b.category AND " +
-            "(bb.content LIKE :bb.content OR b.title LIKE :b.title) AND b.is_deleted = 0" +
-            "ORDER BY b.origin_id DESC, b.reply_seq ASC";
+            "WHERE category_id = :category_id AND is_deleted=0 AND (bb.content LIKE :keyword OR b.title LIKE :keyword) " +
+            "ORDER BY origin_id DESC, reply_seq ASC LIMIT :pageStart , :perPageNum";
     static final String GET_BOARD_DETAIL =
             "SELECT b.id, b.origin_id, b.depth, b.reply_seq, b.category_id, m.name, b.title, b.ip_addr, b.reg_date, bb.content " +
             "FROM board AS b INNER JOIN member AS m ON b.member_id = m.id " +

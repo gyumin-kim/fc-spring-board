@@ -30,10 +30,55 @@
 
     <%-- 로그인 되어 있을 경우 --%>
     <c:if test="${sessionScope.authUser != null}">
-        <div class="board-category">게시판 1</div>
-        <div class="board-category">게시판 2</div>
-        <div class="board-category">게시판 3</div>
-        <div class="board-category">게시판 4</div>
+    <div class="index-cards card-group">
+        <div class="index-card card bg-light mb-3" style="max-width: 18rem;">
+            <a href="/boards/list?categoryId=1">
+                <div class="card-body">
+                    <h5 class="card-title">Category 1</h5>
+                    <p class="card-text text-secondary">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                </div>
+            </a>
+        </div>
+        <div class="index-card card bg-light mb-3" style="max-width: 18rem;">
+            <a href="/boards/list?categoryId=2">
+                <div class="card-body">
+                    <h5 class="card-title">Category 2</h5>
+                    <p class="card-text text-secondary">This card has supporting text below as a natural lead-in to additional content.</p>
+                </div>
+            </a>
+        </div>
+        <div class="index-card card bg-light mb-3" style="max-width: 18rem;">
+            <a href="/boards/list?categoryId=3">
+                <div class="card-body">
+                    <h5 class="card-title">Category 3</h5>
+                    <p class="card-text text-secondary">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+                </div>
+            </a>
+        </div>
+        <div class="index-card card bg-light mb-3" style="max-width: 18rem;">
+            <a href="/boards/list?categoryId=4">
+                <div class="card-body">
+                    <h5 class="card-title">Category 4</h5>
+                    <p class="card-text text-secondary">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <%--<nav class="navbar navbar-expand-lg navbar-light bg-light">--%>
+        <%--<a class="navbar-brand" href="/">Spring board</a>--%>
+        <%--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">--%>
+            <%--<span class="navbar-toggler-icon"></span>--%>
+        <%--</button>--%>
+        <%--<div class="collapse navbar-collapse" id="navbarNavAltMarkup">--%>
+            <%--<div class="navbar-nav">--%>
+                <%--<a class="nav-item nav-link" href="/boards/list?categoryId=1">게시판 1<span class="sr-only">(current)</span></a>--%>
+                <%--<a class="nav-item nav-link" href="/boards/list?categoryId=2">게시판 2</a>--%>
+                <%--<a class="nav-item nav-link" href="/boards/list?categoryId=3">게시판 3</a>--%>
+                <%--<a class="nav-item nav-link" href="/boards/list?categoryId=4">게시판 4</a>--%>
+            <%--</div>--%>
+        <%--</div>--%>
+    <%--</nav>--%>
     </c:if>
 
     <%-- 하단 GitHub 아이콘(Font Awesome) --%>
@@ -52,15 +97,14 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="/login">
-                        이메일 : <input type="email" name="email" required><br>
-                        암호 : <input type="password" name="password" required minlength="3" maxlength="20"><br><br>
-                        <%-- 클릭하면 로그인 modal 사라지고, 회원가입 modal popup --%>
-                        <a href="/signup" data-toggle="modal" data-dismiss="modal" data-target="#signupModalCenter">
-                            <button type="button" class="btn btn-secondary">Sign up</button>
-                        </a>
-                        <input type="submit" class="btn btn-primary" value="Submit"/>
-                    </form>
+                    <%-- form을 submit하면 main.js에서 AJAX 이벤트 처리 --%>
+                    이메일 : <input type="email" name="email" id="login-email" autocomplete="email" placeholder="이메일을 입력하세요" required><br>
+                    암호 : <input type="password" name="password" id="login-password" autocomplete="off" placeholder="비밀번호를 입력하세요" required minlength="3" maxlength="20"><br><br>
+                    <%-- 클릭하면 로그인 modal 사라지고, 회원가입 modal popup --%>
+                    <a href="/signup" id="signup-btn" data-toggle="modal" data-dismiss="modal" data-target="#signupModalCenter">
+                        <button type="button" class="btn btn-secondary">Sign up</button>
+                    </a>
+                    <input type="button" id="login-submit" class="btn btn-primary" value="Submit"/>
                 </div>
             </div>
         </div>
@@ -77,20 +121,20 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="/signup">
-                        이메일 : <input type="email" name="email" required><br>
-                        이름 : <input type="text" name="name" required><br>
-                        암호 : <input type="password" name="password" required minlength="3" maxlength="20"><br>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <input type="submit" class="btn btn-primary" value="Sign up"/>
-                    </form>
+                    <%--<form method="POST" action="/signup">--%>
+                        이메일 : <input type="email" name="email" id="signup-email" placeholder="이메일을 입력하세요" required><br>
+                        이름 : <input type="text" name="name" id="signup-name" placeholder="이름을 입력하세요" required><br>
+                        암호 : <input type="password" name="password" id="signup-password" placeholder="비밀번호를 입력하세요" required minlength="3" maxlength="20"><br>
+                        <button type="button" id="signup-close" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <input type="button" id="signup-submit" class="btn btn-primary" value="Sign up"/>
+                    <%--</form>--%>
                 </div>
             </div>
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="/js/main.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </body>

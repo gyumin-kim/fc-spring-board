@@ -6,12 +6,12 @@ import example.springboard.dto.Criteria;
 import java.util.List;
 
 public interface BoardService {
-    int getBoardCount(Long categoryId);
+    int getBoardCountAll(Long categoryId);
+    int getBoardCountBySearch(Long categoryId, Criteria criteria);
+
     List<Board> showBoardListAll(Long categoryId, Criteria criteria);
-    List<Board> showBoardListByMember(Long categoryId, String memberName);
-    List<Board> showBoardListByTitle(Long categoryId, String title);
-    List<Board> showBoardListByContent(Long categoryId, String content);
-    List<Board> showBoardListByTitleOrContent(Long categoryId, String titleOrContent);
+    List<Board> showBoardListSearch(Long categoryId, Criteria criteria);
+
     Board showBoardDetail(Long id);
     Board writeBoard(Board board);
     int updateBoard(Board board);
