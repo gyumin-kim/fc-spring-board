@@ -37,12 +37,35 @@ public class BoardDaoImpl implements BoardDao {
 }
 
     @Override
-    public int selectBoardCount(Long categoryId) {
+    public int selectBoardCountAll(Long categoryId) {
         String sql = BoardDaoSqls.GET_BOARD_COUNT;
         Map<String, Object> map = new HashMap<>();
         map.put("category_id", categoryId);
         return jdbcTemplate.queryForObject(sql, map, Integer.class);
     }
+
+    @Override
+    public int selectBoardCountBySearch(Long categoryId, Criteria criteria){
+        String keyword = "%" + criteria.getKeyword() + "%";
+        String sql = null;
+
+        if(criteria.getSearchType().equals("title")){
+            sql = BoardDaoSqls.GET_BOARD_COUNT_BY_TITLE;
+        }else if(criteria.getSearchType().equals("content")){
+            sql = BoardDaoSqls.GET_BOARD_COUNT_BY_CONTENT;
+        }else if(criteria.getSearchType().equals("name")){
+            sql = BoardDaoSqls.GET_BOARD_COUNT_BY_MEMBER;
+        }else if(criteria.getSearchType().equals("titleOrContent")){
+            sql = BoardDaoSqls.GET_BOARD_COUNT_BY_TITLE_OR_CONTENT;
+        }
+
+        RowMapper<Board> rowMapper = BeanPropertyRowMapper.newInstance(Board.class);
+        Map<String, Object> params = new HashMap<>();
+        params.put("category_id", categoryId);
+        params.put("keyword", keyword);
+        return jdbcTemplate.queryForObject(sql, params, Integer.class);
+    }
+
     /**
      * 특정 category의 모든 글을 불러옴
      */
@@ -63,19 +86,17 @@ public class BoardDaoImpl implements BoardDao {
     @Override
     public List<Board> selectBoardListBySearch(Long categoryId, Criteria criteria){
         String keyword = "%" + criteria.getKeyword() + "%";
-        String sql = BoardDaoSqls.GET_BOARD_LIST_BY_SERACH;
+        String sql = null;
 
         if(criteria.getSearchType().equals("title")){
-            sql += "b.title LIKE :keyword ";
+            sql = BoardDaoSqls.GET_BOARD_LIST_BY_TITLE;
         }else if(criteria.getSearchType().equals("content")){
-            sql += "bb.content LIKE :keyword ";
+            sql = BoardDaoSqls.GET_BOARD_LIST_BY_CONTENT;
         }else if(criteria.getSearchType().equals("name")){
-            sql += "m.name = :keyword ";
+            sql = BoardDaoSqls.GET_BOARD_LIST_BY_MEMBER;
         }else if(criteria.getSearchType().equals("titleOrContent")){
-            sql += "(bb.content LIKE :keyword OR b.title LIKE :keyword) ";
+            sql = BoardDaoSqls.GET_BOARD_LIST_BY_TITLE_OR_CONTENT;
         }
-
-        sql += "ORDER BY origin_id DESC, reply_seq ASC LIMIT :pageStart , :perPageNum";
 
         RowMapper<Board> rowMapper = BeanPropertyRowMapper.newInstance(Board.class);
         Map<String, Object> params = new HashMap<>();
@@ -84,60 +105,6 @@ public class BoardDaoImpl implements BoardDao {
         params.put("perPageNum", criteria.getPerPageNum());
         params.put("keyword", keyword);
         return jdbcTemplate.query(sql, params, rowMapper);
-    }
-
-    /**
-     * 'board_body' 테이블의 작성자(member)로 검색한 결과
-     * (작성자로 해당 글의 목록을 조회하되, 작성자를 불러오지는 않는다)
-     */
-    @Override
-    public List<Board> selectBoardListByMember(Long categoryId, String memberName) {
-        String sql = BoardDaoSqls.GET_BOARD_LIST_BY_MEMBER;
-        Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("category_id", categoryId);
-        paramMap.put("m.name", memberName);
-        return jdbcTemplate.query(sql, paramMap, rowMapper);
-    }
-
-    /**
-     * 'board_body' 테이블의 제목(title)으로 검색한 결과
-     * (제목으로 해당 글의 목록을 조회하되, 제목을 불러오지는 않는다)
-     */
-    @Override
-    public List<Board> selectBoardListByTitle(Long categoryId, String title) {
-        String sql = BoardDaoSqls.GET_BOARD_LIST_BY_TITLE;
-        Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("b.category_id", categoryId);
-        paramMap.put("b.title", '%' + title + '%');
-        return jdbcTemplate.query(sql, paramMap, rowMapper);
-    }
-
-    /**
-     * 'board_body' 테이블의 내용(content)으로 검색한 결과
-     * (내용으로 해당 글의 목록을 조회하되, 내용을 불러오지는 않는다)
-     */
-    @Override
-    public List<Board> selectBoardListByContent(Long categoryId, String content) {
-        String sql = BoardDaoSqls.GET_BOARD_LIST_BY_CONTENT;
-        Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("b.category_id", categoryId);
-        paramMap.put("bb.content", '%' + content + '%');
-        return jdbcTemplate.query(sql, paramMap, rowMapper);
-    }
-
-    /**
-     * 'board_body' 테이블의 제목(title) 혹은 내용(content)으로 검색한 결과
-     * (제목 혹은 내용으로 해당 글의 목록을 조회하되, 제목이나 내용을 불러오지는 않는다)
-     */
-    @Override
-    public List<Board> selectBoardListByTitleOrContent(Long categoryId, String titleOrContent) {
-        // 제목과 내용 모두로 검색하는 쿼리문
-        String sql = BoardDaoSqls.GET_BOARD_LIST_BY_TITLE_OR_CONTENT;
-        Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("b.category_id", categoryId);
-        paramMap.put("bb.content", '%' + titleOrContent + '%');
-        paramMap.put("b.title", '%' + titleOrContent + '%');
-        return jdbcTemplate.query(sql, paramMap, rowMapper);
     }
 
     // board 테이블의 속성(id)에 해당하는 board_body의 content를 가져오는 역할

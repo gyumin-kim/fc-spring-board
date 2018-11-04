@@ -58,14 +58,17 @@ public class BoardController {
     @GetMapping("/list")
     public String list(@RequestParam(value = "categoryId", defaultValue ="1")Long categoryId,
                        @ModelAttribute("criteria") Criteria criteria,
-                       ModelMap modelMap) throws Exception{
+                       ModelMap modelMap, HttpServletRequest request) throws Exception{
+        // categoryId 값 유지를 위해
+        request.setAttribute("categoryId", categoryId);
+
         // 게시판 글 리스트
         modelMap.addAttribute("boards", boardService.showBoardListAll(categoryId, criteria));
 
         // 페이지 나누기 관련 처리
         PageMaker pageMaker = new PageMaker();
         pageMaker.setCriteria(criteria);
-        pageMaker.setTotalBoardCount(boardService.getBoardCount(categoryId));  // 게시글의 총 개수
+        pageMaker.setTotalBoardCount(boardService.getBoardCountAll(categoryId));  // 게시글의 총 개수
 
         // 게시판 하단의 페이징 관련, 이전 / 페이지 링크 / 다음
         modelMap.addAttribute("pageMaker", pageMaker);
@@ -76,14 +79,15 @@ public class BoardController {
     // TODO : categoryId의 defaultValue는 나중에 지우자
     @GetMapping("/search")
     public String search(@RequestParam(value = "categoryId", defaultValue = "1")Long categoryId,
-                         @ModelAttribute("criteria")Criteria criteria, ModelMap modelMap) throws Exception{
+                         @ModelAttribute("criteria")Criteria criteria,
+                         ModelMap modelMap, HttpServletRequest request) throws Exception{
         // 게시판 글 리스트
         modelMap.addAttribute("boards", boardService.showBoardListSearch(categoryId, criteria));
 
         // 페이지 나누기 관련 처리
         PageMaker pageMaker = new PageMaker();
         pageMaker.setCriteria(criteria);
-        pageMaker.setTotalBoardCount(boardService.getBoardCount(categoryId));  // 게시글의 총 개수
+        pageMaker.setTotalBoardCount(boardService.getBoardCountBySearch(categoryId, criteria));  // 게시글의 총 개수
 
         // 게시판 하단의 페이징 관련, 이전 / 페이지 링크 / 다음
         modelMap.addAttribute("pageMaker", pageMaker);

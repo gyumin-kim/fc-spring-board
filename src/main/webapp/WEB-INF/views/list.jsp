@@ -12,6 +12,17 @@
             location.href="${path}/boards/list?categoryId="+categoryId+"&Page="+page;
         }
     </script>
+
+    <script type="text/javascript">
+        function check() {
+            if (document.search.keyword.value == '') {
+                alert('검색어를 입력하세요');
+                document.search.keyword.focus();
+                return false;
+            }
+        }
+    </script>
+
 </head>
 <body>
 <div align="center">
@@ -43,16 +54,39 @@
 </table>
     <br>
     <c:if test="${pageMaker.prev}">
-        [<a href="javascript:list('${map.boards.categoryId}', '${pageMaker.startPage - 1}')">&laquo;</a>]
+        [<a href="/boards/list?categoryId=${categoryId}&Page=${pageMaker.startPage - 1}">&laquo;</a>]
     </c:if>
 
     <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="page">
-        [<a href="javascript:list('${map.boards.categoryId}','${page}')">${page}</a>]
+        [<a href="/boards/list?categoryId=${categoryId}&Page=${page}">${page}</a>]
     </c:forEach>
 
     <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-        [<a href="javascript:list('${map.boards.categoryId}','${pageMaker.endPage + 1}')">&raquo;</a>]
+        [<a href="/boards/list?categoryId=${categoryId}&Page=${pageMaker.endPage + 1}">&raquo;</a>]
     </c:if>
+
+    <form name="search" method="get" action="/boards/search" onsubmit="return check()">
+        <table width="200" boarder="0" align="center">
+            <tr>
+                <td align="center" valign="bottom">
+                    <select name="searchType">
+                        <option value="title" selected="selected">제목</option>
+                        <option value="content">내용</option>
+                        <option value="name">이름</option>
+                        <option value="titleOrContent">제목+내용</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="search" size="16" name="keyword">
+                </td>
+                <td>
+                    <input type="hidden" name="categoryId" value="${categoryId}">
+                    <input type="submit" value="검색">
+                </td>
+            </tr>
+        </table>
+    </form>
+
 </div>
 </body>
 </html>
