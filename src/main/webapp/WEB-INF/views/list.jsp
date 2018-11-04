@@ -7,12 +7,6 @@
     <title>게시판 목록</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <script>
-        function list(categoryId, page){
-            location.href="${path}/boards/list?categoryId="+categoryId+"&Page="+page;
-        }
-    </script>
-
     <script type="text/javascript">
         function check() {
             if (document.search.keyword.value == '') {
@@ -32,6 +26,10 @@
             <td align="right"><a href="/boards/write">글쓰기</a></td>
         </tr>
     </table>
+    <div align="left">
+        <a href="/boards/list?categoryId=1">1번 게시판</a>
+        <a href="/boards/list?categoryId=2">2번 게시판</a>
+    </div>
 
 <table border="1" width="100%">
     <tr bgcolor="gray">
@@ -53,18 +51,36 @@
     </c:forEach>
 </table>
     <br>
-    <c:if test="${pageMaker.prev}">
-        [<a href="/boards/list?categoryId=${categoryId}&Page=${pageMaker.startPage - 1}">&laquo;</a>]
+    <%-- 페이징 처리 --%>
+    <c:if test="${criteria.searchType == null || criteria.keyword == null}">
+        <c:if test="${pageMaker.prev}">
+            [<a href="/boards/list?categoryId=${categoryId}&Page=${pageMaker.startPage - 1}">&laquo;</a>]
+        </c:if>
+
+        <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="page">
+            [<a href="/boards/list?categoryId=${categoryId}&Page=${page}">${page}</a>]
+        </c:forEach>
+
+        <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+            [<a href="/boards/list?categoryId=${categoryId}&Page=${pageMaker.endPage + 1}">&raquo;</a>]
+        </c:if>
     </c:if>
 
-    <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="page">
-        [<a href="/boards/list?categoryId=${categoryId}&Page=${page}">${page}</a>]
-    </c:forEach>
+    <c:if test="${criteria.searchType != null && criteria.keyword != null}">
+        <c:if test="${pageMaker.prev}">
+            [<a href="/boards/search?categoryId=${categoryId}&Page=${pageMaker.startPage - 1}&searchType=${criteria.searchType}&keyword=${criteria.keyword}">&laquo;</a>]
+        </c:if>
 
-    <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-        [<a href="/boards/list?categoryId=${categoryId}&Page=${pageMaker.endPage + 1}">&raquo;</a>]
+        <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="page">
+            [<a href="/boards/search?categoryId=${categoryId}&Page=${page}&searchType=${criteria.searchType}&keyword=${criteria.keyword}">${page}</a>]
+        </c:forEach>
+
+        <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+            [<a href="/boards/search?categoryId=${categoryId}&Page=${pageMaker.endPage + 1}&searchType=${criteria.searchType}&keyword=${criteria.keyword}">&raquo;</a>]
+        </c:if>
     </c:if>
 
+    <%-- 검색 창 --%>
     <form name="search" method="get" action="/boards/search" onsubmit="return check()">
         <table width="200" boarder="0" align="center">
             <tr>
@@ -86,7 +102,6 @@
             </tr>
         </table>
     </form>
-
 </div>
 </body>
 </html>

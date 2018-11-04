@@ -14,6 +14,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 
 @Controller
@@ -56,7 +57,7 @@ public class BoardController {
     }
 
     @GetMapping("/list")
-    public String list(@RequestParam(value = "categoryId", defaultValue ="1")Long categoryId,
+    public String list(@RequestParam(value = "categoryId")Long categoryId,
                        @ModelAttribute("criteria") Criteria criteria,
                        ModelMap modelMap, HttpServletRequest request) throws Exception{
         // categoryId 값 유지를 위해
@@ -78,9 +79,13 @@ public class BoardController {
 
     // TODO : categoryId의 defaultValue는 나중에 지우자
     @GetMapping("/search")
-    public String search(@RequestParam(value = "categoryId", defaultValue = "1")Long categoryId,
+    public String search(@RequestParam(value = "categoryId")Long categoryId,
                          @ModelAttribute("criteria")Criteria criteria,
                          ModelMap modelMap, HttpServletRequest request) throws Exception{
+        // 값 유지를 위해
+        request.setAttribute("categoryId", categoryId);
+        request.setAttribute("criteria", criteria);
+
         // 게시판 글 리스트
         modelMap.addAttribute("boards", boardService.showBoardListSearch(categoryId, criteria));
 
