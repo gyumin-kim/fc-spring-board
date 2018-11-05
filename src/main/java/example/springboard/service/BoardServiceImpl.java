@@ -68,8 +68,8 @@ public class BoardServiceImpl implements BoardService {
 
     @Transactional
     @Override
-    public int deleteBoard(Board board) {
-        return boardDao.deleteBoard(board.getId());
+    public int deleteBoard(Long id) {
+        return boardDao.deleteBoard(id);
     }
 
     /**

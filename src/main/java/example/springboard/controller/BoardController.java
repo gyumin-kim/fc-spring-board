@@ -35,7 +35,7 @@ public class BoardController {
     }
 
     @PostMapping              // Post 방식의 요청
-    public String write(@RequestParam("categoryType")int categoryType,
+    public String write(@RequestParam("categoryType")Long categoryType,
                         @RequestParam("title")String title,
                         @RequestParam("content")String content,
                         @RequestParam("file")MultipartFile file){     // RequestParam 으로 값을 받아준다.
@@ -47,7 +47,7 @@ public class BoardController {
         Board board = new Board();
         board.setDepth(0);
         board.setReplySeq(0);
-        board.setCategoryId(Long.valueOf(categoryType));
+        board.setCategoryId(categoryType);
         board.setMemberId(2L);
         board.setTitle(title);
         board.setContent(content);
@@ -99,5 +99,13 @@ public class BoardController {
         modelMap.addAttribute("criteria", criteria);
 
         return "detail";
+    }
+
+    // TODO : 삭제된 게시글도 URL 창으로 접근할 수 있음, 이를 막아주어야 함! and confirm 창으로 변경 필요
+    @GetMapping("/delete")
+    public String delete(@RequestParam("boardId")String id,
+                         @RequestParam("categoryType")String categoryType){
+        boardService.deleteBoard(Long.parseLong(id));
+        return "redirect:/boards/" + categoryType;
     }
 }
