@@ -18,10 +18,10 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-item nav-link" href="/boards?categoryId=1">게시판 1<span class="sr-only">(current)</span></a>
-                    <a class="nav-item nav-link" href="/boards?categoryId=2">게시판 2</a>
-                    <a class="nav-item nav-link" href="/boards?categoryId=3">게시판 3</a>
-                    <a class="nav-item nav-link" href="/boards?categoryId=4">게시판 4</a>
+                    <a class="nav-item nav-link" href="/boards/1">게시판 1<span class="sr-only">(current)</span></a>
+                    <a class="nav-item nav-link" href="/boards/2">게시판 2</a>
+                    <a class="nav-item nav-link" href="/boards/3">게시판 3</a>
+                    <a class="nav-item nav-link" href="/boards/4">게시판 4</a>
                 </div>
             </div>
         </nav>
@@ -45,7 +45,7 @@
             <c:forEach items="${boards}" var="board">
             <tr>
                 <td>${board.id}</td>
-                <td>${board.title}</td>
+                <td><a href="/boards/${categoryId}/${board.id}">${board.title}</a></td>
                 <td>${board.name}</td>
                 <td>${board.regDate}</td>
                 <td>${board.ipAddr}</td>
@@ -57,34 +57,34 @@
         <%-- 페이징 처리 --%>
         <c:if test="${criteria.searchType == null || criteria.keyword == null}">
             <c:if test="${pageMaker.prev}">
-                [<a href="/boards?categoryId=${categoryId}&Page=${pageMaker.startPage - 1}">&laquo;</a>]
+                [<a href="/boards/${categoryId}?Page=${pageMaker.startPage - 1}">&laquo;</a>]
             </c:if>
 
             <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="page">
-                [<a href="/boards?categoryId=${categoryId}&Page=${page}">${page}</a>]
+                [<a href="/boards/${categoryId}?Page=${page}">${page}</a>]
             </c:forEach>
 
             <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-                [<a href="/boards?categoryId=${categoryId}&Page=${pageMaker.endPage + 1}">&raquo;</a>]
+                [<a href="/boards/${categoryId}?Page=${pageMaker.endPage + 1}">&raquo;</a>]
             </c:if>
         </c:if>
 
         <c:if test="${criteria.searchType != null && criteria.keyword != null}">
             <c:if test="${pageMaker.prev}">
-                [<a href="/boards/search?categoryId=${categoryId}&Page=${pageMaker.startPage - 1}&searchType=${criteria.searchType}&keyword=${criteria.keyword}">&laquo;</a>]
+                [<a href="/boards/search/${categoryId}?Page=${pageMaker.startPage - 1}&searchType=${criteria.searchType}&keyword=${criteria.keyword}">&laquo;</a>]
             </c:if>
 
             <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="page">
-                [<a href="/boards/search?categoryId=${categoryId}&Page=${page}&searchType=${criteria.searchType}&keyword=${criteria.keyword}">${page}</a>]
+                [<a href="/boards/search/${categoryId}?Page=${page}&searchType=${criteria.searchType}&keyword=${criteria.keyword}">${page}</a>]
             </c:forEach>
 
             <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-                [<a href="/boards/search?categoryId=${categoryId}&Page=${pageMaker.endPage + 1}&searchType=${criteria.searchType}&keyword=${criteria.keyword}">&raquo;</a>]
+                [<a href="/boards/search/${categoryId}?Page=${pageMaker.endPage + 1}&searchType=${criteria.searchType}&keyword=${criteria.keyword}">&raquo;</a>]
             </c:if>
         </c:if>
 
         <%-- 검색 창 --%>
-        <form name="search" method="get" action="/boards/search" onsubmit="return check()">
+        <form name="search" method="get" action="/boards/search/${categoryId}" onsubmit="return check()">
             <table width="200" boarder="0" align="center">
                 <tr>
                     <td align="center" valign="bottom">
