@@ -35,7 +35,8 @@ public class BoardController {
     }
 
     @PostMapping              // Post 방식의 요청
-    public String write(@RequestParam("title")String title,
+    public String write(@RequestParam("categoryType")int categoryType,
+                        @RequestParam("title")String title,
                         @RequestParam("content")String content,
                         @RequestParam("file")MultipartFile file){     // RequestParam 으로 값을 받아준다.
         HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
@@ -46,7 +47,7 @@ public class BoardController {
         Board board = new Board();
         board.setDepth(0);
         board.setReplySeq(0);
-        board.setCategoryId(1l);
+        board.setCategoryId(Long.valueOf(categoryType));
         board.setMemberId(2L);
         board.setTitle(title);
         board.setContent(content);
@@ -56,9 +57,9 @@ public class BoardController {
         board.setFileInfo(fileInfo);
         boardService.writeBoard(board);
 
-        return "redirect:/boards";          // redirect 하라는 뜻!
+        return "redirect:/boards/" + categoryType + "/" + board.getId();          // redirect 하라는 뜻!
     }
-
+    // TODO search 와 합치자
     @GetMapping("/{categoryId}")
     public String list(@PathVariable Long categoryId,
                        @ModelAttribute("criteria") Criteria criteria,
@@ -72,7 +73,12 @@ public class BoardController {
         // 페이지 나누기 관련 처리
         PageMaker pageMaker = new PageMaker();
         pageMaker.setCriteria(criteria);
-        pageMaker.setTotalBoardCount(boardService.getBoardCountAll(categoryId));  // 게시글의 총 개수
+
+        if (criteria.isSearched()) {
+            pageMaker.setTotalBoardCount(boardService.getBoardCountBySearch(categoryId, criteria));  // 게시글의 총 개수
+        } else {
+            pageMaker.setTotalBoardCount(boardService.getBoardCountAll(categoryId));  // 게시글의 총 개수
+        }
 
         // 게시판 하단의 페이징 관련, 이전 / 페이지 링크 / 다음
         modelMap.addAttribute("pageMaker", pageMaker);
@@ -105,12 +111,16 @@ public class BoardController {
 
     @GetMapping("/{categoryId}/{id}")
     public String detail(@PathVariable Long categoryId,
-                         @PathVariable Long id, ModelMap modelMap) {
+                         @PathVariable Long id,
+                         @ModelAttribute("criteria")Criteria criteria,
+                         ModelMap modelMap) {
+
         Board board = boardService.showBoardDetail(id);
         List<Comment> commentList = commentService.getComments(id);
 
         modelMap.addAttribute("board", board);
         modelMap.addAttribute("commentList", commentList);
+        modelMap.addAttribute("criteria", criteria);
 
         return "detail";
     }

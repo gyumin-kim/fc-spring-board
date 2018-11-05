@@ -53,4 +53,14 @@ public class Criteria {
     public int getPageStart(){
         return (this.page - 1) * perPageNum;
     }
+
+    public boolean isSearched() {
+        if (searchType == null) {
+            return false;
+        }
+        if (searchType.isEmpty()) {
+            return false;
+        }
+        return true;
+    }
 }

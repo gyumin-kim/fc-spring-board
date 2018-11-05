@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
 </head>
 <body>
     <div align="center">
@@ -45,7 +46,15 @@
             <c:forEach items="${boards}" var="board">
             <tr>
                 <td>${board.id}</td>
-                <td><a href="/boards/${categoryId}/${board.id}">${board.title}</a></td>
+                <td>
+                    <c:if test="${criteria.searchType == null || criteria.keyword == null}">
+                        <a href="/boards/${categoryId}/${board.id}?page=${criteria.page}">
+                    </c:if>
+                    <c:if test="${criteria.searchType != null && criteria.keyword != null}">
+                        <a href="/boards/${categoryId}/${board.id}?page=${criteria.page}&searchType=${criteria.searchType}&keyword=${criteria.keyword}">
+                    </c:if>
+                    ${board.title}</a>
+                </td>
                 <td>${board.name}</td>
                 <td>${board.regDate}</td>
                 <td>${board.ipAddr}</td>
@@ -57,29 +66,29 @@
         <%-- 페이징 처리 --%>
         <c:if test="${criteria.searchType == null || criteria.keyword == null}">
             <c:if test="${pageMaker.prev}">
-                [<a href="/boards/${categoryId}?Page=${pageMaker.startPage - 1}">&laquo;</a>]
+                [<a href="/boards/${categoryId}?page=${pageMaker.startPage - 1}">&laquo;</a>]
             </c:if>
 
             <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="page">
-                [<a href="/boards/${categoryId}?Page=${page}">${page}</a>]
+                [<a href="/boards/${categoryId}?page=${page}">${page}</a>]
             </c:forEach>
 
             <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-                [<a href="/boards/${categoryId}?Page=${pageMaker.endPage + 1}">&raquo;</a>]
+                [<a href="/boards/${categoryId}?page=${pageMaker.endPage + 1}">&raquo;</a>]
             </c:if>
         </c:if>
 
         <c:if test="${criteria.searchType != null && criteria.keyword != null}">
             <c:if test="${pageMaker.prev}">
-                [<a href="/boards/search/${categoryId}?Page=${pageMaker.startPage - 1}&searchType=${criteria.searchType}&keyword=${criteria.keyword}">&laquo;</a>]
+                [<a href="/boards/search/${categoryId}?page=${pageMaker.startPage - 1}&searchType=${criteria.searchType}&keyword=${criteria.keyword}">&laquo;</a>]
             </c:if>
 
             <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="page">
-                [<a href="/boards/search/${categoryId}?Page=${page}&searchType=${criteria.searchType}&keyword=${criteria.keyword}">${page}</a>]
+                [<a href="/boards/search/${categoryId}?page=${page}&searchType=${criteria.searchType}&keyword=${criteria.keyword}">${page}</a>]
             </c:forEach>
 
             <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-                [<a href="/boards/search/${categoryId}?Page=${pageMaker.endPage + 1}&searchType=${criteria.searchType}&keyword=${criteria.keyword}">&raquo;</a>]
+                [<a href="/boards/search/${categoryId}?page=${pageMaker.endPage + 1}&searchType=${criteria.searchType}&keyword=${criteria.keyword}">&raquo;</a>]
             </c:if>
         </c:if>
 
