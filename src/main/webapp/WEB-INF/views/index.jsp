@@ -32,7 +32,7 @@
     <c:if test="${sessionScope.authUser != null}">
     <div class="index-cards card-group">
         <div class="index-card card bg-light mb-3" style="max-width: 18rem;">
-            <a href="/boards">
+            <a href="/boards?categoryId=1">
                 <div class="card-body">
                     <h5 class="card-title">Category 1</h5>
                     <p class="card-text text-secondary">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
@@ -40,7 +40,7 @@
             </a>
         </div>
         <div class="index-card card bg-light mb-3" style="max-width: 18rem;">
-            <a href="/boards">
+            <a href="/boards?categoryId=2">
                 <div class="card-body">
                     <h5 class="card-title">Category 2</h5>
                     <p class="card-text text-secondary">This card has supporting text below as a natural lead-in to additional content.</p>
@@ -48,7 +48,7 @@
             </a>
         </div>
         <div class="index-card card bg-light mb-3" style="max-width: 18rem;">
-            <a href="/boards">
+            <a href="/boards?categoryId=3">
                 <div class="card-body">
                     <h5 class="card-title">Category 3</h5>
                     <p class="card-text text-secondary">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
@@ -56,7 +56,7 @@
             </a>
         </div>
         <div class="index-card card bg-light mb-3" style="max-width: 18rem;">
-            <a href="/boards">
+            <a href="/boards?categoryId=4">
                 <div class="card-body">
                     <h5 class="card-title">Category 4</h5>
                     <p class="card-text text-secondary">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
@@ -64,21 +64,6 @@
             </a>
         </div>
     </div>
-
-    <%--<nav class="navbar navbar-expand-lg navbar-light bg-light">--%>
-        <%--<a class="navbar-brand" href="/">Spring board</a>--%>
-        <%--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">--%>
-            <%--<span class="navbar-toggler-icon"></span>--%>
-        <%--</button>--%>
-        <%--<div class="collapse navbar-collapse" id="navbarNavAltMarkup">--%>
-            <%--<div class="navbar-nav">--%>
-                <%--<a class="nav-item nav-link" href="/boards/list?categoryId=1">게시판 1<span class="sr-only">(current)</span></a>--%>
-                <%--<a class="nav-item nav-link" href="/boards/list?categoryId=2">게시판 2</a>--%>
-                <%--<a class="nav-item nav-link" href="/boards/list?categoryId=3">게시판 3</a>--%>
-                <%--<a class="nav-item nav-link" href="/boards/list?categoryId=4">게시판 4</a>--%>
-            <%--</div>--%>
-        <%--</div>--%>
-    <%--</nav>--%>
     </c:if>
 
     <%-- 하단 GitHub 아이콘(Font Awesome) --%>

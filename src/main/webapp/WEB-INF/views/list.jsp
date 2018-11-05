@@ -42,8 +42,8 @@
                 <th>IP</th>
             </tr>
 
+            <c:forEach items="${boards}" var="board">
             <tr>
-                <c:forEach items="${boards}" var="board">
                 <td>${board.id}</td>
                 <td>${board.title}</td>
                 <td>${board.name}</td>
