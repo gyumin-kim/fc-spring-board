@@ -2,9 +2,11 @@ package example.springboard.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Date;
 
+@ToString
 public class Comment {
     @Setter @Getter
     private Long id;
@@ -24,18 +26,4 @@ public class Comment {
     private String ipAddr;
     @Setter @Getter
     private Date regdate;
-
-    @Override
-    public String toString() {
-        return "Comment{" +
-                "id=" + id +
-                ", boardId=" + boardId +
-                ", parentCommentId=" + parentCommentId +
-                ", seq=" + seq +
-                ", memberId=" + memberId +
-                ", content='" + content + '\'' +
-                ", ipAddr='" + ipAddr + '\'' +
-                ", Regdate='" + regdate + '\'' +
-                '}';
-    }
 }

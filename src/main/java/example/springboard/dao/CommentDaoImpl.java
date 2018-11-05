@@ -73,9 +73,29 @@ public class CommentDaoImpl implements CommentDao {
     }
 
     @Override
+    public int updateCommentId(Long id) {
+        String sql = "UPDATE comment SET parent_comment_id = :parent_comment_id WHERE id = :id";
+        Map<String, Object> map = new HashMap<>();
+        map.put("parent_comment_id", id);
+        map.put("id", id);
+        return jdbcTemplate.update(sql, map);
+    }
+
+    @Override
     public int deleteComment(Long id) {
         Map<String, Long> params = Collections.singletonMap("id", id);
         String sql = "UPDATE comment SET is_deleted = 1 WHERE id = :id";
         return jdbcTemplate.update(sql, params);
+    }
+
+    @Override
+    public Long selectLastId(int count) {
+        String sql = "SELECT id FROM comment ORDER BY id DESC LIMIT 0, :count";
+        try {
+            Map<String, ?> params = Collections.singletonMap("count", count);
+            return jdbcTemplate.queryForObject(sql, params, Long.class);
+        } catch (Exception ex) {
+            return null;
+        }
     }
 }

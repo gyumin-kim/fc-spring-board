@@ -4,15 +4,11 @@ commentFormBtn.addEventListener('click', () => {
     console.log('commentFormBtn clicked!');
     let content = document.getElementById('content').value;         // input 태그에 입력된 comment
     let boardId = document.getElementById('board-id').value;        // 댓글이 속해있는 게시물의 id
-    // let categoryId = document.getElementById('category-id').value;  // 댓글이 속해있는 게시물의 categoryId
-    let categoryId = 1;
-
-    // let memberId = document.getElementById('member-id').value;      // 댓글이 속해있는 게시물의 id
-    let memberId = 2;      // 댓글이 속해있는 게시물의 id
+    let categoryId = document.getElementById('category-id').value;  // 댓글이 속해있는 게시물의 categoryId
+    let memberId = document.getElementById('member-id').value;      // 댓글이 속해있는 게시물의 id
 
     let commentData = {
         'content': content,
-        'boardId': boardId,
         'memberId': memberId
     };
     console.log(commentData);
@@ -34,5 +30,5 @@ commentFormBtn.addEventListener('click', () => {
 });
 
 function handleError() {
-    console.log('AJAX call error.');
+    console.log('comment AJAX call error.');
 }

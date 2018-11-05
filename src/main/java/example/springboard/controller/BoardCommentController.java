@@ -23,12 +23,10 @@ import java.util.Map;
 
 @RestController
 public class BoardCommentController {
-    private BoardService boardService;
     private CommentService commentService;
     private static final Log log = LogFactory.getLog(BoardCommentController.class);
 
     public BoardCommentController(BoardService boardService, CommentService commentService) {
-        this.boardService = boardService;
         this.commentService = commentService;
     }
 
@@ -41,8 +39,8 @@ public class BoardCommentController {
         log.info("commentData: " + commentData.toString());
 
         Comment comment = new Comment();
-        comment.setBoardId(commentData.getBoardId());
-        comment.setParentCommentId(commentData.getBoardId());   // 일반 댓글은 parentCommentId와 자신의 id가 같다고 가정함
+        comment.setBoardId(boardId);
+        comment.setParentCommentId(boardId);   // 일반 댓글은 parentCommentId와 자신의 id가 같다고 가정함
         comment.setSeq(0);                                      // 일반 댓글은 seq가 0이라고 가정함
         comment.setMemberId(commentData.getMemberId());
         comment.setContent(commentData.getContent());
