@@ -71,37 +71,34 @@ public class BoardDaoImpl implements BoardDao {
     }
 
     /**
-     * 특정 category의 모든 글을 불러옴
+     * All List와 Search List의 모든 게시물을 가져
      */
     @Override
-    public List<Board> selectBoardListAll(Long categoryId, Criteria criteria) {
-        String sql = BoardDaoSqls.GET_BOARD_LIST_ALL;
-        RowMapper<Board> rowMapper = BeanPropertyRowMapper.newInstance(Board.class);
-        Map<String, Object> params = new HashMap<>();
-        params.put("category_id", categoryId);
-        params.put("pageStart", criteria.getPageStart());
-        params.put("perPageNum", criteria.getPerPageNum());
-        return jdbcTemplate.query(sql, params, rowMapper);
-    }
-
-    /**
-     * 다이나믹 sql로 수정
-     */
-    @Override
-    public List<Board> selectBoardListBySearch(Long categoryId, Criteria criteria){
+    public List<Board> selectBoardList(Long categoryId, Criteria criteria){
+        String searchType = criteria.getSearchType();
         String keyword = null;
         String sql = null;
-
-        if(criteria.getSearchType().equals("title")){
+        // 검색을 하지 않았을 때의 게시물 리스트
+        if (searchType == null){
+            sql = BoardDaoSqls.GET_BOARD_LIST_ALL;
+            RowMapper<Board> rowMapper = BeanPropertyRowMapper.newInstance(Board.class);
+            Map<String, Object> params = new HashMap<>();
+            params.put("category_id", categoryId);
+            params.put("pageStart", criteria.getPageStart());
+            params.put("perPageNum", criteria.getPerPageNum());
+            return jdbcTemplate.query(sql, params, rowMapper);
+        }
+        // 검색을 했을 때의 게시물 리스트
+        if(searchType.equals("title")){
             keyword = "%" + criteria.getKeyword() + "%";
             sql = BoardDaoSqls.GET_BOARD_LIST_BY_TITLE;
-        }else if(criteria.getSearchType().equals("content")){
+        }else if(searchType.equals("content")){
             keyword = "%" + criteria.getKeyword() + "%";
             sql = BoardDaoSqls.GET_BOARD_LIST_BY_CONTENT;
-        }else if(criteria.getSearchType().equals("name")){
+        }else if(searchType.equals("name")){
             keyword = criteria.getKeyword();
             sql = BoardDaoSqls.GET_BOARD_LIST_BY_MEMBER;
-        }else if(criteria.getSearchType().equals("titleOrContent")){
+        }else if(searchType.equals("titleOrContent")){
             keyword = "%" + criteria.getKeyword() + "%";
             sql = BoardDaoSqls.GET_BOARD_LIST_BY_TITLE_OR_CONTENT;
         }

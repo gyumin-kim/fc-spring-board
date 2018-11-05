@@ -91,7 +91,7 @@
                                 onclick="location.href='/boards/${categoryId}?page=${criteria.page}'">
                             </c:if>
                             <c:if test="${criteria.searchType != null && criteria.keyword != null}">
-                                onclick="location.href='/boards/search/${categoryId}?page=${criteria.page}&searchType=${criteria.searchType}&keyword=${criteria.keyword}'">
+                                onclick="location.href='/boards/${categoryId}?page=${criteria.page}&searchType=${criteria.searchType}&keyword=${criteria.keyword}'">
                             </c:if>
                             목록</button>
                 </td>

@@ -59,7 +59,7 @@ public class BoardController {
 
         return "redirect:/boards/" + categoryType + "/" + board.getId();          // redirect 하라는 뜻!
     }
-    // TODO search 와 합치자
+    
     @GetMapping("/{categoryId}")
     public String list(@PathVariable Long categoryId,
                        @ModelAttribute("criteria") Criteria criteria,
@@ -68,40 +68,18 @@ public class BoardController {
 //        request.setAttribute("categoryId", categoryId);
 
         // 게시판 글 리스트
-        modelMap.addAttribute("boards", boardService.showBoardListAll(categoryId, criteria));
+        modelMap.addAttribute("boards", boardService.showBoardList(categoryId, criteria));
 
         // 페이지 나누기 관련 처리
         PageMaker pageMaker = new PageMaker();
         pageMaker.setCriteria(criteria);
 
+        // all & search 에 따라 게시글의 총 개수를 다르게 가져옴
         if (criteria.isSearched()) {
-            pageMaker.setTotalBoardCount(boardService.getBoardCountBySearch(categoryId, criteria));  // 게시글의 총 개수
+            pageMaker.setTotalBoardCount(boardService.getBoardCountBySearch(categoryId, criteria));
         } else {
-            pageMaker.setTotalBoardCount(boardService.getBoardCountAll(categoryId));  // 게시글의 총 개수
+            pageMaker.setTotalBoardCount(boardService.getBoardCountAll(categoryId));
         }
-
-        // 게시판 하단의 페이징 관련, 이전 / 페이지 링크 / 다음
-        modelMap.addAttribute("pageMaker", pageMaker);
-
-        return "list";
-    }
-
-    // TODO : categoryId의 defaultValue는 나중에 지우자
-    @GetMapping("/search/{categoryId}")
-    public String search(@PathVariable Long categoryId,
-                         @ModelAttribute("criteria")Criteria criteria,
-                         ModelMap modelMap) throws Exception{
-        // 값 유지를 위해
-//        request.setAttribute("categoryId", categoryId);
-//        request.setAttribute("criteria", criteria);
-
-        // 게시판 글 리스트
-        modelMap.addAttribute("boards", boardService.showBoardListSearch(categoryId, criteria));
-
-        // 페이지 나누기 관련 처리
-        PageMaker pageMaker = new PageMaker();
-        pageMaker.setCriteria(criteria);
-        pageMaker.setTotalBoardCount(boardService.getBoardCountBySearch(categoryId, criteria));  // 게시글의 총 개수
 
         // 게시판 하단의 페이징 관련, 이전 / 페이지 링크 / 다음
         modelMap.addAttribute("pageMaker", pageMaker);
