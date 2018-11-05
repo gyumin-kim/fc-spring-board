@@ -16,7 +16,7 @@
         <span class="logo">AMERICAN APPAREL</span>
         <%-- 로그인 되어 있으면 로그아웃 버튼 보이게 --%>
         <c:if test="${sessionScope.authUser != null}">
-            <a href="/logout"><button class="logout-button">로그아웃</button></a>
+            <a href="/logout"><button class="logout-button btn btn-light">로그아웃</button></a>
         </c:if>
     </div>
 
