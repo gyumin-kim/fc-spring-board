@@ -1,5 +1,8 @@
 package example.springboard.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
 // 게시판 페이징 전용 클래스
 // Criteria : 검색 기준, 분류 기준
 // 최소한의 필요 데이터 : 한 페이지 당 보여줄 게시글의 수, 어떤 페이지를 보여줄 것인가?
@@ -8,7 +11,9 @@ public class Criteria {
     private int perPageNum; // 페이지 당 보여줄 게시글의 개수
 
     // search
+    @Setter @Getter
     private String searchType;
+    @Setter @Getter
     private String keyword;
 
     public Criteria(){
@@ -47,21 +52,5 @@ public class Criteria {
     // this.page가 1이면 0이되어야 한다.(mysql limit 0,10 으로 해야 10개씩 나옴) / 10. 10
     public int getPageStart(){
         return (this.page - 1) * perPageNum;
-    }
-
-    public String getSearchType() {
-        return searchType;
-    }
-
-    public void setSearchType(String searchType) {
-        this.searchType = searchType;
-    }
-
-    public String getKeyword() {
-        return keyword;
-    }
-
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
     }
 }

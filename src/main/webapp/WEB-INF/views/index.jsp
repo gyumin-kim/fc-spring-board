@@ -32,7 +32,7 @@
     <c:if test="${sessionScope.authUser != null}">
     <div class="index-cards card-group">
         <div class="index-card card bg-light mb-3" style="max-width: 18rem;">
-            <a href="/boards/list?categoryId=1">
+            <a href="/boards">
                 <div class="card-body">
                     <h5 class="card-title">Category 1</h5>
                     <p class="card-text text-secondary">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
@@ -40,7 +40,7 @@
             </a>
         </div>
         <div class="index-card card bg-light mb-3" style="max-width: 18rem;">
-            <a href="/boards/list?categoryId=2">
+            <a href="/boards">
                 <div class="card-body">
                     <h5 class="card-title">Category 2</h5>
                     <p class="card-text text-secondary">This card has supporting text below as a natural lead-in to additional content.</p>
@@ -48,7 +48,7 @@
             </a>
         </div>
         <div class="index-card card bg-light mb-3" style="max-width: 18rem;">
-            <a href="/boards/list?categoryId=3">
+            <a href="/boards">
                 <div class="card-body">
                     <h5 class="card-title">Category 3</h5>
                     <p class="card-text text-secondary">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
@@ -56,7 +56,7 @@
             </a>
         </div>
         <div class="index-card card bg-light mb-3" style="max-width: 18rem;">
-            <a href="/boards/list?categoryId=4">
+            <a href="/boards">
                 <div class="card-body">
                     <h5 class="card-title">Category 4</h5>
                     <p class="card-text text-secondary">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>

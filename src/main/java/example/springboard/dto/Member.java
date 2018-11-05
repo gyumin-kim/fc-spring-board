@@ -14,8 +14,6 @@ public class Member {
     @Setter @Getter
     private String password;
 
-
-
     @Override
     public String toString() {
         return "Member{" +

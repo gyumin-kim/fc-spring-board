@@ -4,8 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class MemberPermission {
-    @Setter
-    @Getter
+    @Setter @Getter
     private Long memberId;
     @Setter @Getter
     private Long permissionId;
