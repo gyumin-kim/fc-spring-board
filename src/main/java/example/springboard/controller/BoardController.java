@@ -59,13 +59,12 @@ public class BoardController {
         return "redirect:/boards";          // redirect 하라는 뜻!
     }
 
-    @GetMapping
-    public String list(@RequestParam(value = "categoryId", defaultValue ="1")Long categoryId,
-
+    @GetMapping("/{categoryId}")
+    public String list(@PathVariable Long categoryId,
                        @ModelAttribute("criteria") Criteria criteria,
-                       ModelMap modelMap, HttpServletRequest request) throws Exception{
+                       ModelMap modelMap) throws Exception{
         // categoryId 값 유지를 위해
-        request.setAttribute("categoryId", categoryId);
+//        request.setAttribute("categoryId", categoryId);
 
         // 게시판 글 리스트
         modelMap.addAttribute("boards", boardService.showBoardListAll(categoryId, criteria));
@@ -82,13 +81,13 @@ public class BoardController {
     }
 
     // TODO : categoryId의 defaultValue는 나중에 지우자
-    @GetMapping("/search")
-    public String search(@RequestParam(value = "categoryId")Long categoryId,
+    @GetMapping("/search/{categoryId}")
+    public String search(@PathVariable Long categoryId,
                          @ModelAttribute("criteria")Criteria criteria,
-                         ModelMap modelMap, HttpServletRequest request) throws Exception{
+                         ModelMap modelMap) throws Exception{
         // 값 유지를 위해
-        request.setAttribute("categoryId", categoryId);
-        request.setAttribute("criteria", criteria);
+//        request.setAttribute("categoryId", categoryId);
+//        request.setAttribute("criteria", criteria);
 
         // 게시판 글 리스트
         modelMap.addAttribute("boards", boardService.showBoardListSearch(categoryId, criteria));
@@ -104,8 +103,9 @@ public class BoardController {
         return "list";
     }
 
-    @GetMapping("/{id}")
-    public String detail(@PathVariable Long id, ModelMap modelMap) {
+    @GetMapping("/{categoryId}/{id}")
+    public String detail(@PathVariable Long categoryId,
+                         @PathVariable Long id, ModelMap modelMap) {
         Board board = boardService.showBoardDetail(id);
         List<Comment> commentList = commentService.getComments(id);
 
