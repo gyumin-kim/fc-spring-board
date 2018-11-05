@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class PageMaker {
-    @Setter
     @Getter
     private int totalBoardCount;          // 게시판 전체 데이터 수
     @Setter @Getter
