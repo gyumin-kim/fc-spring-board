@@ -1,6 +1,5 @@
 package example.springboard.dao;
 
-import example.springboard.controller.LoginController;
 import example.springboard.dto.Member;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

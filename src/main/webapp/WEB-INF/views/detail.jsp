@@ -24,6 +24,8 @@
             <textarea class="form-control" id="content" rows="3"></textarea>
         </div>
         <input type="hidden" id="board-id" value="${board.id}">
+        <%-- BoardController.detail()에서 category attribute를 가져왔다고 가정 --%>
+        <input type="hidden" id="category-id" value="${category.id}">
         <input type="hidden" id="member-id" value="${authUser.id}">
         <input type="button" id="comment-submit" value="등록"><br><br>
     </form>
@@ -35,7 +37,7 @@
     </c:forEach>
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="/js/main.js"></script>
+    <script src="/js/comment.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </body>
 </html>

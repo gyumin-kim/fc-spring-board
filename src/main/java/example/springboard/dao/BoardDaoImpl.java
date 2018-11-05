@@ -1,6 +1,5 @@
 package example.springboard.dao;
 
-import example.springboard.controller.LoginController;
 import example.springboard.dto.Board;
 import example.springboard.dto.BoardBody;
 import example.springboard.dto.Criteria;
