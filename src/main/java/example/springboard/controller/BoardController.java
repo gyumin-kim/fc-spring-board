@@ -108,4 +108,31 @@ public class BoardController {
         boardService.deleteBoard(Long.parseLong(id));
         return "redirect:/boards/" + categoryType;
     }
+
+    @GetMapping("/modify")
+    public String modify(@ModelAttribute("board")Board board, ModelMap modelMap){
+        modelMap.addAttribute("board", board);
+        return "modify";
+    }
+
+    // TODO : 수정하기 Post 미완성, detail.jsp의 url도 수정 필요
+//    @PostMapping("/modify")
+//    public String modify(@ModelAttribute("board")Board board){
+//        HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+//        String ip = req.getHeader("X-FORWARDED-FOR");
+//        if (ip == null)
+//            ip = req.getRemoteAddr();
+//
+//        board.setCategoryId(categoryType);
+//        board.setTitle(title);
+//        board.setContent(content);
+//        board.setRegDate(new Date());
+//        board.setIpAddr(ip);
+//        FileInfo fileInfo = fileUtil.handleFileStream(file);
+//        board.setFileInfo(fileInfo);
+//
+//        boardService.updateBoard(board);
+//
+//
+//    }
 }
