@@ -85,16 +85,20 @@ public class BoardDaoImpl implements BoardDao {
      */
     @Override
     public List<Board> selectBoardListBySearch(Long categoryId, Criteria criteria){
-        String keyword = "%" + criteria.getKeyword() + "%";
+        String keyword = null;
         String sql = null;
 
         if(criteria.getSearchType().equals("title")){
+            keyword = "%" + criteria.getKeyword() + "%";
             sql = BoardDaoSqls.GET_BOARD_LIST_BY_TITLE;
         }else if(criteria.getSearchType().equals("content")){
+            keyword = "%" + criteria.getKeyword() + "%";
             sql = BoardDaoSqls.GET_BOARD_LIST_BY_CONTENT;
         }else if(criteria.getSearchType().equals("name")){
+            keyword = criteria.getKeyword();
             sql = BoardDaoSqls.GET_BOARD_LIST_BY_MEMBER;
         }else if(criteria.getSearchType().equals("titleOrContent")){
+            keyword = "%" + criteria.getKeyword() + "%";
             sql = BoardDaoSqls.GET_BOARD_LIST_BY_TITLE_OR_CONTENT;
         }
 
