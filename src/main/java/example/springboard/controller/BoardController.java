@@ -59,13 +59,11 @@ public class BoardController {
 
         return "redirect:/boards/" + categoryType + "/" + board.getId();          // redirect 하라는 뜻!
     }
-    
+
     @GetMapping("/{categoryId}")
     public String list(@PathVariable Long categoryId,
                        @ModelAttribute("criteria") Criteria criteria,
                        ModelMap modelMap) throws Exception{
-        // categoryId 값 유지를 위해
-//        request.setAttribute("categoryId", categoryId);
 
         // 게시판 글 리스트
         modelMap.addAttribute("boards", boardService.showBoardList(categoryId, criteria));
