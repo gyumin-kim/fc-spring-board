@@ -85,7 +85,7 @@
                 <td colspan="5">
                     <button type="button" onclick="location.href='/boards/modify'">수정</button>
                     <button type="button" onclick="location.href='/boards/delete?boardId=${board.id}&categoryType=${board.categoryId}'">삭제</button>
-                    <button type="button" onclick="location.href='/boards/write'">답글</button>
+                    <button type="button" onclick="location.href='/boards/reply?boardId=${board.id}'">답글</button>
                     <button type="button"
                             <c:if test="${criteria.searchType == null || criteria.keyword == null}">
                                 onclick="location.href='/boards/${categoryId}?page=${criteria.page}'">
