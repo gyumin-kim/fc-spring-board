@@ -25,7 +25,6 @@ public class Criteria {
     public int getPage(){
         return page;
     }
-
     // Url로 접근할 때 입력받은 값이 0보다 작을 경우 page의 기본값으로 변경해주어야 한다. 1보다 큰 값이 들어오면 해당 페이지를 보여주어야 한다.
     public void setPage(int page){
         if(page <= 0){
@@ -52,5 +51,16 @@ public class Criteria {
     // this.page가 1이면 0이되어야 한다.(mysql limit 0,10 으로 해야 10개씩 나옴) / 10. 10
     public int getPageStart(){
         return (this.page - 1) * perPageNum;
+    }
+
+    // 검색값 유무 검사
+    public boolean isSearched() {
+        if (searchType == null) {
+            return false;
+        }
+        if (searchType.isEmpty()) {
+            return false;
+        }
+        return true;
     }
 }

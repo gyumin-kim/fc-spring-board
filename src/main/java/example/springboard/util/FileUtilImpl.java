@@ -2,6 +2,8 @@ package example.springboard.util;
 
 import example.springboard.dto.FileInfo;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -13,22 +15,14 @@ import java.util.Date;
 
 @Component
 public class FileUtilImpl implements FileUtil{
-
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
-    String dateStr = simpleDateFormat.format(new Date());
-
-    String baseDir = "C:\\spring";
-    String saveDir = baseDir + "\\" + dateStr;
-    String saveFile = saveDir + "/" + UUIDGenerator.getRandomString();
-
-    public FileInfo handleFileStream(MultipartFile file){
+    public FileInfo handleFileStream(MultipartFile file ){
         String uuidStr = UUIDGenerator.getRandomString();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
         String dateStr = simpleDateFormat.format(new Date());
 
         String baseDir = "C:\\spring";
         String saveDir = baseDir + "\\" + dateStr;
-        String saveFile = saveDir + "/" + uuidStr;
+        String saveFile = saveDir + "/" + UUIDGenerator.getRandomString();
 
         File file1 = new File(saveDir);
         file1.mkdirs();

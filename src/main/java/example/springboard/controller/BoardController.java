@@ -35,7 +35,8 @@ public class BoardController {
     }
 
     @PostMapping              // Post 방식의 요청
-    public String write(@RequestParam("title")String title,
+    public String write(@RequestParam("categoryType")int categoryType,
+                        @RequestParam("title")String title,
                         @RequestParam("content")String content,
                         @RequestParam("file")MultipartFile file){     // RequestParam 으로 값을 받아준다.
         HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
@@ -46,7 +47,7 @@ public class BoardController {
         Board board = new Board();
         board.setDepth(0);
         board.setReplySeq(0);
-        board.setCategoryId(1l);
+        board.setCategoryId(Long.valueOf(categoryType));
         board.setMemberId(2L);
         board.setTitle(title);
         board.setContent(content);
@@ -56,23 +57,27 @@ public class BoardController {
         board.setFileInfo(fileInfo);
         boardService.writeBoard(board);
 
-        return "redirect:/boards";          // redirect 하라는 뜻!
+        return "redirect:/boards/" + categoryType + "/" + board.getId();          // redirect 하라는 뜻!
     }
 
-    @GetMapping
-    public String list(@RequestParam(value = "categoryId", defaultValue ="1")Long categoryId,
+    @GetMapping("/{categoryId}")
+    public String list(@PathVariable Long categoryId,
                        @ModelAttribute("criteria") Criteria criteria,
-                       ModelMap modelMap, HttpServletRequest request) throws Exception{
-        // categoryId 값 유지를 위해
-        request.setAttribute("categoryId", categoryId);
+                       ModelMap modelMap) throws Exception{
 
         // 게시판 글 리스트
-        modelMap.addAttribute("boards", boardService.showBoardListAll(categoryId, criteria));
+        modelMap.addAttribute("boards", boardService.showBoardList(categoryId, criteria));
 
         // 페이지 나누기 관련 처리
         PageMaker pageMaker = new PageMaker();
         pageMaker.setCriteria(criteria);
-        pageMaker.setTotalBoardCount(boardService.getBoardCountAll(categoryId));  // 게시글의 총 개수
+
+        // all & search 에 따라 게시글의 총 개수를 다르게 가져옴
+        if (criteria.isSearched()) {
+            pageMaker.setTotalBoardCount(boardService.getBoardCountBySearch(categoryId, criteria));
+        } else {
+            pageMaker.setTotalBoardCount(boardService.getBoardCountAll(categoryId));
+        }
 
         // 게시판 하단의 페이징 관련, 이전 / 페이지 링크 / 다음
         modelMap.addAttribute("pageMaker", pageMaker);
@@ -80,36 +85,18 @@ public class BoardController {
         return "list";
     }
 
-    // TODO : categoryId의 defaultValue는 나중에 지우자
-    @GetMapping("/search")
-    public String search(@RequestParam(value = "categoryId")Long categoryId,
+    @GetMapping("/{categoryId}/{id}")
+    public String detail(@PathVariable Long categoryId,
+                         @PathVariable Long id,
                          @ModelAttribute("criteria")Criteria criteria,
-                         ModelMap modelMap, HttpServletRequest request) throws Exception{
-        // 값 유지를 위해
-        request.setAttribute("categoryId", categoryId);
-        request.setAttribute("criteria", criteria);
+                         ModelMap modelMap) {
 
-        // 게시판 글 리스트
-        modelMap.addAttribute("boards", boardService.showBoardListSearch(categoryId, criteria));
-
-        // 페이지 나누기 관련 처리
-        PageMaker pageMaker = new PageMaker();
-        pageMaker.setCriteria(criteria);
-        pageMaker.setTotalBoardCount(boardService.getBoardCountBySearch(categoryId, criteria));  // 게시글의 총 개수
-
-        // 게시판 하단의 페이징 관련, 이전 / 페이지 링크 / 다음
-        modelMap.addAttribute("pageMaker", pageMaker);
-
-        return "list";
-    }
-
-    @GetMapping("/{id}")
-    public String detail(@PathVariable Long id, ModelMap modelMap) {
         Board board = boardService.showBoardDetail(id);
         List<Comment> commentList = commentService.getComments(id);
 
         modelMap.addAttribute("board", board);
         modelMap.addAttribute("commentList", commentList);
+        modelMap.addAttribute("criteria", criteria);
 
         return "detail";
     }
