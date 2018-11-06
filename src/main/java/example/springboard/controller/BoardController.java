@@ -88,7 +88,8 @@ public class BoardController {
     @GetMapping("/{categoryId}/{id}")
     public String detail(@PathVariable Long categoryId,
                          @PathVariable Long id,
-                         @ModelAttribute("criteria")Criteria criteria,
+                         @ModelAttribute("criteria") Criteria criteria,
+                         HttpSession session,
                          ModelMap modelMap) {
 
         Board board = boardService.showBoardDetail(id);
@@ -98,6 +99,9 @@ public class BoardController {
         modelMap.addAttribute("commentList", commentList);
         modelMap.addAttribute("categoryId", categoryId);
         modelMap.addAttribute("criteria", criteria);
+        Member member = (Member)session.getAttribute("authUser");
+        modelMap.addAttribute("memberName", member.getName());
+        modelMap.addAttribute("regDate", board.getRegDate());
 
         return "detail";
     }

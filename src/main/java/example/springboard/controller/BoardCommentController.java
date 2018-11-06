@@ -45,18 +45,18 @@ public class BoardCommentController {
         log.info("**** Accepted value from AJAX(commentFormBtn). ****");
         log.info("commentData: " + commentData.toString());
 
+        String ipAddr = "";
+        try {
+            InetAddress ia = InetAddress.getLocalHost();
+            ipAddr = ia.getHostAddress();
+        } catch (Exception ex) { ex.printStackTrace(); }
+
         Comment comment = new Comment();
         comment.setBoardId(boardId);
         comment.setParentCommentId(boardId);   // 일반 댓글은 parentCommentId와 자신의 id가 같다고 가정함
         comment.setSeq(0);                                      // 일반 댓글은 seq가 0이라고 가정함
         comment.setMemberId(commentData.getMemberId());
         comment.setContent(commentData.getContent());
-
-        String ipAddr = "";
-        try {
-            InetAddress ia = InetAddress.getLocalHost();
-            ipAddr = ia.getHostAddress();
-        } catch (Exception ex) { ex.printStackTrace(); }
         comment.setIpAddr(ipAddr);
 
         commentService.addComment(comment);

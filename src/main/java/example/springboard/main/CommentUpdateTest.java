@@ -19,7 +19,7 @@ public class CommentUpdateTest {
         comment.setSeq(1);
         comment.setContent("사이렌 이유이융");
         comment.setIpAddr("111.111.111.111");
-        comment.setRegdate(new Date());
+        comment.setRegDate(new Date());
         comment.setMemberId(19L);
         comment.setId(27L);
         comment.setParentCommentId(20L);

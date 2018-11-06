@@ -77,11 +77,13 @@
     <form>
         <div class="form-group">
             <label for="content" id="comment-label">댓글 달기</label>
-            <textarea class="form-control" id="content" rows="3"></textarea>
+            <textarea class="form-control" id="content" placeholder="댓글을 입력하세요" rows="3"></textarea>
         </div>
         <input type="hidden" id="board-id" value="${board.id}">
         <input type="hidden" id="category-id" value="${categoryId}">
         <input type="hidden" id="member-id" value="${authUser.id}">
+        <input type="hidden" id="member-name" value="${memberName}">
+        <input type="hidden" id="reg-date" value="${regDate}">
         <input type="button" id="comment-submit" value="등록"><br><br>
     </form>
 
@@ -89,20 +91,20 @@
     <table class="table">
         <caption>Spring Board</caption>
         <thead>
-        <tr class="table-success">
-            <th scope="col" style="width: 15%">작성자</th>
-            <th scope="col" style="width: 75%">내용</th>
-            <th scope="col" style="width: 10%">IP Address</th>
-        </tr>
+            <tr class="table-success">
+                <th scope="col" style="width: 15%">작성자</th>
+                <th scope="col" style="width: 65%">내용</th>
+                <th scope="col" style="width: 20%">등록일</th>
+            </tr>
         </thead>
-        <tbody>
-        <c:forEach var="comment" items="${commentList}">
-        <tr>
-            <td>${comment.name}</td>
-            <td>${comment.content}</td>
-            <td>${comment.ipAddr}</td>
-        </tr>
-        </c:forEach>
+        <tbody id="comment-list">
+            <c:forEach var="comment" items="${commentList}">
+            <tr>
+                <td>${comment.name}</td>
+                <td>${comment.content}</td>
+                <td>${comment.regDate}</td>
+            </tr>
+            </c:forEach>
         </tbody>
     </table>
 
