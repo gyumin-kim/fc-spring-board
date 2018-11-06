@@ -37,14 +37,8 @@ public class BoardServiceImpl implements BoardService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<Board> showBoardListAll(Long categoryId, Criteria criteria) {
-        return boardDao.selectBoardListAll(categoryId, criteria);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public List<Board> showBoardListSearch(Long categoryId, Criteria criteria){
-        return boardDao.selectBoardListBySearch(categoryId, criteria);
+    public List<Board> showBoardList(Long categoryId, Criteria criteria) {
+        return boardDao.selectBoardList(categoryId, criteria);
     }
 
     @Transactional(readOnly = true)
