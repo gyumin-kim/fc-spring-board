@@ -61,7 +61,6 @@ public class BoardController {
 
     @GetMapping
     public String list(@RequestParam(value = "categoryId", defaultValue ="1")Long categoryId,
-
                        @ModelAttribute("criteria") Criteria criteria,
                        ModelMap modelMap, HttpServletRequest request) throws Exception{
         // categoryId 값 유지를 위해
