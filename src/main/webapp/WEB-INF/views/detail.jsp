@@ -8,24 +8,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <style type="text/css">
-        #wrap {
-            width: 1000px;
-            margin: 0 auto 0 auto;
-        }
-        #detailBoard{
-            text-align :center;
-        }
-        #title{
-            /*height : 16;*/
-            font-family :'돋움';
-            /*font-size : 12;*/
-            text-align :center;
-        }
-    </style>
 </head>
 
 <body style="margin: 40px 100px">
+    <%-- Nav Bar --%>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand" href="/">Spring board</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,7 +26,8 @@
           </div>
       </div>
     </nav>
-  
+
+    <%-- 글 정보 --%>
     <table class="table table-borderless" style="margin-bottom: 5px;">
         <thead>
         <tr class="table-active">
@@ -72,27 +59,28 @@
                             <c:if test="${criteria.searchType != null && criteria.keyword != null}">
                                 onclick="location.href='/boards/${categoryId}?page=${criteria.page}&searchType=${criteria.searchType}&keyword=${criteria.keyword}'">
                             </c:if>
-                            목록</button>
+                            목록
+                    </button>
                 </td>
             </tr>
         </tbody>
     </table>
 
+    <%-- 글 내용 --%>
     <div class="card border-light" style="width: 100%; margin-bottom: 60px;">
         <div class="card-body" style="padding: 10px 30px;">
             <p class="card-text">${board.content}</p>
         </div>
     </div>
 
-    <%-- 댓글 입력 --%>
+    <%-- 댓글 입력 form --%>
     <form>
         <div class="form-group">
             <label for="content" id="comment-label">댓글 달기</label>
             <textarea class="form-control" id="content" rows="3"></textarea>
         </div>
         <input type="hidden" id="board-id" value="${board.id}">
-        <%-- BoardController.detail()에서 category attribute를 가져왔다고 가정 --%>
-        <input type="hidden" id="category-id" value="${category.id}">
+        <input type="hidden" id="category-id" value="${categoryId}">
         <input type="hidden" id="member-id" value="${authUser.id}">
         <input type="button" id="comment-submit" value="등록"><br><br>
     </form>

@@ -9,7 +9,8 @@ commentFormBtn.addEventListener('click', () => {
 
     let commentData = {
         'content': content,
-        'memberId': memberId
+        'memberId': memberId,
+        'categoryId': categoryId
     };
     console.log(commentData);
 
@@ -22,8 +23,10 @@ commentFormBtn.addEventListener('click', () => {
         data: JSON.stringify(commentData),  // commentData: BoardCommentController에게 전송할 데이터
         dataType: 'text',                   // 'json'으로 하면 에러 발생
         success: function(data) {           // data: BoardCommentController로부터 받은 리턴값
-            // 성공시 댓글 목록 보여주는 또다른 AJAX call 필요
+            console.log('AJAX success');
 
+            //TODO: 댓글 등록 후 redirect가 아니라 AJAX로 리스트 update 해야 함
+            window.location.href = `/boards/${categoryId}/${boardId}`;
         },
         error: handleError
     });

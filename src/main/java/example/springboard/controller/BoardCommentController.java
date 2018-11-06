@@ -30,6 +30,13 @@ public class BoardCommentController {
         this.commentService = commentService;
     }
 
+    /**
+     * 댓글 등록을 처리하는 REST 메소드
+     * @param categoryId
+     * @param boardId
+     * @param commentData
+     * @return
+     */
     @PostMapping("/boards/{categoryId}/{boardId}/comment")
     @ResponseBody
     public ResponseEntity<String> submitComment(@PathVariable(value = "categoryId") Long categoryId,

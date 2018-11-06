@@ -34,7 +34,7 @@ public class BoardController {
         return "write";
     }
 
-    @PostMapping              // Post 방식의 요청
+    @PostMapping
     public String write(@RequestParam("categoryType")int categoryType,
                         @RequestParam("title")String title,
                         @RequestParam("content")String content,
@@ -57,7 +57,7 @@ public class BoardController {
         board.setFileInfo(fileInfo);
         boardService.writeBoard(board);
 
-        return "redirect:/boards/" + categoryType + "/" + board.getId();          // redirect 하라는 뜻!
+        return "redirect:/boards/" + categoryType + "/" + board.getId();
     }
 
     @GetMapping("/{categoryId}")
@@ -96,6 +96,7 @@ public class BoardController {
 
         modelMap.addAttribute("board", board);
         modelMap.addAttribute("commentList", commentList);
+        modelMap.addAttribute("categoryId", categoryId);
         modelMap.addAttribute("criteria", criteria);
 
         return "detail";
