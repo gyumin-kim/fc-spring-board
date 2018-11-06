@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -46,31 +46,33 @@
                 <td>${board.regDate}</td>
                 <td>${board.ipAddr}</td>
             </tr>
-          
-            <tr align="right" valign="middle">
-                <td colspan="5">
-                    <button type="button" onclick="location.href='/boards/modify'">수정</button>
-                    <button type="button" onclick="location.href='/boards/delete'">삭제</button>
-                    <button type="button" onclick="location.href='/boards/write'">답글</button>
-                    <button type="button"
-                            <c:if test="${criteria.searchType == null || criteria.keyword == null}">
-                                onclick="location.href='/boards/${categoryId}?page=${criteria.page}'">
-                            </c:if>
-                            <c:if test="${criteria.searchType != null && criteria.keyword != null}">
-                                onclick="location.href='/boards/${categoryId}?page=${criteria.page}&searchType=${criteria.searchType}&keyword=${criteria.keyword}'">
-                            </c:if>
-                            목록
-                    </button>
-                </td>
-            </tr>
         </tbody>
     </table>
 
     <%-- 글 내용 --%>
-    <div class="card border-light" style="width: 100%; margin-bottom: 60px;">
+    <div class="card border-light" style="width: 100%; margin-bottom: 35px;">
         <div class="card-body" style="padding: 10px 30px;">
             <p class="card-text">${board.content}</p>
         </div>
+    </div>
+
+    <div id="board-detail-btns">
+        <tr align="right" valign="middle">
+            <td colspan="5">
+                <button type="button" onclick="location.href='/boards/modify'">수정</button>
+                <button type="button" onclick="location.href='/boards/delete'">삭제</button>
+                <button type="button" onclick="location.href='/boards/write'">답글</button>
+                <button type="button"
+                        <c:if test="${criteria.searchType == null || criteria.keyword == null}">
+                            onclick="location.href='/boards/${categoryId}?page=${criteria.page}'">
+                        </c:if>
+                        <c:if test="${criteria.searchType != null && criteria.keyword != null}">
+                            onclick="location.href='/boards/${categoryId}?page=${criteria.page}&searchType=${criteria.searchType}&keyword=${criteria.keyword}'">
+                        </c:if>
+                        목록
+                </button>
+            </td>
+        </tr>
     </div>
 
     <%-- 댓글 입력 form --%>
@@ -81,7 +83,7 @@
         </div>
         <input type="hidden" id="board-id" value="${board.id}">
         <input type="hidden" id="category-id" value="${categoryId}">
-        <input type="hidden" id="member-id" value="${authUser.id}">
+        <input type="hidden" id="auth-user-id" value="${authUser.id}">
         <input type="hidden" id="member-name" value="${memberName}">
         <input type="hidden" id="reg-date" value="${regDate}">
         <input type="button" id="comment-submit" value="등록"><br><br>
@@ -93,8 +95,10 @@
         <thead>
             <tr class="table-success">
                 <th scope="col" style="width: 15%">작성자</th>
-                <th scope="col" style="width: 65%">내용</th>
-                <th scope="col" style="width: 20%">등록일</th>
+                <th scope="col" style="width: 60%">내용</th>
+                <th scope="col" style="width: 15%">등록일</th>
+                <th scope="col" style="width: 5%"></th>
+                <th scope="col" style="width: 5%"></th>
             </tr>
         </thead>
         <tbody id="comment-list">
@@ -103,6 +107,11 @@
                 <td>${comment.name}</td>
                 <td>${comment.content}</td>
                 <td>${comment.regDate}</td>
+                <td>댓글 달기</td>
+                <td>
+                    <%-- 댓글 단 본인에게만 삭제 버튼이 보임 --%>
+                    <c:if test="${authUser.id == comment.memberId}">삭제</c:if>
+                </td>
             </tr>
             </c:forEach>
         </tbody>

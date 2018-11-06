@@ -6,7 +6,7 @@ commentFormBtn.addEventListener('click', () => {
     let contentValue = document.getElementById('content').value;    // input 태그에 입력된 comment
     let boardId = document.getElementById('board-id').value;        // 댓글이 속해있는 게시물의 id
     let categoryId = document.getElementById('category-id').value;  // 댓글이 속해있는 게시물의 categoryId
-    let memberId = document.getElementById('member-id').value;      //
+    let memberId = document.getElementById('auth-user-id').value;      //
     let memberName = document.getElementById('member-name').value;  //
     let regDate = document.getElementById('reg-date').value;        //
 
@@ -15,7 +15,8 @@ commentFormBtn.addEventListener('click', () => {
         'memberId': memberId,
         'categoryId': categoryId
     };
-    console.log(commentData);
+    console.log(`commentData: ${commentData}`);
+    // 댓글 입력창 clear
     document.getElementById('content').value = '';
 
     // BoardCommentController.submitComment()로 POST 요청 보냄
@@ -52,9 +53,15 @@ function appendLatestComment(name, content, regDate) {
     let tdName = document.createElement('td');
     let tdContent = document.createElement('td');
     let tdRegDate = document.createElement('td');
+    let tdReply = document.createElement('td');
+    let tdDelete = document.createElement('td');
     tdName.innerHTML = name;
     tdContent.innerHTML = content;
     tdRegDate.innerHTML = regDate;
+    tdReply.innerHTML = '댓글 달기';
+    tdDelete.innerHTML = '삭제';
+    tr.insertAdjacentElement('afterbegin', tdDelete);
+    tr.insertAdjacentElement('afterbegin', tdReply);
     tr.insertAdjacentElement('afterbegin', tdRegDate);
     tr.insertAdjacentElement('afterbegin', tdContent);
     tr.insertAdjacentElement('afterbegin', tdName);

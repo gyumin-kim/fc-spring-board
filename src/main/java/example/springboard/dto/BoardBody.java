@@ -2,19 +2,12 @@ package example.springboard.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
+@ToString
 public class BoardBody {
-    @Setter
-    @Getter
+    @Setter @Getter
     private Long id;
     @Setter @Getter
     private String content;
-
-    @Override
-    public String toString() {
-        return "BoardBody{" +
-                "id=" + id +
-                ", content='" + content + '\'' +
-                '}';
-    }
 }

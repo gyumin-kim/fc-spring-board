@@ -13,6 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.net.InetAddress;
 import java.util.Date;
 import java.util.List;
 
@@ -38,21 +40,25 @@ public class BoardController {
     public String write(@RequestParam("categoryType")int categoryType,
                         @RequestParam("title")String title,
                         @RequestParam("content")String content,
-                        @RequestParam("file")MultipartFile file){     // RequestParam 으로 값을 받아준다.
-        HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-        String ip = req.getHeader("X-FORWARDED-FOR");
-        if (ip == null)
-            ip = req.getRemoteAddr();
+                        @RequestParam("file")MultipartFile file,
+                        HttpSession httpSession) {
 
+        String ipAddr = "";
+        try {
+            InetAddress ia = InetAddress.getLocalHost();
+            ipAddr = ia.getHostAddress();
+        } catch (Exception ex) { ex.printStackTrace(); }
+
+        Member member = (Member)httpSession.getAttribute("authUser");
         Board board = new Board();
         board.setDepth(0);
         board.setReplySeq(0);
-        board.setCategoryId(Long.valueOf(categoryType));
-        board.setMemberId(2L);
+        board.setCategoryId((long) categoryType);
+        board.setMemberId(member.getId());
         board.setTitle(title);
         board.setContent(content);
         board.setRegDate(new Date());
-        board.setIpAddr(ip);
+        board.setIpAddr(ipAddr);
         FileInfo fileInfo = fileUtil.handleFileStream(file);
         board.setFileInfo(fileInfo);
         boardService.writeBoard(board);
@@ -91,7 +97,6 @@ public class BoardController {
                          @ModelAttribute("criteria") Criteria criteria,
                          HttpSession session,
                          ModelMap modelMap) {
-
         Board board = boardService.showBoardDetail(id);
         List<Comment> commentList = commentService.getComments(id);
 
