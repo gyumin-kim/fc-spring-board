@@ -1,6 +1,5 @@
 let loginFormBtn = document.querySelector('#login-submit');
 let signupFormBtn = document.querySelector('#signup-submit');
-let commentFormBtn = document.querySelector('#comment-submit');
 
 loginFormBtn.addEventListener('click', () => {
     let loginEmail = document.getElementById('login-email').value;          // input 태그에 입력된 email
@@ -54,7 +53,7 @@ signupFormBtn.addEventListener('click', () => {
 
     $.ajax({
         method: 'GET',
-        url: `/signup?${$.param(signupData)}`,
+        url: `/signup?${$.param(signupData)}`,  // signupData(parameter)를 Controller에서 @RequestParam으로 받음
         // data: signupData,    // Data to be sent to the server
         success: function(data) {
             let loginValidation = document.getElementById('loginValidation');
@@ -79,27 +78,6 @@ signupFormBtn.addEventListener('click', () => {
             }
         },
         error: handleError
-    });
-});
-
-commentFormBtn.addEventListener('click', () => {
-    let content = document.getElementById('content').value;   // input 태그에 입력된 comment
-    let boardId = document.getElementById('board-id').value;  // 댓글이 속해있는 게시물의 id
-    let memberId = document.getElementById('member-id').value;  // 댓글이 속해있는 게시물의 id
-
-    let commentData = {
-        'content': content,
-        'boardId': boardId,
-        'memberId': memberId
-    };
-
-    $.ajax({
-        method: 'POST',
-        url: `/boards/${boardId}`,
-        data: commentData,
-        success: function(data) {
-            console.log(data);
-        }
     });
 });
 
