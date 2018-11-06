@@ -8,8 +8,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <style type="text/css">
+        #wrap {
+            width: 1000px;
+            margin: 0 auto 0 auto;
+        }
+        #detailBoard{
+            text-align :center;
+        }
+        #title{
+            /*height : 16;*/
+            font-family :'돋움';
+            /*font-size : 12;*/
+            text-align :center;
+        }
+    </style>
 </head>
+
 <body style="margin: 40px 100px">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="/">Spring board</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+              <a class="nav-item nav-link" href="/boards/1">게시판 1<span class="sr-only">(current)</span></a>
+              <a class="nav-item nav-link" href="/boards/2">게시판 2</a>
+              <a class="nav-item nav-link" href="/boards/3">게시판 3</a>
+              <a class="nav-item nav-link" href="/boards/4">게시판 4</a>
+          </div>
+      </div>
+    </nav>
+  
     <table class="table table-borderless" style="margin-bottom: 5px;">
         <thead>
         <tr class="table-active">
@@ -27,6 +58,22 @@
                 <td>${board.name}</td>
                 <td>${board.regDate}</td>
                 <td>${board.ipAddr}</td>
+            </tr>
+          
+            <tr align="right" valign="middle">
+                <td colspan="5">
+                    <button type="button" onclick="location.href='/boards/modify'">수정</button>
+                    <button type="button" onclick="location.href='/boards/delete'">삭제</button>
+                    <button type="button" onclick="location.href='/boards/write'">답글</button>
+                    <button type="button"
+                            <c:if test="${criteria.searchType == null || criteria.keyword == null}">
+                                onclick="location.href='/boards/${categoryId}?page=${criteria.page}'">
+                            </c:if>
+                            <c:if test="${criteria.searchType != null && criteria.keyword != null}">
+                                onclick="location.href='/boards/${categoryId}?page=${criteria.page}&searchType=${criteria.searchType}&keyword=${criteria.keyword}'">
+                            </c:if>
+                            목록</button>
+                </td>
             </tr>
         </tbody>
     </table>

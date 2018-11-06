@@ -9,8 +9,7 @@ import java.util.List;
 public interface BoardDao {
     int selectBoardCountAll(Long categoryId);
     int selectBoardCountBySearch(Long categoryId, Criteria criteria);
-    List<Board> selectBoardListAll(Long categoryId, Criteria criteria);
-    List<Board> selectBoardListBySearch(Long categoryId, Criteria criteria);
+    List<Board> selectBoardList(Long categoryId, Criteria criteria);
     Board selectBoardDetail(Long id);
     Long insertBoard(Board board);
     int insertBoardBody(Long id, String content);
