@@ -134,6 +134,7 @@ public class BoardController {
         return "modify";
     }
 
+    // TODO 답글인 것을 표시해줄 무언가가 필요함
     @PostMapping("/reply")
     public String reply(@RequestParam("boardId")Long boardId,
                         @RequestParam("title")String title,
