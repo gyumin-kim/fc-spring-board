@@ -114,8 +114,8 @@ public class BoardController {
         return "detail";
     }
 
-    // TODO : 삭제된 게시글도 URL 창으로 접근할 수 있음, 이를 막아주어야 함!  and 아직 경고창 없이 바로 삭제되도록 구현해 놨음
-    @GetMapping("/delete")
+    // 삭제된 게시글도 URL 창으로 접근할 수 있음, 이를 막아주어야 함!  and 아직 경고창 없이 바로 삭제되도록 구현해놓
+    @GetMapping("/de음lete")
     public String delete(@RequestParam("boardId")Long id,
                          @RequestParam("categoryType")Long categoryType){
         boardService.deleteBoard(id);
