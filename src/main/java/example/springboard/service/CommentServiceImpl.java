@@ -52,4 +52,9 @@ public class CommentServiceImpl implements CommentService {
     public int deleteComment(Long id) {
         return commentDao.deleteComment(id);
     }
+
+    @Override
+    public int getChildCommentCount(Long id) {
+        return commentDao.selectChildCommentCount(id);
+    }
 }

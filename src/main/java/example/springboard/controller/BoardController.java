@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.FlashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -110,16 +111,15 @@ public class BoardController {
                          HttpSession httpSession,
                          ModelMap modelMap) {
 
-        // 삭제된 글로 url을 통해 접근하면 index 페이지로 redirect
+        // 삭제된 글로 url을 통해 접근하거나, 로그인 안된 상태로 특정 글 상세페이지 접근하면 index 페이지로 redirect
         if (boardService.getBoardDeleted(id) == 1)
             return "redirect:/";
-      
-        // 로그인 안된 상태로 특정 글 상세페이지 접근 시 index 페이지로 redirect
         if (httpSession.getAttribute("authUser") == null)
             return "redirect:/";
 
         Board board = boardService.showBoardDetail(id);
         List<Comment> commentList = commentService.getComments(id);
+//        int l = commentList.get(2).getChildCommentCount();
 
         modelMap.addAttribute("board", board);
         modelMap.addAttribute("commentList", commentList);
@@ -128,6 +128,7 @@ public class BoardController {
         Member member = (Member)httpSession.getAttribute("authUser");
         modelMap.addAttribute("memberName", member.getName());
         modelMap.addAttribute("regDate", board.getRegDate());
+//        modelMap.addAttribute("childCommentCount", commentService.getChildCommentCount(id));
 
         return "detail";
     }

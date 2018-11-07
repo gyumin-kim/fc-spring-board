@@ -98,4 +98,14 @@ public class CommentDaoImpl implements CommentDao {
             return null;
         }
     }
+
+    /**
+     * 특정 id를 가진 댓글에 달린 대댓글의 개수를 구하는 메소드
+     */
+    @Override
+    public int selectChildCommentCount(Long id) {
+        String sql = "SELECT COUNT(*) FROM comment WHERE parent_comment_id = :id";
+        Map<String, Long> params = Collections.singletonMap("id", id);
+        return jdbcTemplate.queryForObject(sql, params, Integer.class);
+    }
 }

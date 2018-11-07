@@ -107,10 +107,20 @@
                 <td>${comment.name}</td>
                 <td>${comment.content}</td>
                 <td>${comment.regDate}</td>
-                <td>댓글 달기</td>
+                <td class="recomment">댓글</td>
                 <td>
                     <%-- 댓글 단 본인에게만 삭제 버튼이 보임 --%>
                     <c:if test="${authUser.id == comment.memberId}">삭제</c:if>
+                </td>
+            </tr>
+
+            <%-- 대댓글 form --%>
+            <tr class="recomment-form" style="display: none">
+                <td colspan="100">
+                    <form>
+                        <textarea id="recomment-content" cols="30" rows="10"></textarea>
+                        <input type="submit">
+                    </form>
                 </td>
             </tr>
             </c:forEach>
@@ -120,6 +130,5 @@
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="/js/comment.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-
 </body>
 </html>

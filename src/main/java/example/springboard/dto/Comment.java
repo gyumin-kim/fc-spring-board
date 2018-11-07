@@ -26,4 +26,6 @@ public class Comment {
     private String ipAddr;
     @Setter @Getter
     private Date regDate;
+    @Setter @Getter
+    private int childCommentCount;
 }

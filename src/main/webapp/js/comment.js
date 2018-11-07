@@ -1,5 +1,6 @@
 let commentFormBtn = document.querySelector('#comment-submit');
 let commentList = document.querySelector('#comment-list');
+let recommentList = document.querySelectorAll('.recomment');
 
 commentFormBtn.addEventListener('click', () => {
     console.log('commentFormBtn clicked!');
@@ -66,3 +67,24 @@ function appendLatestComment(name, content, regDate) {
     tr.insertAdjacentElement('afterbegin', tdContent);
     tr.insertAdjacentElement('afterbegin', tdName);
 }
+
+// 각 댓글마다 '댓글' 버튼을 누르면 대댓글 form이 등장하거나 사라짐(toggle)
+for (let i = 0; i < recommentList.length; i++) {
+    recommentList[i].addEventListener('click', () => {
+        let recommentForm = recommentList[i].parentElement.nextElementSibling;
+        toggle(recommentForm);
+    });
+}
+
+/**
+ * 대댓글 form toggle하는 함수
+ */
+function toggle(elem) {
+    // 댓글 form이 보이는 상태면 안보이도록
+    if (window.getComputedStyle(elem).display === 'block') {
+        elem.style.display = 'none';
+        return;
+    }
+    // 안보이는 상태면 보이도록
+    elem.style.display = 'block';
+};

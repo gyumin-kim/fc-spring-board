@@ -10,4 +10,5 @@ public interface CommentService {
     List<Comment> getComments(Long boardId);
     Comment updateComment(Comment comment);
     int deleteComment(Long id);
+    int getChildCommentCount(Long id);
 }
