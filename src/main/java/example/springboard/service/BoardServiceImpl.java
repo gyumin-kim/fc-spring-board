@@ -25,6 +25,12 @@ public class BoardServiceImpl implements BoardService {
 
     @Transactional
     @Override
+    public int getBoardDeleted(Long id){
+        return boardDao.seletBoardDeleted(id);
+    }
+
+    @Transactional
+    @Override
     public int getBoardCountAll(Long categoryId){
         return boardDao.selectBoardCountAll(categoryId);
     }
@@ -68,8 +74,8 @@ public class BoardServiceImpl implements BoardService {
 
     @Transactional
     @Override
-    public int deleteBoard(Board board) {
-        return boardDao.deleteBoard(board.getId());
+    public int deleteBoard(Long id) {
+        return boardDao.deleteBoard(id);
     }
 
     /**
@@ -87,7 +93,10 @@ public class BoardServiceImpl implements BoardService {
         int replySeq = tmp.getReplySeq() + 1;
         board.setDepth(depth);
         board.setReplySeq(replySeq);
-
-        return boardDao.insertBoard(board);
+        board.setOriginId(tmp.getOriginId());
+        board.setCategoryId(tmp.getCategoryId());
+        Long replyBoardId = boardDao.insertBoard(board);
+        boardDao.insertBoardBody(replyBoardId, board.getContent());
+        return replyBoardId;
     }
 }

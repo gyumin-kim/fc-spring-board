@@ -13,7 +13,7 @@
 <body>
 <h1>writeform</h1>
 <br>
-    <form method="post" action="/boards" enctype="multipart/form-data">
+    <form method="post" action="/boards/write" enctype="multipart/form-data">
         <h1>write</h1>
         <select name="categoryType">
             <option value="1" selected="selected">category 1</option>

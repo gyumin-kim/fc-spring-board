@@ -48,7 +48,7 @@
             </tr>
         </tbody>
     </table>
-
+  
     <%-- 글 내용 --%>
     <div class="card border-light" style="width: 100%; margin-bottom: 35px;">
         <div class="card-body" style="padding: 10px 30px;">
@@ -120,5 +120,6 @@
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="/js/comment.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
 </body>
 </html>
