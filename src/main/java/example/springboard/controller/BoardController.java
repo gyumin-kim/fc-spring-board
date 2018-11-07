@@ -133,4 +133,34 @@ public class BoardController {
         modelMap.addAttribute("board", board);
         return "modify";
     }
+
+    @PostMapping("/reply")
+    public String reply(@RequestParam("boardId")Long boardId,
+                        @RequestParam("title")String title,
+                        @RequestParam("content")String content,
+                        @RequestParam("file")MultipartFile file, HttpSession session){
+
+        // 로그인 한 사용자의 Id를 얻기 위함
+        Member member = new Member();
+        member = (Member)session.getAttribute("authUser");
+
+        // TODO IP주소 얻어오는 것 수정하기(규민이 형이 해결한 방법 참고)
+        HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        String ip = req.getHeader("X-FORWARDED-FOR");
+        if (ip == null)
+            ip = req.getRemoteAddr();
+
+        Board board = new Board();
+        board.setIpAddr(ip);
+        board.setMemberId(member.getId());
+        board.setRegDate(new Date());
+        board.setTitle(title);
+        board.setContent(content);
+        FileInfo fileInfo = fileUtil.handleFileStream(file);
+        board.setFileInfo(fileInfo);
+
+        Long replyBoardId = boardService.writeBoardReply(boardId, board);
+
+        return "redirect:/boards/" + board.getCategoryId() + "/" + replyBoardId;          // redirect 하라는 뜻!
+    }
 }

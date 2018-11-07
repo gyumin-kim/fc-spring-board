@@ -1,28 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-         pageEncoding="EUC-KR" isELIgnored="false"%>
-
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>modifyBoard</title>
+    <title>Reply</title>
 </head>
-<body>
-<h1>modifyBoard</h1>
-<br>
-
-<form method="post" action="/boards" enctype="multipart/form-data">
-    <h1>modify</h1>
-    <select name="categoryType">
-        <option value="1" selected="selected">category 1</option>
-        <option value="2">category 2</option>
-        <option value="3">category 3</option>
-        <option value="4">category 4</option>
-    </select>
-    Á¦¸ñ: <input type="text" name="title"><br>
-    ³»¿ë: <textarea name="content" cols="30" rows="30"></textarea><br>
+<form method="post" action="/boards/reply" enctype="multipart/form-data">
+    <h1>reply</h1>
+    ì œëª©: <input type="text" name="title"><br>
+    ë‚´ìš©: <textarea name="content" cols="30" rows="30"></textarea><br>
     <input type="file" name="file"><br>
+    <input type="hidden" name="boardId" value="${boardId}">
     <input type="submit">
 </form>
 </body>

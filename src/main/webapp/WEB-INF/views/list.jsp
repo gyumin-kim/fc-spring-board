@@ -48,6 +48,7 @@
                 <td>${board.id}</td>
                 <%-- 제목 링크에 페이지값과 검색값을 같이 넣어 이전 목록으로 돌아올 수 있도록 함 --%>
                 <td>
+                    <c:forEach begin="1" end="${board.depth}" step="1"> <b>[RE]</b></c:forEach>
                     <c:if test="${criteria.searchType == null}">
                         <a href="/boards/${categoryId}/${board.id}?page=${criteria.page}">
                     </c:if>
