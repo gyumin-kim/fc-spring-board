@@ -93,7 +93,7 @@ public class BoardServiceImpl implements BoardService {
         int replySeq = tmp.getReplySeq() + 1;
         board.setDepth(depth);
         board.setReplySeq(replySeq);
-        board.setOriginId(id);
+        board.setOriginId(tmp.getOriginId());
         board.setCategoryId(tmp.getCategoryId());
         Long replyBoardId = boardDao.insertBoard(board);
         boardDao.insertBoardBody(replyBoardId, board.getContent());
