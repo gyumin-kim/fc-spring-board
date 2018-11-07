@@ -14,7 +14,7 @@ public interface BoardService {
     Board showBoardDetail(Long id);
     Board writeBoard(Board board);
     int updateBoard(Board board);
-    int deleteBoard(Board board);
+    int deleteBoard(Long id);
     Long writeBoardReply(Long id, Board board);
 //    public void upload(Map<String, Object> map,@RequestParam("file") MultipartFile file);
 }

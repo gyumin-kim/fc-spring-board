@@ -40,8 +40,8 @@ public class BoardController {
         return "write";
     }
 
-    @PostMapping
-    public String write(@RequestParam("categoryType")int categoryType,
+    @PostMapping("/write")
+    public String write(@RequestParam("categoryType")Long categoryType,
                         @RequestParam("title")String title,
                         @RequestParam("content")String content,
                         @RequestParam("file")MultipartFile file,
@@ -61,7 +61,7 @@ public class BoardController {
         Board board = new Board();
         board.setDepth(0);
         board.setReplySeq(0);
-        board.setCategoryId((long) categoryType);
+        board.setCategoryId(categoryType);
         board.setMemberId(member.getId());
         board.setTitle(title);
         board.setContent(content);
@@ -126,5 +126,11 @@ public class BoardController {
         modelMap.addAttribute("regDate", board.getRegDate());
 
         return "detail";
+    }
+
+    @GetMapping("/modify")
+    public String modify(@ModelAttribute("board")Board board, ModelMap modelMap){
+        modelMap.addAttribute("board", board);
+        return "modify";
     }
 }
