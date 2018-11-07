@@ -163,4 +163,11 @@ public class BoardController {
 
         return "redirect:/boards/" + board.getCategoryId() + "/" + replyBoardId;          // redirect 하라는 뜻!
     }
+
+    @GetMapping("/delete")
+    public String delete(@RequestParam("boardId")String id,
+                         @RequestParam("categoryType")String categoryType){
+        boardService.deleteBoard(Long.parseLong(id));
+        return "redirect:/boards/" + categoryType;
+    }
 }
