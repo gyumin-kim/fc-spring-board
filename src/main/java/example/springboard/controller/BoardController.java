@@ -165,6 +165,15 @@ public class BoardController {
         return "redirect:/boards/" + board.getCategoryId() + "/" + replyBoardId;          // redirect 하라는 뜻!
     }
 
+//     답글에 처음에 넣어야 할 정보 => origin_id에는 원글의 id & 원글의 Depth & 원글의 reply_seq 이 3가지 값은 처음에 넣어야 함
+//     입력받을 값 -> 제목, 작성자, IP, 입력 날짜
+    @GetMapping("/reply")
+    public String reply(@RequestParam("boardId")Long boardId, ModelMap modelMap){
+        modelMap.addAttribute("boardId", boardId);
+        return "reply";
+    }
+
+
     @GetMapping("/delete")
     public String delete(@RequestParam("boardId")String id,
                          @RequestParam("categoryType")String categoryType){
