@@ -13,6 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.net.InetAddress;
 import java.util.Date;
 import java.util.List;
 
@@ -30,7 +32,11 @@ public class BoardController {
     }
 
     @GetMapping("/write")
-    public String writeform() {
+    public String writeform(HttpSession httpSession) {
+        // 로그인 안된 상태로 글쓰기 페이지 접근 시 index 페이지로 redirect
+        if (httpSession.getAttribute("authUser") == null)
+            return "redirect:/";
+
         return "write";
     }
 
@@ -38,21 +44,29 @@ public class BoardController {
     public String write(@RequestParam("categoryType")int categoryType,
                         @RequestParam("title")String title,
                         @RequestParam("content")String content,
-                        @RequestParam("file")MultipartFile file){     // RequestParam 으로 값을 받아준다.
-        HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-        String ip = req.getHeader("X-FORWARDED-FOR");
-        if (ip == null)
-            ip = req.getRemoteAddr();
+                        @RequestParam("file")MultipartFile file,
+                        HttpSession httpSession) {
 
+        // 로그인 안된 상태로 글쓰기 제출 시 index 페이지로 redirect
+        if (httpSession.getAttribute("authUser") == null)
+            return "redirect:/";
+
+        String ipAddr = "";
+        try {
+            InetAddress ia = InetAddress.getLocalHost();
+            ipAddr = ia.getHostAddress();
+        } catch (Exception ex) { ex.printStackTrace(); }
+
+        Member member = (Member)httpSession.getAttribute("authUser");
         Board board = new Board();
         board.setDepth(0);
         board.setReplySeq(0);
-        board.setCategoryId(Long.valueOf(categoryType));
-        board.setMemberId(2L);
+        board.setCategoryId((long) categoryType);
+        board.setMemberId(member.getId());
         board.setTitle(title);
         board.setContent(content);
         board.setRegDate(new Date());
-        board.setIpAddr(ip);
+        board.setIpAddr(ipAddr);
         FileInfo fileInfo = fileUtil.handleFileStream(file);
         board.setFileInfo(fileInfo);
         boardService.writeBoard(board);
@@ -63,7 +77,11 @@ public class BoardController {
     @GetMapping("/{categoryId}")
     public String list(@PathVariable Long categoryId,
                        @ModelAttribute("criteria") Criteria criteria,
-                       ModelMap modelMap) throws Exception{
+                       ModelMap modelMap, HttpSession httpSession) throws Exception{
+
+        // 로그인 안된 상태로 특정 글 list 접근 시 index 페이지로 redirect
+        if (httpSession.getAttribute("authUser") == null)
+            return "redirect:/";
 
         // 게시판 글 리스트
         modelMap.addAttribute("boards", boardService.showBoardList(categoryId, criteria));
@@ -88,8 +106,13 @@ public class BoardController {
     @GetMapping("/{categoryId}/{id}")
     public String detail(@PathVariable Long categoryId,
                          @PathVariable Long id,
-                         @ModelAttribute("criteria")Criteria criteria,
+                         @ModelAttribute("criteria") Criteria criteria,
+                         HttpSession httpSession,
                          ModelMap modelMap) {
+
+        // 로그인 안된 상태로 특정 글 상세페이지 접근 시 index 페이지로 redirect
+        if (httpSession.getAttribute("authUser") == null)
+            return "redirect:/";
 
         Board board = boardService.showBoardDetail(id);
         List<Comment> commentList = commentService.getComments(id);
@@ -98,6 +121,9 @@ public class BoardController {
         modelMap.addAttribute("commentList", commentList);
         modelMap.addAttribute("categoryId", categoryId);
         modelMap.addAttribute("criteria", criteria);
+        Member member = (Member)httpSession.getAttribute("authUser");
+        modelMap.addAttribute("memberName", member.getName());
+        modelMap.addAttribute("regDate", board.getRegDate());
 
         return "detail";
     }
