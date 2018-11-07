@@ -5,9 +5,9 @@ import lombok.Setter;
 import lombok.ToString;
 
 @ToString
-public class BoardBody {
-    @Setter @Getter
-    private Long id;
-    @Setter @Getter
+public class CommentData {
+    @Getter @Setter
     private String content;
+    @Getter @Setter
+    private Long memberId;
 }

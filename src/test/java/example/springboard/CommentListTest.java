@@ -1,7 +1,6 @@
-package example.springboard.main;
+package example.springboard;
 
 import example.springboard.config.ApplicationConfig;
-import example.springboard.dao.CommentDao;
 import example.springboard.dao.CommentDaoImpl;
 import example.springboard.dto.Comment;
 import org.springframework.context.ApplicationContext;

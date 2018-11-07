@@ -13,6 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.net.InetAddress;
 import java.util.Date;
 import java.util.List;
 
@@ -30,24 +32,32 @@ public class BoardController {
     }
 
     @GetMapping("/write")
-    public String writeform() {
+    public String writeform(HttpSession httpSession) {
+        // 로그인 안된 상태로 글쓰기 페이지 접근 시 index 페이지로 redirect
+        if (httpSession.getAttribute("authUser") == null)
+            return "redirect:/";
+
         return "write";
     }
 
-    @PostMapping("/write")           // Post 방식의 요청
+    @PostMapping("/write")
     public String write(@RequestParam("categoryType")Long categoryType,
                         @RequestParam("title")String title,
                         @RequestParam("content")String content,
-                        @RequestParam("file")MultipartFile file, HttpSession session){     // RequestParam 으로 값을 받아준다.
-        // 로그인 한 사용자의 Id를 얻기 위함
-        Member member = new Member();
-        member = (Member)session.getAttribute("authUser");
+                        @RequestParam("file")MultipartFile file,
+                        HttpSession httpSession) {
 
-        HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-        String ip = req.getHeader("X-FORWARDED-FOR");
-        if (ip == null)
-            ip = req.getRemoteAddr();
+        // 로그인 안된 상태로 글쓰기 제출 시 index 페이지로 redirect
+        if (httpSession.getAttribute("authUser") == null)
+            return "redirect:/";
 
+        String ipAddr = "";
+        try {
+            InetAddress ia = InetAddress.getLocalHost();
+            ipAddr = ia.getHostAddress();
+        } catch (Exception ex) { ex.printStackTrace(); }
+
+        Member member = (Member)httpSession.getAttribute("authUser");
         Board board = new Board();
         board.setDepth(0);
         board.setReplySeq(0);
@@ -56,22 +66,22 @@ public class BoardController {
         board.setTitle(title);
         board.setContent(content);
         board.setRegDate(new Date());
-        board.setIpAddr(ip);
+        board.setIpAddr(ipAddr);
         FileInfo fileInfo = fileUtil.handleFileStream(file);
         board.setFileInfo(fileInfo);
         boardService.writeBoard(board);
 
-        return "redirect:/boards/" + categoryType + "/" + board.getId();          // redirect 하라는 뜻!
+        return "redirect:/boards/" + categoryType + "/" + board.getId();
     }
 
     @GetMapping("/{categoryId}")
     public String list(@PathVariable Long categoryId,
-                       @ModelAttribute("criteria") Criteria criteria, HttpSession session,
-                       ModelMap modelMap) throws Exception {
-        // TODO 로그인 한 사용자만 접근 가능하도록 만듦, 모든 url에 해당 동작을 추가해야 할까??
-        if(session.getAttribute("authUser") == null){
+                       @ModelAttribute("criteria") Criteria criteria,
+                       ModelMap modelMap, HttpSession httpSession) throws Exception{
+
+        // 로그인 안된 상태로 특정 글 list 접근 시 index 페이지로 redirect
+        if (httpSession.getAttribute("authUser") == null)
             return "redirect:/";
-        }
 
         // 게시판 글 리스트
         modelMap.addAttribute("boards", boardService.showBoardList(categoryId, criteria));
@@ -96,26 +106,34 @@ public class BoardController {
     @GetMapping("/{categoryId}/{id}")
     public String detail(@PathVariable Long categoryId,
                          @PathVariable Long id,
-                         @ModelAttribute("criteria")Criteria criteria,
+                         @ModelAttribute("criteria") Criteria criteria,
+                         HttpSession httpSession,
                          ModelMap modelMap) {
 
-        // 삭제된 글로 url을 통해 접근하면 인덱스 페이지로 보내버린다.
-        if (boardService.getBoardDeleted(id) == 1) {
+        // 삭제된 글로 url을 통해 접근하면 index 페이지로 redirect
+        if (boardService.getBoardDeleted(id) == 1)
             return "redirect:/";
-        }
+      
+        // 로그인 안된 상태로 특정 글 상세페이지 접근 시 index 페이지로 redirect
+        if (httpSession.getAttribute("authUser") == null)
+            return "redirect:/";
 
         Board board = boardService.showBoardDetail(id);
         List<Comment> commentList = commentService.getComments(id);
 
         modelMap.addAttribute("board", board);
         modelMap.addAttribute("commentList", commentList);
+        modelMap.addAttribute("categoryId", categoryId);
         modelMap.addAttribute("criteria", criteria);
+        Member member = (Member)httpSession.getAttribute("authUser");
+        modelMap.addAttribute("memberName", member.getName());
+        modelMap.addAttribute("regDate", board.getRegDate());
 
         return "detail";
     }
 
     // 삭제된 게시글도 URL 창으로 접근할 수 있음, 이를 막아주어야 함!  and 아직 경고창 없이 바로 삭제되도록 구현해놓
-    @GetMapping("/de음lete")
+    @GetMapping("/delete")
     public String delete(@RequestParam("boardId")Long id,
                          @RequestParam("categoryType")Long categoryType){
         boardService.deleteBoard(id);

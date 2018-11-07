@@ -2,9 +2,11 @@ package example.springboard.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Date;
 
+@ToString
 public class FileInfo {
     @Setter
     @Getter
@@ -21,18 +23,4 @@ public class FileInfo {
     private Date regdate;
     @Setter @Getter
     private boolean delGb;
-
-
-    @Override
-    public String toString() {
-        return "FileInfo{" +
-                "idx=" + idx +
-                ", boardIdx=" + boardIdx +
-                ", originalFileName='" + originalFileName + '\'' +
-                ", StoredFileName='" + StoredFileName + '\'' +
-                ", fileSize=" + fileSize +
-                ", regdate=" + regdate +
-                ", delGb=" + delGb +
-                '}';
-    }
 }

@@ -2,7 +2,9 @@ package example.springboard.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
+@ToString
 public class Member {
     @Setter
     @Getter
@@ -13,14 +15,4 @@ public class Member {
     private String email;
     @Setter @Getter
     private String password;
-
-    @Override
-    public String toString() {
-        return "Member{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                '}';
-    }
 }

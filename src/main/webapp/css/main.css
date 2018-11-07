@@ -100,3 +100,11 @@ body, html {
 .index-card:hover {
     background-color: #c0c0c0;
 }
+
+#comment-label {
+    font-weight: bold;
+}
+
+#board-detail-btns {
+    margin-bottom: 60px;
+}

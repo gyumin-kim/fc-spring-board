@@ -19,6 +19,9 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public Comment addComment(Comment comment) {
         commentDao.addComment(comment);
+        Long id = commentDao.selectLastId(1);
+        commentDao.updateCommentId(id);
+//        comment.setParentCommentId(id);
         // 여기서 다시 comment를 리턴해주는 이유는 comment를 리다이렉트나 다른데 뿌려줄 수 있기 때문이다.
         return comment;
     }
