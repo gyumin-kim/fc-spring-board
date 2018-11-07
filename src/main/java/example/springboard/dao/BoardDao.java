@@ -23,4 +23,5 @@ public interface BoardDao {
 
     int deleteBoard(Long id);
     int updateOriginId(Long id);
+    Long selectMemberIdById(Long id);
 }

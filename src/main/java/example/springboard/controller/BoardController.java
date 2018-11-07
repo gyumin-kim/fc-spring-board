@@ -109,6 +109,7 @@ public class BoardController {
                          @ModelAttribute("criteria") Criteria criteria,
                          HttpSession httpSession,
                          ModelMap modelMap) {
+        Long boardMemberId = boardService.getBoardMemberCheck(id);
 
         // 삭제된 글로 url을 통해 접근하면 index 페이지로 redirect
         if (boardService.getBoardDeleted(id) == 1)
@@ -128,6 +129,11 @@ public class BoardController {
         Member member = (Member)httpSession.getAttribute("authUser");
         modelMap.addAttribute("memberName", member.getName());
         modelMap.addAttribute("regDate", board.getRegDate());
+        if(boardMemberId != member.getId()){
+            modelMap.addAttribute("isMember", false);
+        }else{
+            modelMap.addAttribute("isMember", true);
+        }
 
         return "detail";
     }
@@ -137,7 +143,8 @@ public class BoardController {
         modelMap.addAttribute("board", board);
         return "modify";
     }
-    
+
+
 
     // TODO 답글인 것을 표시해줄 무언가가 필요함
     @PostMapping("/reply")

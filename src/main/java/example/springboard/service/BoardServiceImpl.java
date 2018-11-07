@@ -99,4 +99,10 @@ public class BoardServiceImpl implements BoardService {
     public int getBoardDeleted(Long id){
         return boardDao.seletBoardDeleted(id);
     }
+
+    @Transactional
+    @Override
+    public Long getBoardMemberCheck(Long id){
+        return boardDao.selectMemberIdById(id);
+    }
 }

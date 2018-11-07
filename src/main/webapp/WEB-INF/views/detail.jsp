@@ -25,7 +25,14 @@
               <a class="nav-item nav-link" href="/boards/4">게시판 4</a>
           </div>
       </div>
+        <%-- TODO 회원정보 폼 생성해야함 --%>
+    <c:if test="${sessionScope.authUser != null}">
+      <div class="navbar-nav" align="right">
+          <a class="nav-item nav-link" href="/memberInfo">회원정보</a>
+          <a class="nav-item nav-link" href="/logout">로그아웃</a>
+      </div>
     </nav>
+    </c:if>
 
     <%-- 글 정보 --%>
     <table class="table table-borderless" style="margin-bottom: 5px;">
@@ -59,8 +66,10 @@
     <div id="board-detail-btns">
         <tr align="right" valign="middle">
             <td colspan="5">
+                <c:if test="${isMember == true}">
                 <button type="button" onclick="location.href='/boards/modify'">수정</button>
                 <button type="button" onclick="location.href='/boards/delete?boardId=${board.id}&categoryType=${board.categoryId}'">삭제</button>
+                </c:if>
                 <button type="button" onclick="location.href='/boards/reply?boardId=${board.id}'">답글</button>
                 <button type="button"
                         <c:if test="${criteria.searchType == null || criteria.keyword == null}">

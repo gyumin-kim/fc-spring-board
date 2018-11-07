@@ -25,6 +25,13 @@
                     <a class="nav-item nav-link" href="/boards/4">게시판 4</a>
                 </div>
             </div>
+            <%-- TODO 회원정보 폼 생성해야함 --%>
+            <c:if test="${sessionScope.authUser != null}">
+            <div class="navbar-nav" align="right">
+                <a class="nav-item nav-link" href="/memberInfo">회원정보</a>
+                <a class="nav-item nav-link" href="/logout">로그아웃</a>
+            </div>
+            </c:if>
         </nav>
 
         <b>글 목 록</b>
