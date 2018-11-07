@@ -137,6 +137,7 @@ public class BoardController {
         modelMap.addAttribute("board", board);
         return "modify";
     }
+    
 
     // TODO 답글인 것을 표시해줄 무언가가 필요함
     @PostMapping("/reply")
