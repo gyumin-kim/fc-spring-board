@@ -192,8 +192,8 @@ public class BoardDaoImpl implements BoardDao {
     public Board selectBoardInfoForReply(Long id) {
         String sql = BoardDaoSqls.GET_BOARD_INFO_FOR_REPLY;
         RowMapper<Board> rowMapper = BeanPropertyRowMapper.newInstance(Board.class);
-        Map<String, ?> parmas = Collections.singletonMap("id", id);
-        return jdbcTemplate.queryForObject(sql, parmas, rowMapper);
+        Map<String, ?> params = Collections.singletonMap("id", id);
+        return jdbcTemplate.queryForObject(sql, params, rowMapper);
     }
 
     // 답글을 달 때 seq 값을 증가시켜주는 역할

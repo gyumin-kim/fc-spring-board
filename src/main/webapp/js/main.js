@@ -50,12 +50,14 @@ signupFormBtn.addEventListener('click', () => {
         'name': signupName,
         'password': signupPassword
     };
+    console.log(signupData);
 
     $.ajax({
         method: 'GET',
         url: `/signup?${$.param(signupData)}`,  // signupData(parameter)를 Controller에서 @RequestParam으로 받음
-        // data: signupData,    // Data to be sent to the server
         success: function(data) {
+            console.log(`data: ${data}`);
+
             let loginValidation = document.getElementById('loginValidation');
             if (document.body.contains(loginValidation))
                 document.getElementById('loginValidation').remove();
@@ -64,7 +66,7 @@ signupFormBtn.addEventListener('click', () => {
 
             if (data === 'noSuchMember') {
                 // 가입 요청
-                $.post('/signup', signupData);
+                $.post('/signup', $.param(signupData));
                 window.location.href = '/';
             }
             else if (data === 'existsSuchMember') {

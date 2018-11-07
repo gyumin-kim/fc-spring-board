@@ -53,16 +53,19 @@ public class LoginController {
                          @RequestParam(name = "password")String password) {
         log.info("**** Accepted value from AJAX(signupFormBtn). email: " + email + ", name: " + name + ", password: " + password + " ****");
         Member member = memberService.findMemberByEmail(email);
+        log.info("member: " + member);
 
-        if (email == null || name == null)
-            return "nullValue";
-        else {
+//        if (email == null || name == null)
+//            return "nullValue";
+//        else {
             // member 정보가 없는 경우 -> 가입 처리
             if (member == null)
                 return "noSuchMember";
             // 이미 해당 member 정보가 존재하는 경우 -> 가입 불가
-            else
+            else {
+
                 return "existsSuchMember";
-        }
+            }
+//        }
     }
 }
