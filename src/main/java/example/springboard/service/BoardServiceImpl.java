@@ -25,12 +25,6 @@ public class BoardServiceImpl implements BoardService {
 
     @Transactional
     @Override
-    public int getBoardDeleted(Long id){
-        return boardDao.seletBoardDeleted(id);
-    }
-
-    @Transactional
-    @Override
     public int getBoardCountAll(Long categoryId){
         return boardDao.selectBoardCountAll(categoryId);
     }

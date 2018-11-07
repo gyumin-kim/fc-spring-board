@@ -234,12 +234,4 @@ public class BoardDaoImpl implements BoardDao {
         map.put("id", id);
         return jdbcTemplate.update(sql, map);
     }
-
-    // 게시글의 삭제 여부를 검사하는 역할
-    @Override
-    public int seletBoardDeleted(Long id){
-        String sql = BoardDaoSqls.GET_BOARD_IS_DELETED;
-        Map<String, ?> map = Collections.singletonMap("id", id);
-        return jdbcTemplate.queryForObject(sql, map, Integer.class);
-    }
 }

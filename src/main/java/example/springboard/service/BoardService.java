@@ -9,7 +9,6 @@ public interface BoardService {
     int getBoardDeleted(Long id);
     int getBoardCountAll(Long categoryId);
     int getBoardCountBySearch(Long categoryId, Criteria criteria);
-    int getBoardDeleted(Long id);
     List<Board> showBoardList(Long categoryId, Criteria criteria);
 
     Board showBoardDetail(Long id);
