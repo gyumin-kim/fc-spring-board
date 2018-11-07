@@ -7,6 +7,7 @@ import example.springboard.dto.Criteria;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import org.springframework.core.GenericCollectionTypeResolver;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -118,6 +119,14 @@ public class BoardDaoImpl implements BoardDao {
         RowMapper<Board> rowMapper = BeanPropertyRowMapper.newInstance(Board.class);
         Map<String, ?> params = Collections.singletonMap("b.id", id);
         return jdbcTemplate.queryForObject(sql, params, rowMapper);
+    }
+
+    // 게시글의 삭제 여부를 검사하는 역할
+    @Override
+    public int seletBoardDeleted(Long id){
+        String sql = BoardDaoSqls.GET_BOARD_IS_DELETED;
+        Map<String, ?> map = Collections.singletonMap("id", id);
+        return jdbcTemplate.queryForObject(sql, map, Integer.class);
     }
 
     /**

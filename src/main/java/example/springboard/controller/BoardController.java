@@ -110,6 +110,10 @@ public class BoardController {
                          HttpSession httpSession,
                          ModelMap modelMap) {
 
+        // 삭제된 글로 url을 통해 접근하면 index 페이지로 redirect
+        if (boardService.getBoardDeleted(id) == 1)
+            return "redirect:/";
+      
         // 로그인 안된 상태로 특정 글 상세페이지 접근 시 index 페이지로 redirect
         if (httpSession.getAttribute("authUser") == null)
             return "redirect:/";

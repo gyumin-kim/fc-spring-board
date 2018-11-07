@@ -6,6 +6,7 @@ import example.springboard.dto.Criteria;
 import java.util.List;
 
 public interface BoardService {
+    int getBoardDeleted(Long id);
     int getBoardCountAll(Long categoryId);
     int getBoardCountBySearch(Long categoryId, Criteria criteria);
     int getBoardDeleted(Long id);
