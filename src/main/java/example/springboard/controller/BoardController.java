@@ -32,7 +32,11 @@ public class BoardController {
     }
 
     @GetMapping("/write")
-    public String writeform() {
+    public String writeform(HttpSession httpSession) {
+        // 로그인 안된 상태로 글쓰기 페이지 접근 시 index 페이지로 redirect
+        if (httpSession.getAttribute("authUser") == null)
+            return "redirect:/";
+
         return "write";
     }
 
@@ -42,6 +46,10 @@ public class BoardController {
                         @RequestParam("content")String content,
                         @RequestParam("file")MultipartFile file,
                         HttpSession httpSession) {
+
+        // 로그인 안된 상태로 글쓰기 제출 시 index 페이지로 redirect
+        if (httpSession.getAttribute("authUser") == null)
+            return "redirect:/";
 
         String ipAddr = "";
         try {
@@ -69,7 +77,11 @@ public class BoardController {
     @GetMapping("/{categoryId}")
     public String list(@PathVariable Long categoryId,
                        @ModelAttribute("criteria") Criteria criteria,
-                       ModelMap modelMap) throws Exception{
+                       ModelMap modelMap, HttpSession httpSession) throws Exception{
+
+        // 로그인 안된 상태로 특정 글 list 접근 시 index 페이지로 redirect
+        if (httpSession.getAttribute("authUser") == null)
+            return "redirect:/";
 
         // 게시판 글 리스트
         modelMap.addAttribute("boards", boardService.showBoardList(categoryId, criteria));
@@ -95,8 +107,13 @@ public class BoardController {
     public String detail(@PathVariable Long categoryId,
                          @PathVariable Long id,
                          @ModelAttribute("criteria") Criteria criteria,
-                         HttpSession session,
+                         HttpSession httpSession,
                          ModelMap modelMap) {
+
+        // 로그인 안된 상태로 특정 글 상세페이지 접근 시 index 페이지로 redirect
+        if (httpSession.getAttribute("authUser") == null)
+            return "redirect:/";
+
         Board board = boardService.showBoardDetail(id);
         List<Comment> commentList = commentService.getComments(id);
 
@@ -104,7 +121,7 @@ public class BoardController {
         modelMap.addAttribute("commentList", commentList);
         modelMap.addAttribute("categoryId", categoryId);
         modelMap.addAttribute("criteria", criteria);
-        Member member = (Member)session.getAttribute("authUser");
+        Member member = (Member)httpSession.getAttribute("authUser");
         modelMap.addAttribute("memberName", member.getName());
         modelMap.addAttribute("regDate", board.getRegDate());
 
