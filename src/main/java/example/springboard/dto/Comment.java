@@ -28,4 +28,6 @@ public class Comment {
     private Date regDate;
     @Setter @Getter
     private int childCommentCount;
+    @Setter @Getter
+    private int isDeleted;
 }

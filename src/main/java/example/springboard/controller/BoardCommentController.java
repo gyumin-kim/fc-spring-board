@@ -98,4 +98,21 @@ public class BoardCommentController {
         commentService.addRecomment(comment);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    /**
+     * 특정 id를 가진 댓글을 삭제하는 메소드.
+     * HTTP 메소드는 DELETE 메소드를 사용할 수도 있으나, 실제 DB에서 데이터를 삭제하는 것이 아니라 'is_deleted' 컬럼의 값만 바꾸는 방식이므로 POST 메소드를 사용함.
+     * @param commentId - 삭제하려는 댓글의 id
+     */
+    @PostMapping("/{commentId}/delete")
+    public ResponseEntity<String> deleteComment(@PathVariable("commentId") Long commentId) {
+        log.info("=====================================================================================");
+        log.info("**** Accepted value from AJAX(deleteCommentBtn). ****");
+        log.info("**** commentId: " + commentId + " ****");
+        log.info("=====================================================================================");
+        // 매개변수로 받은 id에 해당하는 댓글의 'is_deleted' 컬럼값을 1로 변경
+        commentService.deleteComment(commentId);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

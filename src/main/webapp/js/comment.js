@@ -1,7 +1,8 @@
 let commentFormBtn = document.querySelector('#comment-submit');
 let commentList = document.querySelector('#comment-list');
-let recommentList = document.querySelectorAll('.recomment');
+let recommentList = document.querySelectorAll('.recommentBtn');
 let recommentFormBtnList = document.querySelectorAll('.recomment-comment-submit');
+let deleteCommentBtnList = document.querySelectorAll('.delete-comment');
 
 // 댓글 form버튼 클릭 이벤트 처리
 commentFormBtn.addEventListener('click', () => {
@@ -83,6 +84,28 @@ for (let i = 0; i < recommentFormBtnList.length; i++) {
     });
 }
 
+for (let i = 0; i < deleteCommentBtnList.length; i++) {
+    deleteCommentBtnList[i].addEventListener('click', () => {
+        let deleteCommentBtn = deleteCommentBtnList[i];
+        let deleteCommentId = deleteCommentBtn.parentElement.querySelector('.comment-id').value;
+        console.log(`deleteCommentId: ${deleteCommentId}`);
+
+        if (!confirm('댓글을 삭제할까요?'))
+            return;
+        $.ajax({
+            method: 'POST',
+            contentType: 'application/json',
+            url: `/boards/${deleteCommentId}/delete`,
+            data: {'deleteCommentId': deleteCommentId},
+            dataType: 'text',
+            success: function() {
+                console.log('댓글 삭제 요청');
+            },
+            error: handleAjaxError
+        });
+    });
+}
+
 
 /**
  * Ajax error 로그 표시
@@ -110,8 +133,23 @@ function appendLatestComment(name, content, regDate) {
     tdName.innerHTML = name;
     tdContent.innerHTML = content;
     tdRegDate.innerHTML = regDate;
-    tdReply.innerHTML = '댓글 달기';
+
+    tdReply.innerHTML = '댓글';
+    // 방금 등록한 댓글에 대해서도 '댓글' 버튼에 toggle 기능 사용 가능
+    tdReply.addEventListener('click', () => {
+        tdReply.setAttribute('class', 'recommentBtn');
+        let recommentForm = tdReply.parentElement.nextElementSibling;
+        toggle(recommentForm);
+    });
+
     tdDelete.innerHTML = '삭제';
+    tdDelete.addEventListener('click', () => {
+        tdDelete.setAttribute('class', 'delete-comment');
+        //TODO: 삭제버튼 이벤트 리스너 부분 코드 복사할 것
+        if (!confirm('댓글을 삭제할까요?'))
+            console.log('대댓글 삭제 완료');
+    });
+
     tr.insertAdjacentElement('afterbegin', tdDelete);
     tr.insertAdjacentElement('afterbegin', tdReply);
     tr.insertAdjacentElement('afterbegin', tdRegDate);

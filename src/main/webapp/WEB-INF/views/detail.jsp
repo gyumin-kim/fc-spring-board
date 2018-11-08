@@ -102,41 +102,67 @@
         </thead>
         <tbody id="comment-list">
             <c:forEach var="comment" items="${commentList}">
-                <tr>
-                    <td>${comment.name}</td>
-                    <td>${comment.content}</td>
-                    <td>${comment.regDate}</td>
-                    <%-- 원댓글에만 대댓글을 달 수 있음(대댓글에 대한 댓글은 불가능) --%>
+                <c:if test="${comment.isDeleted == 0}">
+                    <%-- 원댓글 --%>
                     <c:if test="${comment.id == comment.parentCommentId}">
-                        <td class="recomment">댓글</td>
-                    </c:if>
-                    <%-- TODO: 대댓글에 대한 들여쓰기 UI --%>
-                    <c:if test="${comment.id != comment.parentCommentId}">
-                        <td></td>
-                    </c:if>
-                    <td>
+                    <tr>
+                        <td>${comment.name}</td>
+                        <td>${comment.content}</td>
+                        <td>${comment.regDate}</td>
+                        <td class="recommentBtn">댓글</td>
+
                         <%-- TODO: 삭제 기능 --%>
                         <%-- 댓글 단 본인에게만 삭제 버튼이 보임 --%>
-                        <c:if test="${authUser.id == comment.memberId}">삭제</c:if>
-                    </td>
-                </tr>
+                        <c:if test="${authUser.id == comment.memberId}">
+                        <td class="delete-comment">삭제</td>
+                        <input type="hidden" class="comment-id" value="${comment.id}">
+                        </c:if>
+                        <c:if test="${authUser.id != comment.memberId}">
+                        <td></td>
+                        </c:if>
+                    </tr>
 
-                <%-- 원댓글에만 대댓글을 달 수 있음(대댓글에 대한 댓글은 불가능) --%>
-                <c:if test="${comment.id == comment.parentCommentId}">
-                <%-- 대댓글 form --%>
-                <tr class="recomment-tr" style="display: none">
-                    <td colspan="100">
-                        <form class="recomment-form">
-                            <textarea class="recomment-content" cols="30" rows="10"></textarea>
-                            <input type="hidden" class="recomment-board-id" value="${board.id}">
-                            <input type="hidden" class="recomment-parent-comment-id" value="${comment.id}">
-                            <input type="hidden" class="recomment-seq" value="${comment.seq}">
-                            <input type="hidden" class="recomment-member-id" value="${authUser.id}">
+                    <%-- 대댓글 form --%>
+                    <tr class="recomment-tr" style="display: none">
+                        <td colspan="100">
+                            <form class="recomment-form">
+                                <textarea class="recomment-content" cols="30" rows="10"></textarea>
+                                <input type="hidden" class="recomment-board-id" value="${board.id}">
+                                <input type="hidden" class="recomment-parent-comment-id" value="${comment.id}">
+                                <input type="hidden" class="recomment-seq" value="${comment.seq}">
+                                <input type="hidden" class="recomment-member-id" value="${authUser.id}">
 
-                            <input type="button" class="recomment-comment-submit" value="등록"><br><br>
-                        </form>
-                    </td>
-                </tr>
+                                <input type="button" class="recomment-comment-submit" value="등록"><br><br>
+                            </form>
+                        </td>
+                    </tr>
+                    </c:if>
+                    <%-- 대댓글 form --%>
+                    <%-- 원댓글 --%>
+
+                    <%-- 대댓글 --%>
+                    <%-- TODO: 대댓글에 대한 들여쓰기 UI --%>
+                    <c:if test="${comment.id != comment.parentCommentId}">
+                    <tr class="recomment-tr">
+                        <td>${comment.name}</td>
+                        <td>${comment.content}</td>
+                        <td>${comment.regDate}</td>
+                        <%-- 댓글버튼 없음. 원댓글에만 대댓글을 달 수 있음 --%>
+                        <td></td>
+
+                        <%-- TODO: 삭제 기능 --%>
+                        <%-- 댓글 단 본인에게만 삭제 버튼이 보임 --%>
+                        <c:if test="${authUser.id == comment.memberId}">
+                        <td class="delete-comment">삭제</td>
+                        <input type="hidden" class="comment-id" value="${comment.id}">
+                        </c:if>
+
+                        <c:if test="${authUser.id != comment.memberId}">
+                        <td></td>
+                        </c:if>
+                    </tr>
+                    </c:if>
+                    <%-- 대댓글 --%>
                 </c:if>
             </c:forEach>
         </tbody>
