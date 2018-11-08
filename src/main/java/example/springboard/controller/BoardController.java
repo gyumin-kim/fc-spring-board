@@ -139,9 +139,41 @@ public class BoardController {
     }
 
     @GetMapping("/modify")
-    public String modify(@ModelAttribute("board")Board board, ModelMap modelMap){
+    public String modify(@RequestParam("boardId")Long id, ModelMap modelMap){
+        Board board = boardService.showBoardDetail(id);
         modelMap.addAttribute("board", board);
         return "modify";
+    }
+
+    @PostMapping("/modify")
+    public String modify(@ModelAttribute("board")Board board,
+//                         @RequestParam("file")MultipartFile file,
+                         HttpSession httpSession, ModelMap modelMap){
+        Member member = (Member)httpSession.getAttribute("authUser");
+        Long boardMemberId = boardService.getBoardMemberCheck(board.getId());
+
+        String ipAddr = "";
+        try {
+            InetAddress ia = InetAddress.getLocalHost();
+            ipAddr = ia.getHostAddress();
+        } catch (Exception ex) { ex.printStackTrace(); }
+
+        // 글 작성자가 아니라면 인덱스 페이지로 리턴
+        if(boardMemberId != member.getId()){
+            return "redirect:/";
+        }
+
+        board.setIpAddr(ipAddr);
+        board.setRegDate(new Date());
+        board.setMemberId(member.getId());
+
+        System.out.println(board.getContent());
+        // TODO 수정 시 파일 UPDATE 처리
+        // FileInfo fileInfo = fileUtil.handleFileStream(file);
+        // board.setFileInfo(fileInfo);
+        boardService.updateBoard(board);
+
+        return "redirect:/boards/" + board.getCategoryId() + "/" + board.getId();
     }
 
 

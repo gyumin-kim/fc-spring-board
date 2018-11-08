@@ -67,7 +67,7 @@
         <tr align="right" valign="middle">
             <td colspan="5">
                 <c:if test="${isMember == true}">
-                <button type="button" onclick="location.href='/boards/modify'">수정</button>
+                <button type="button" onclick="location.href='/boards/modify?boardId=${board.id}'">수정</button>
                 <button type="button" onclick="location.href='/boards/delete?boardId=${board.id}&categoryType=${board.categoryId}'">삭제</button>
                 </c:if>
                 <button type="button" onclick="location.href='/boards/reply?boardId=${board.id}'">답글</button>

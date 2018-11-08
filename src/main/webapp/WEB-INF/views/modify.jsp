@@ -12,17 +12,13 @@
 <h1>modifyBoard</h1>
 <br>
 
-<form method="post" action="/boards" enctype="multipart/form-data">
+<form method="post" action="/boards/modify" enctype="multipart/form-data">
     <h1>modify</h1>
-    <select name="categoryType">
-        <option value="1" selected="selected">category 1</option>
-        <option value="2">category 2</option>
-        <option value="3">category 3</option>
-        <option value="4">category 4</option>
-    </select>
-    力格: <input type="text" name="title"><br>
-    郴侩: <textarea name="content" cols="30" rows="30"></textarea><br>
+    力格: <input type="text" name="title" value="${board.title}"><br>
+    郴侩: <textarea name="content" cols="80" rows="25"}>${board.content}</textarea><br>
     <input type="file" name="file"><br>
+    <input type="hidden" name="categoryId" value="${board.categoryId}">
+    <input type="hidden" name="id" value="${board.id}">
     <input type="submit">
 </form>
 </body>

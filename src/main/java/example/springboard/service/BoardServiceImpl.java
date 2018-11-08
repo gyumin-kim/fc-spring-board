@@ -60,9 +60,11 @@ public class BoardServiceImpl implements BoardService {
         return board;
     }
 
+    // TODO 해야 함 같이 수정 될 것이 많다...ex 파일 업로드
     @Transactional
     @Override
     public int updateBoard(Board board) {
+        boardDao.updateBoardBody(board.getContent(), board.getId());
         return boardDao.updateBoard(board);
     }
 
