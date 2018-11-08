@@ -20,13 +20,19 @@ public class CommentServiceImpl implements CommentService {
     public Comment addComment(Comment comment) {
         commentDao.addComment(comment);
         Long id = commentDao.selectLastId(1);
-        commentDao.updateCommentId(id);
+        commentDao.updateCommentId(id); // 원댓글을 달 경우 id와 parent_comment_id를 동일하게 맞춰줌
 //        comment.setParentCommentId(id);
         // 여기서 다시 comment를 리턴해주는 이유는 comment를 리다이렉트나 다른데 뿌려줄 수 있기 때문이다.
         return comment;
     }
 
-//    @Override 댓글하나씩 가져오는거는 필요없을거 같아서 getComment는 하지 않았습니다.
+    @Override
+    public Comment addRecomment(Comment comment) {
+        commentDao.addComment(comment);
+        return comment;
+    }
+
+    //    @Override 댓글하나씩 가져오는거는 필요없을거 같아서 getComment는 하지 않았습니다.
 //    public Comment getComment(Long id) {
 //        return null;
 //    }

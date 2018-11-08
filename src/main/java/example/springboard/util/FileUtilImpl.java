@@ -1,6 +1,8 @@
 package example.springboard.util;
 
 import example.springboard.dto.FileInfo;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,6 +15,8 @@ import java.util.Date;
 
 @Component
 public class FileUtilImpl implements FileUtil{
+    private static final Log log = LogFactory.getLog(FileUtilImpl.class);
+
 
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
     String dateStr = simpleDateFormat.format(new Date());
@@ -44,7 +48,7 @@ public class FileUtilImpl implements FileUtil{
                 outputStream.write(buffer,0,readCount);
             }
         }catch (Exception ex){
-            System.out.println("파일 업로드중 오류가 발생했습니다.");
+            log.info("파일 업로드중 오류가 발생했습니다.");
         }finally {
             if(inputStream != null){
                 try {

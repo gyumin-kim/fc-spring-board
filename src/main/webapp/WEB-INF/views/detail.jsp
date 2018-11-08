@@ -82,7 +82,6 @@
             <textarea class="form-control" id="content" placeholder="댓글을 입력하세요" rows="3"></textarea>
         </div>
         <input type="hidden" id="board-id" value="${board.id}">
-        <input type="hidden" id="category-id" value="${categoryId}">
         <input type="hidden" id="auth-user-id" value="${authUser.id}">
         <input type="hidden" id="member-name" value="${memberName}">
         <input type="hidden" id="reg-date" value="${regDate}">
@@ -103,26 +102,42 @@
         </thead>
         <tbody id="comment-list">
             <c:forEach var="comment" items="${commentList}">
-            <tr>
-                <td>${comment.name}</td>
-                <td>${comment.content}</td>
-                <td>${comment.regDate}</td>
-                <td class="recomment">댓글</td>
-                <td>
-                    <%-- 댓글 단 본인에게만 삭제 버튼이 보임 --%>
-                    <c:if test="${authUser.id == comment.memberId}">삭제</c:if>
-                </td>
-            </tr>
+                <tr>
+                    <td>${comment.name}</td>
+                    <td>${comment.content}</td>
+                    <td>${comment.regDate}</td>
+                    <%-- 원댓글에만 대댓글을 달 수 있음(대댓글에 대한 댓글은 불가능) --%>
+                    <c:if test="${comment.id == comment.parentCommentId}">
+                        <td class="recomment">댓글</td>
+                    </c:if>
+                    <%-- TODO: 대댓글에 대한 들여쓰기 UI --%>
+                    <c:if test="${comment.id != comment.parentCommentId}">
+                        <td></td>
+                    </c:if>
+                    <td>
+                        <%-- TODO: 삭제 기능 --%>
+                        <%-- 댓글 단 본인에게만 삭제 버튼이 보임 --%>
+                        <c:if test="${authUser.id == comment.memberId}">삭제</c:if>
+                    </td>
+                </tr>
 
-            <%-- 대댓글 form --%>
-            <tr class="recomment-form" style="display: none">
-                <td colspan="100">
-                    <form>
-                        <textarea id="recomment-content" cols="30" rows="10"></textarea>
-                        <input type="submit">
-                    </form>
-                </td>
-            </tr>
+                <%-- 원댓글에만 대댓글을 달 수 있음(대댓글에 대한 댓글은 불가능) --%>
+                <c:if test="${comment.id == comment.parentCommentId}">
+                <%-- 대댓글 form --%>
+                <tr class="recomment-tr" style="display: none">
+                    <td colspan="100">
+                        <form class="recomment-form">
+                            <textarea class="recomment-content" cols="30" rows="10"></textarea>
+                            <input type="hidden" class="recomment-board-id" value="${board.id}">
+                            <input type="hidden" class="recomment-parent-comment-id" value="${comment.id}">
+                            <input type="hidden" class="recomment-seq" value="${comment.seq}">
+                            <input type="hidden" class="recomment-member-id" value="${authUser.id}">
+
+                            <input type="button" class="recomment-comment-submit" value="등록"><br><br>
+                        </form>
+                    </td>
+                </tr>
+                </c:if>
             </c:forEach>
         </tbody>
     </table>
