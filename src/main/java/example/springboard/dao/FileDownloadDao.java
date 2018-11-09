@@ -1,4 +1,7 @@
 package example.springboard.dao;
 
-public interface FileDownload {
+import example.springboard.dto.FileInfo;
+
+public interface FileDownloadDao {
+    FileInfo download(Long boardIdx);
 }

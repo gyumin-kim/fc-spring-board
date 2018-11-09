@@ -12,6 +12,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
@@ -38,7 +39,9 @@ public class BoardController {
     public String write(@RequestParam("categoryType")int categoryType,
                         @RequestParam("title")String title,
                         @RequestParam("content")String content,
-                        @RequestParam("file")MultipartFile file){     // RequestParam 으로 값을 받아준다.
+                        @RequestParam("file")MultipartFile file,
+                        HttpServletRequest httpServletRequest,
+                        HttpSession session){     // RequestParam 으로 값을 받아준다.
         HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         String ip = req.getHeader("X-FORWARDED-FOR");
         if (ip == null)
@@ -53,7 +56,7 @@ public class BoardController {
         board.setContent(content);
         board.setRegDate(new Date());
         board.setIpAddr(ip);
-        FileInfo fileInfo = fileUtil.handleFileStream(file);
+        FileInfo fileInfo = fileUtil.handleFileStream(httpServletRequest,session,file);
         board.setFileInfo(fileInfo);
         boardService.writeBoard(board);
 
@@ -93,11 +96,22 @@ public class BoardController {
 
         Board board = boardService.showBoardDetail(id);
         List<Comment> commentList = commentService.getComments(id);
+        FileInfo fileName = boardService.showFileName(id);
 
         modelMap.addAttribute("board", board);
         modelMap.addAttribute("commentList", commentList);
         modelMap.addAttribute("criteria", criteria);
+        modelMap.addAttribute("fileName",fileName.getOriginalFileName());
 
         return "detail";
+    }
+    @GetMapping("/download/{id}")
+    @ResponseBody
+    public void download(@PathVariable("id")Long id,
+                          HttpServletResponse response,
+                         ModelMap modelMap){
+        Board board = boardService.showBoardDetail(id);
+        modelMap.addAttribute("board",board);
+        fileUtil.downloadFileStream(response,id);
     }
 }

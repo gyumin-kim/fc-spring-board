@@ -59,6 +59,8 @@
                 <td>${board.regDate}</td>
                 <td>${board.ipAddr}</td>
             </tr>
+            <%--첨부파일 나타내기--%>
+            <td>${fileName}</td> <button type="button" onclick="location.href='/boards/download/${board.id}'">다운로드</button>
           
             <tr align="right" valign="middle">
                 <td colspan="5">
