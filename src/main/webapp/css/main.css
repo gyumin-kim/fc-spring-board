@@ -112,3 +112,11 @@ body, html {
 .recomment-tr {
     background-color: #eeebeb;
 }
+
+.recommentBtn {
+    cursor: pointer;
+}
+
+.delete-comment {
+    cursor: pointer;
+}

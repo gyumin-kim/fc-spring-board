@@ -42,7 +42,12 @@ public class CommentServiceImpl implements CommentService {
     public List<Comment> getComments(Long boardId) {
         // boardId 넘겨주는 이유가 어떤 게시물의 댓글인지 알 수 있게 하려고 boardId값을 받는다
         // 그러면 controller에서 그 게시물의 id값을 받아야 하지 않을까?
-        return commentDao.getCommentList(boardId);
+        List<Comment> commentList = commentDao.getCommentList(boardId);
+
+        // list의 각 comment 객체에 childCommentCount를 반영
+        for (Comment comment : commentList)
+            comment.setChildCommentCount(getChildCommentCount(comment.getId()));
+        return commentList;
     }
 
     @Override

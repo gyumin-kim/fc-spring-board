@@ -102,23 +102,36 @@
         </thead>
         <tbody id="comment-list">
             <c:forEach var="comment" items="${commentList}">
-                <c:if test="${comment.isDeleted == 0}">
+                <%-- 지워지지 않았거나 / 지워졌지만 대댓글이 있으면 보여줌 --%>
+                <c:if test="${comment.isDeleted == 0 or (comment.isDeleted == 1 and comment.childCommentCount > 1)}">
                     <%-- 원댓글 --%>
                     <c:if test="${comment.id == comment.parentCommentId}">
                     <tr>
                         <td>${comment.name}</td>
-                        <td>${comment.content}</td>
-                        <td>${comment.regDate}</td>
-                        <td class="recommentBtn">댓글</td>
 
-                        <%-- TODO: 삭제 기능 --%>
-                        <%-- 댓글 단 본인에게만 삭제 버튼이 보임 --%>
-                        <c:if test="${authUser.id == comment.memberId}">
-                        <td class="delete-comment">삭제</td>
-                        <input type="hidden" class="comment-id" value="${comment.id}">
+                        <c:if test="${comment.isDeleted == 1 and comment.childCommentCount > 1}">
+                            <td style="color: darkred">삭제된 댓글입니다.</td>
                         </c:if>
-                        <c:if test="${authUser.id != comment.memberId}">
-                        <td></td>
+                        <c:if test="${comment.isDeleted == 0}">
+                            <td>${comment.content}</td>
+                        </c:if>
+
+                        <c:if test="${comment.isDeleted == 0}">
+                            <td>${comment.regDate}</td>
+                            <td class="recommentBtn">댓글</td>
+                            <%-- 댓글 단 본인에게만 삭제 버튼이 보임 --%>
+                            <c:if test="${authUser.id == comment.memberId}">
+                            <td class="delete-comment">삭제</td>
+                            <input type="hidden" class="comment-id" value="${comment.id}">
+                            </c:if>
+                            <c:if test="${authUser.id != comment.memberId}">
+                            <td></td>
+                            </c:if>
+                        </c:if>
+                        <c:if test="${comment.isDeleted == 1 and comment.childCommentCount > 1}">
+                            <td></td>
+                            <td></td>
+                            <td></td>
                         </c:if>
                     </tr>
 

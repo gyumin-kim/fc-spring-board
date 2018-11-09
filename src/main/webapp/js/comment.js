@@ -84,6 +84,7 @@ for (let i = 0; i < recommentFormBtnList.length; i++) {
     });
 }
 
+// 댓글 삭제 이벤트 처리
 for (let i = 0; i < deleteCommentBtnList.length; i++) {
     deleteCommentBtnList[i].addEventListener('click', () => {
         let deleteCommentBtn = deleteCommentBtnList[i];
@@ -116,9 +117,6 @@ function handleAjaxError() {
 
 /**
  * 추가한 댓글을 댓글 목록 맨 위에 붙이는 함수
- * @param name
- * @param content
- * @param regDate
  */
 function appendLatestComment(name, content, regDate) {
     let tr = document.createElement('tr');
@@ -155,6 +153,9 @@ function appendLatestComment(name, content, regDate) {
     tr.insertAdjacentElement('afterbegin', tdRegDate);
     tr.insertAdjacentElement('afterbegin', tdContent);
     tr.insertAdjacentElement('afterbegin', tdName);
+
+    //TODO: 대댓글 form도 append해야 함.
+    
 }
 
 /**
