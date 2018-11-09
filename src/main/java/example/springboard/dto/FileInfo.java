@@ -2,9 +2,11 @@ package example.springboard.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Date;
 
+@ToString
 public class FileInfo {
     @Setter
     @Getter

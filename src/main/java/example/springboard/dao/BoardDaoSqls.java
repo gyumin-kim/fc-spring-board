@@ -57,8 +57,8 @@ class BoardDaoSqls {
 
     static final String UPDATE_BOARD_FOR_REPLY = "UPDATE board SET reply_seq = reply_seq + 1 " +
             "WHERE origin_id = :origin_id AND reply_seq > :reply_seq";
-    static final String GET_BOARD_INFO_FOR_REPLY = "SELECT origin_id, depth, reply_seq " +
+    static final String GET_BOARD_INFO_FOR_REPLY = "SELECT origin_id, depth, reply_seq, category_id " +
             "FROM board WHERE id = :id";
-
+    static final String GET_BOARD_IS_DELETED = "SELECT is_deleted FROM board where id = :id";
     static final String DELETE_BOARD = "UPDATE board SET is_deleted = 1 WHERE id = :id";
 }

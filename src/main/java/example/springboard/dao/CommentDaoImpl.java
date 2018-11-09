@@ -44,7 +44,7 @@ public class CommentDaoImpl implements CommentDao {
 
     @Override
     public List<Comment> getCommentList(Long boardId) {
-        String sql = "SELECT c.id, c.parent_comment_id, c.seq, m.id, m.name, c.content, c.ip_addr, c.reg_date " +
+        String sql = "SELECT c.id, c.parent_comment_id, c.seq, m.id AS member_id, m.name, c.content, c.ip_addr, c.reg_date " +
                 "FROM comment AS c INNER JOIN member AS m ON c.member_id = m.id " +
                 "WHERE board_id = :board_id " +
                 "ORDER BY parent_comment_id DESC, seq ASC";

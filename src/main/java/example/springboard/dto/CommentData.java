@@ -9,7 +9,5 @@ public class CommentData {
     @Getter @Setter
     private String content;
     @Getter @Setter
-    private Long boardId;
-    @Getter @Setter
     private Long memberId;
 }

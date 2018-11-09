@@ -1,4 +1,4 @@
-package example.springboard.main;
+package example.springboard;
 
 import example.springboard.config.ApplicationConfig;
 import org.springframework.context.ApplicationContext;

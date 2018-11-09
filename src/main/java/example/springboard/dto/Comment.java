@@ -25,5 +25,5 @@ public class Comment {
     @Setter @Getter
     private String ipAddr;
     @Setter @Getter
-    private Date regdate;
+    private Date regDate;
 }

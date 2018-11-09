@@ -2,11 +2,13 @@ package example.springboard.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Date;
 import java.util.List;
 
+@ToString
 public class Board {
     @Setter @Getter
     private Long id;
@@ -32,22 +34,4 @@ public class Board {
     private String name;
     @Setter @Getter
     private FileInfo fileInfo;
-
-
-    @Override
-    public String toString() {
-        return "Board{" +
-                "id=" + id +
-                ", originId=" + originId +
-                ", depth=" + depth +
-                ", replySeq=" + replySeq +
-                ", categoryId=" + categoryId +
-                ", memberId=" + memberId +
-                ", title='" + title + '\'' +
-                ", regDate=" + regDate +
-                ", ipAddr='" + ipAddr + '\'' +
-                ", name='" + name + '\'' +
-                ", board_body_content='" + content + '\'' +
-                '}';
-    }
 }

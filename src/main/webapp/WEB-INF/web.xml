@@ -3,6 +3,7 @@
     <display-name>Spring JavaConfig Sample</display-name>
     <context-param>
         <param-name>contextClass</param-name>
+        <!-- Java Config를 읽어들일 수 있도록 도와주는 역할 -->
         <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
     </context-param>
     <context-param>
@@ -13,7 +14,7 @@
         <!-- 1) Tomcat 서버를 처음 키면 web.xml(컨테이너)를 로딩하여 Servlet Container가 구동되고, -->
         <!-- Servlet Container는 ContextLoaderListener 객체를 자동으로 메모리에 생성(pre-loading) -->
         <!-- ContextLoaderListener 객체는 Controller 객체들이 생성되기 전에, 먼저 <context-param>으로 등록된 설정 파일을 읽어서 -->
-        <!-- 첫번째 Spring Container(Root Container)를 구동하고 비즈니스 객체들(Service, DAO)을 생성 -->
+        <!-- """첫번째 Spring Container(Root Container)"""를 구동하고 비즈니스 객체들(Service, DAO)을 생성 -->
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
@@ -23,13 +24,14 @@
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextClass</param-name>
+            <!-- Java Config를 읽어들일 수 있도록 도와주는 역할 -->
             <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
         </init-param>
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <!-- 2) '/' 요청이 들어오면, Servlet Container가 DispatcherServlet 객체를 생성 -->
             <!-- DispatcherServlet이 init()을 호출할 때, <init-param>에서 Spring 설정 파일을 찾아 두번째 Spring Container를 구동 -->
-            <!-- 두번째 Spring Container가 'Controller' Bean(+ 'HandlerMapping', 'ViewResolver')을 메모리에 생성  -->
+            <!-- """두번째 Spring Container"""가 'Controller' Bean(+ 'HandlerMapping', 'ViewResolver')을 메모리에 생성  -->
             <param-value>example.springboard.config.WebMvcContextConfiguration</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
@@ -38,4 +40,17 @@
         <servlet-name>mvc</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+
+    <filter>
+        <filter-name>encodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <filter-mapping>
+            <filter-name>encodingFilter</filter-name>
+            <url-pattern>/*</url-pattern>
+        </filter-mapping>
+    </filter>
 </web-app>
