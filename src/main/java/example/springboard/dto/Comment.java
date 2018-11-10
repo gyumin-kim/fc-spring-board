@@ -6,8 +6,9 @@ import lombok.ToString;
 
 import java.util.Date;
 
+@Setter
+@Getter
 @ToString
-@Setter @Getter
 public class Comment {
     private Long id;
     private Long boardId;

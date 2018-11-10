@@ -61,7 +61,7 @@ public class CommentDaoImpl implements CommentDao {
 
     @Override
     public int updateComment(Comment comment) {
-        String sql = "UPDATE comment SET content = :content, reg_date = :regdate, ip_addr = :ipAddr " +
+        String sql = "UPDATE comment SET content = :content, reg_date = :regDate, ip_addr = :ipAddr " +
                 "WHERE member_id = :memberId and id = :id;";
 //        Map<String,Object> map = new HashMap<>();
 //        map.put("content",comment.getContent());
