@@ -46,6 +46,24 @@
                 <td>${board.regDate}</td>
                 <td>${board.ipAddr}</td>
             </tr>
+            <%--첨부파일 나타내기--%>
+            <td>${fileName}</td> <button type="button" onclick="location.href='/boards/download/${board.id}'">다운로드</button>
+          
+            <tr align="right" valign="middle">
+                <td colspan="5">
+                    <button type="button" onclick="location.href='/boards/modify'">수정</button>
+                    <button type="button" onclick="location.href='/boards/delete'">삭제</button>
+                    <button type="button" onclick="location.href='/boards/write'">답글</button>
+                    <button type="button"
+                            <c:if test="${criteria.searchType == null || criteria.keyword == null}">
+                                onclick="location.href='/boards/${categoryId}?page=${criteria.page}'">
+                            </c:if>
+                            <c:if test="${criteria.searchType != null && criteria.keyword != null}">
+                                onclick="location.href='/boards/${categoryId}?page=${criteria.page}&searchType=${criteria.searchType}&keyword=${criteria.keyword}'">
+                            </c:if>
+                            목록</button>
+                </td>
+            </tr>
         </tbody>
     </table>
   
@@ -60,8 +78,8 @@
         <tr align="right" valign="middle">
             <td colspan="5">
                 <button type="button" onclick="location.href='/boards/modify'">수정</button>
-                <button type="button" onclick="location.href='/boards/delete'">삭제</button>
-                <button type="button" onclick="location.href='/boards/write'">답글</button>
+                <button type="button" onclick="location.href='/boards/delete?boardId=${board.id}&categoryType=${board.categoryId}'">삭제</button>
+                <button type="button" onclick="location.href='/boards/reply?boardId=${board.id}'">답글</button>
                 <button type="button"
                         <c:if test="${criteria.searchType == null || criteria.keyword == null}">
                             onclick="location.href='/boards/${categoryId}?page=${criteria.page}'">
