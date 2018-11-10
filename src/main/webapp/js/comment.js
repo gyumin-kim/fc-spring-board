@@ -9,9 +9,9 @@ commentFormBtn.addEventListener('click', () => {
     console.log('commentFormBtn clicked!');
     let contentValue = document.getElementById('content').value;    // input 태그에 입력된 comment
     let boardId = document.getElementById('board-id').value;        // 댓글이 속해있는 게시물의 id
-    let memberId = document.getElementById('auth-user-id').value;      //
-    let memberName = document.getElementById('member-name').value;  //
-    let regDate = document.getElementById('reg-date').value;        //
+    let memberId = document.getElementById('auth-user-id').value;
+    let memberName = document.getElementById('member-name').value;
+    let regDate = document.getElementById('reg-date').value;
 
     let commentData = {
         'content': contentValue,
@@ -154,8 +154,8 @@ function appendLatestComment(name, content, regDate) {
     tr.insertAdjacentElement('afterbegin', tdContent);
     tr.insertAdjacentElement('afterbegin', tdName);
 
-    //TODO: 대댓글 form도 append해야 함.
-    
+    //TODO: 대댓글 form도 append해야 함
+
 }
 
 /**
