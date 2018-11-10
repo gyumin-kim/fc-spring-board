@@ -44,7 +44,8 @@ public class CommentDaoImpl implements CommentDao {
 
     @Override
     public List<Comment> getCommentList(Long boardId) {
-        String sql = "SELECT c.id, c.parent_comment_id, c.seq, m.id AS member_id, m.name, c.content, c.ip_addr, c.reg_date " +
+        String sql =
+                "SELECT c.id, c.parent_comment_id, c.seq, m.id AS member_id, m.name, c.content, c.ip_addr, c.reg_date, c.is_deleted " +
                 "FROM comment AS c INNER JOIN member AS m ON c.member_id = m.id " +
                 "WHERE board_id = :board_id " +
                 "ORDER BY parent_comment_id DESC, seq ASC";
@@ -97,5 +98,15 @@ public class CommentDaoImpl implements CommentDao {
         } catch (Exception ex) {
             return null;
         }
+    }
+
+    /**
+     * 특정 id를 가진 댓글에 달린 대댓글의 개수를 구하는 메소드
+     */
+    @Override
+    public int selectChildCommentCount(Long id) {
+        String sql = "SELECT COUNT(*) FROM comment WHERE parent_comment_id = :id";
+        Map<String, Long> params = Collections.singletonMap("id", id);
+        return jdbcTemplate.queryForObject(sql, params, Integer.class);
     }
 }

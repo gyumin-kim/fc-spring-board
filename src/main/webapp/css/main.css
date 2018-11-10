@@ -108,3 +108,15 @@ body, html {
 #board-detail-btns {
     margin-bottom: 60px;
 }
+
+.recomment-tr {
+    background-color: #eeebeb;
+}
+
+.recommentBtn {
+    cursor: pointer;
+}
+
+.delete-comment {
+    cursor: pointer;
+}

@@ -12,4 +12,5 @@ public interface CommentDao {
     int updateCommentId(Long id);
     int deleteComment(Long id);
     Long selectLastId(int count);
+    int selectChildCommentCount(Long id);
 }
