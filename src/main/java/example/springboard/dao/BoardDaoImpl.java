@@ -234,4 +234,11 @@ public class BoardDaoImpl implements BoardDao {
         map.put("id", id);
         return jdbcTemplate.update(sql, map);
     }
+
+    @Override
+    public Long selectMemberIdById(Long id){
+        String sql = "SELECT member_id FROM board WHERE id = :id";
+        Map<String, Long> map = Collections.singletonMap("id", id);
+        return jdbcTemplate.queryForObject(sql, map, Long.class);
+    }
 }

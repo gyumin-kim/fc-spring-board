@@ -117,6 +117,7 @@ public class BoardController {
                          @ModelAttribute("criteria") Criteria criteria,
                          HttpSession httpSession,
                          ModelMap modelMap) {
+        Long boardMemberId = boardService.getBoardMemberCheck(id);
 
         // 삭제된 글로 url을 통해 접근하거나, 로그인 안된 상태로 특정 글 상세페이지 접근하면 index 페이지로 redirect
         if (boardService.getBoardDeleted(id) == 1)
@@ -135,8 +136,13 @@ public class BoardController {
         Member member = (Member)httpSession.getAttribute("authUser");
         modelMap.addAttribute("memberName", member.getName());
         modelMap.addAttribute("regDate", board.getRegDate());
+
 //        modelMap.addAttribute("childCommentCount", commentService.getChildCommentCount(id));
         modelMap.addAttribute("fileName",fileName.getOriginalFileName());
+        if(boardMemberId != member.getId())
+            modelMap.addAttribute("isMember", false);
+        else
+            modelMap.addAttribute("isMember", true);
 
         return "detail";
     }
@@ -149,10 +155,44 @@ public class BoardController {
     }
 
     @GetMapping("/modify")
-    public String modify(@ModelAttribute("board")Board board, ModelMap modelMap){
+    public String modify(@RequestParam("boardId")Long id, ModelMap modelMap){
+        Board board = boardService.showBoardDetail(id);
         modelMap.addAttribute("board", board);
         return "modify";
     }
+
+    @PostMapping("/modify")
+    public String modify(@ModelAttribute("board")Board board,
+//                         @RequestParam("file")MultipartFile file,
+                         HttpSession httpSession, ModelMap modelMap){
+        Member member = (Member)httpSession.getAttribute("authUser");
+        Long boardMemberId = boardService.getBoardMemberCheck(board.getId());
+
+        String ipAddr = "";
+        try {
+            InetAddress ia = InetAddress.getLocalHost();
+            ipAddr = ia.getHostAddress();
+        } catch (Exception ex) { ex.printStackTrace(); }
+
+        // 글 작성자가 아니라면 인덱스 페이지로 리턴
+        if(boardMemberId != member.getId()){
+            return "redirect:/";
+        }
+
+        board.setIpAddr(ipAddr);
+        board.setRegDate(new Date());
+        board.setMemberId(member.getId());
+
+        System.out.println(board.getContent());
+        // TODO 수정 시 파일 UPDATE 처리
+        // FileInfo fileInfo = fileUtil.handleFileStream(file);
+        // board.setFileInfo(fileInfo);
+        boardService.updateBoard(board);
+
+        return "redirect:/boards/" + board.getCategoryId() + "/" + board.getId();
+    }
+
+
 
     // TODO 답글인 것을 표시해줄 무언가가 필요함
     @PostMapping("/reply")

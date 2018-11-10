@@ -19,6 +19,7 @@ public interface BoardService {
     int deleteBoard(Long id);
     Long writeBoardReply(Long id, Board board);
 //    public void upload(Map<String, Object> map,@RequestParam("file") MultipartFile file);
+    Long getBoardMemberCheck(Long id);
     FileInfo showFileName(Long boardIdx);
 //    void downloadFile(HttpServletResponse response);
 }
