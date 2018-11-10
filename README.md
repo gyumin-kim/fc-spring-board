@@ -3,4 +3,6 @@
 ## Overview
 - Spring Framework
 - Spring MVC
-- Spring Security
+- Spring JDBC
+- MySQL
+- AJAX
