@@ -10,4 +10,6 @@ public class CommentData {
     private String content;
     @Getter @Setter
     private Long memberId;
+    @Getter @Setter
+    private Long parentCommentId;
 }

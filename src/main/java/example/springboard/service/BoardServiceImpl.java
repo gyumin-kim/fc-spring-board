@@ -1,26 +1,27 @@
 package example.springboard.service;
-
 import example.springboard.dao.BoardDao;
+import example.springboard.dao.FileDownloadDao;
 import example.springboard.dao.FileUploadDao;
 import example.springboard.dto.Board;
-import example.springboard.dto.FileInfo;
 import example.springboard.dto.Criteria;
+import example.springboard.dto.FileInfo;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Iterator;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class BoardServiceImpl implements BoardService {
     private BoardDao boardDao;
     private FileUploadDao fileUploadDao;
+    private FileDownloadDao fileDownloadDao;
 
-    public BoardServiceImpl(BoardDao boardDao,FileUploadDao fileUploadDao) {
+    public BoardServiceImpl(BoardDao boardDao, FileUploadDao fileUploadDao, FileDownloadDao fileDownloadDao) {
         this.boardDao = boardDao;
         this.fileUploadDao = fileUploadDao;
+        this.fileDownloadDao = fileDownloadDao;
     }
 
     @Transactional
@@ -45,6 +46,13 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public Board showBoardDetail(Long id) {
         return boardDao.selectBoardDetail(id);
+    }
+
+    @Transactional
+    @Override
+    //파일 다운로드 메서드
+    public FileInfo showFileName(Long boardIdx){
+        return fileDownloadDao.download(boardIdx);
     }
 
     @Transactional

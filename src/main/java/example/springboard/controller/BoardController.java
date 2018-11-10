@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.FlashMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
@@ -45,7 +47,12 @@ public class BoardController {
                         @RequestParam("title")String title,
                         @RequestParam("content")String content,
                         @RequestParam("file")MultipartFile file,
-                        HttpSession httpSession) {
+                        HttpServletRequest httpServletRequest,
+                        HttpSession httpSession){     // RequestParam 으로 값을 받아준다.
+        HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        String ip = req.getHeader("X-FORWARDED-FOR");
+        if (ip == null)
+            ip = req.getRemoteAddr();
 
         // 로그인 안된 상태로 글쓰기 제출 시 index 페이지로 redirect
         if (httpSession.getAttribute("authUser") == null)
@@ -66,8 +73,9 @@ public class BoardController {
         board.setTitle(title);
         board.setContent(content);
         board.setRegDate(new Date());
+        board.setIpAddr(ip);
+        FileInfo fileInfo = fileUtil.handleFileStream(httpServletRequest,httpSession,file);
         board.setIpAddr(ipAddr);
-        FileInfo fileInfo = fileUtil.handleFileStream(file);
         board.setFileInfo(fileInfo);
         boardService.writeBoard(board);
 
@@ -111,16 +119,15 @@ public class BoardController {
                          ModelMap modelMap) {
         Long boardMemberId = boardService.getBoardMemberCheck(id);
 
-        // 삭제된 글로 url을 통해 접근하면 index 페이지로 redirect
+        // 삭제된 글로 url을 통해 접근하거나, 로그인 안된 상태로 특정 글 상세페이지 접근하면 index 페이지로 redirect
         if (boardService.getBoardDeleted(id) == 1)
             return "redirect:/";
-      
-        // 로그인 안된 상태로 특정 글 상세페이지 접근 시 index 페이지로 redirect
         if (httpSession.getAttribute("authUser") == null)
             return "redirect:/";
 
         Board board = boardService.showBoardDetail(id);
         List<Comment> commentList = commentService.getComments(id);
+        FileInfo fileName = boardService.showFileName(id);
 
         modelMap.addAttribute("board", board);
         modelMap.addAttribute("commentList", commentList);
@@ -129,13 +136,22 @@ public class BoardController {
         Member member = (Member)httpSession.getAttribute("authUser");
         modelMap.addAttribute("memberName", member.getName());
         modelMap.addAttribute("regDate", board.getRegDate());
-        if(boardMemberId != member.getId()){
+
+//        modelMap.addAttribute("childCommentCount", commentService.getChildCommentCount(id));
+        modelMap.addAttribute("fileName",fileName.getOriginalFileName());
+        if(boardMemberId != member.getId())
             modelMap.addAttribute("isMember", false);
-        }else{
+        else
             modelMap.addAttribute("isMember", true);
-        }
 
         return "detail";
+    }
+    @GetMapping("/download/{id}")
+    @ResponseBody
+    public void download(@PathVariable("id")Long id,
+                          HttpServletResponse response){
+        Board board = boardService.showBoardDetail(id);
+        fileUtil.downloadFileStream(response,id);
     }
 
     @GetMapping("/modify")
@@ -183,7 +199,9 @@ public class BoardController {
     public String reply(@RequestParam("boardId")Long boardId,
                         @RequestParam("title")String title,
                         @RequestParam("content")String content,
-                        @RequestParam("file")MultipartFile file, HttpSession session){
+                        @RequestParam("file")MultipartFile file,
+                        HttpSession session,
+                        HttpServletRequest request){
 
         // 로그인 한 사용자의 Id를 얻기 위함
         Member member = new Member();
@@ -201,7 +219,7 @@ public class BoardController {
         board.setRegDate(new Date());
         board.setTitle(title);
         board.setContent(content);
-        FileInfo fileInfo = fileUtil.handleFileStream(file);
+        FileInfo fileInfo = fileUtil.handleFileStream(request,session,file);
         board.setFileInfo(fileInfo);
 
         Long replyBoardId = boardService.writeBoardReply(boardId, board);

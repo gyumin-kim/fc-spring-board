@@ -53,6 +53,24 @@
                 <td>${board.regDate}</td>
                 <td>${board.ipAddr}</td>
             </tr>
+            <%--첨부파일 나타내기--%>
+            <td>${fileName}</td> <button type="button" onclick="location.href='/boards/download/${board.id}'">다운로드</button>
+          
+            <tr align="right" valign="middle">
+                <td colspan="5">
+                    <button type="button" onclick="location.href='/boards/modify'">수정</button>
+                    <button type="button" onclick="location.href='/boards/delete'">삭제</button>
+                    <button type="button" onclick="location.href='/boards/write'">답글</button>
+                    <button type="button"
+                            <c:if test="${criteria.searchType == null || criteria.keyword == null}">
+                                onclick="location.href='/boards/${categoryId}?page=${criteria.page}'">
+                            </c:if>
+                            <c:if test="${criteria.searchType != null && criteria.keyword != null}">
+                                onclick="location.href='/boards/${categoryId}?page=${criteria.page}&searchType=${criteria.searchType}&keyword=${criteria.keyword}'">
+                            </c:if>
+                            목록</button>
+                </td>
+            </tr>
         </tbody>
     </table>
   
@@ -91,7 +109,6 @@
             <textarea class="form-control" id="content" placeholder="댓글을 입력하세요" rows="3"></textarea>
         </div>
         <input type="hidden" id="board-id" value="${board.id}">
-        <input type="hidden" id="category-id" value="${categoryId}">
         <input type="hidden" id="auth-user-id" value="${authUser.id}">
         <input type="hidden" id="member-name" value="${memberName}">
         <input type="hidden" id="reg-date" value="${regDate}">
@@ -112,16 +129,81 @@
         </thead>
         <tbody id="comment-list">
             <c:forEach var="comment" items="${commentList}">
-            <tr>
-                <td>${comment.name}</td>
-                <td>${comment.content}</td>
-                <td>${comment.regDate}</td>
-                <td>댓글 달기</td>
-                <td>
-                    <%-- 댓글 단 본인에게만 삭제 버튼이 보임 --%>
-                    <c:if test="${authUser.id == comment.memberId}">삭제</c:if>
-                </td>
-            </tr>
+                <%-- 지워지지 않았거나 / 지워졌지만 대댓글이 있으면 보여줌 --%>
+                <c:if test="${comment.isDeleted == 0 or (comment.isDeleted == 1 and comment.childCommentCount > 1)}">
+                    <%-- 원댓글 --%>
+                    <c:if test="${comment.id == comment.parentCommentId}">
+                    <tr>
+                        <td>${comment.name}</td>
+
+                        <c:if test="${comment.isDeleted == 1 and comment.childCommentCount > 1}">
+                            <td style="color: darkred">삭제된 댓글입니다.</td>
+                        </c:if>
+                        <c:if test="${comment.isDeleted == 0}">
+                            <td>${comment.content}</td>
+                        </c:if>
+
+                        <c:if test="${comment.isDeleted == 0}">
+                            <td>${comment.regDate}</td>
+                            <td class="recommentBtn">댓글</td>
+                            <%-- 댓글 단 본인에게만 삭제 버튼이 보임 --%>
+                            <c:if test="${authUser.id == comment.memberId}">
+                            <td class="delete-comment">삭제</td>
+                            <input type="hidden" class="comment-id" value="${comment.id}">
+                            </c:if>
+                            <c:if test="${authUser.id != comment.memberId}">
+                            <td></td>
+                            </c:if>
+                        </c:if>
+                        <c:if test="${comment.isDeleted == 1 and comment.childCommentCount > 1}">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </c:if>
+                    </tr>
+
+                    <%-- 대댓글 form --%>
+                    <tr class="recomment-tr" style="display: none">
+                        <td colspan="100">
+                            <form class="recomment-form">
+                                <textarea class="recomment-content" cols="30" rows="10"></textarea>
+                                <input type="hidden" class="recomment-board-id" value="${board.id}">
+                                <input type="hidden" class="recomment-parent-comment-id" value="${comment.id}">
+                                <input type="hidden" class="recomment-seq" value="${comment.seq}">
+                                <input type="hidden" class="recomment-member-id" value="${authUser.id}">
+
+                                <input type="button" class="recomment-comment-submit" value="등록"><br><br>
+                            </form>
+                        </td>
+                    </tr>
+                    </c:if>
+                    <%-- 대댓글 form --%>
+                    <%-- 원댓글 --%>
+
+                    <%-- 대댓글 --%>
+                    <%-- TODO: 대댓글에 대한 들여쓰기 UI --%>
+                    <c:if test="${comment.id != comment.parentCommentId}">
+                    <tr class="recomment-tr">
+                        <td>${comment.name}</td>
+                        <td>${comment.content}</td>
+                        <td>${comment.regDate}</td>
+                        <%-- 댓글버튼 없음. 원댓글에만 대댓글을 달 수 있음 --%>
+                        <td></td>
+
+                        <%-- TODO: 삭제 기능 --%>
+                        <%-- 댓글 단 본인에게만 삭제 버튼이 보임 --%>
+                        <c:if test="${authUser.id == comment.memberId}">
+                        <td class="delete-comment">삭제</td>
+                        <input type="hidden" class="comment-id" value="${comment.id}">
+                        </c:if>
+
+                        <c:if test="${authUser.id != comment.memberId}">
+                        <td></td>
+                        </c:if>
+                    </tr>
+                    </c:if>
+                    <%-- 대댓글 --%>
+                </c:if>
             </c:forEach>
         </tbody>
     </table>
@@ -129,6 +211,5 @@
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="/js/comment.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-
 </body>
 </html>
