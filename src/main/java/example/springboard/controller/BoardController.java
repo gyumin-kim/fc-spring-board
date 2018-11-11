@@ -11,6 +11,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.FlashMap;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +21,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping(value = "/boards")
@@ -118,6 +121,14 @@ public class BoardController {
                          @ModelAttribute("criteria") Criteria criteria,
                          HttpSession httpSession,
                          ModelMap modelMap) {
+        // 읽기 권한 검사
+        Member member = (Member)httpSession.getAttribute("authUser");
+        Set<Permission> permissionSet = member.getPermission();
+//        if (!permissionSet.contains(1)) {
+//            modelMap.addAttribute("readPermission", false);
+//            return "redirect:/boards/" + categoryId;
+//        }
+
         Long boardMemberId = boardService.getBoardMemberCheck(id);
 
         // 삭제된 글로 url을 통해 접근하거나, 로그인 안된 상태로 특정 글 상세페이지 접근하면 index 페이지로 redirect
@@ -134,19 +145,18 @@ public class BoardController {
         modelMap.addAttribute("commentList", commentList);
         modelMap.addAttribute("categoryId", categoryId);
         modelMap.addAttribute("criteria", criteria);
-        Member member = (Member)httpSession.getAttribute("authUser");
         modelMap.addAttribute("memberName", member.getName());
         modelMap.addAttribute("regDate", board.getRegDate());
-
-//        modelMap.addAttribute("childCommentCount", commentService.getChildCommentCount(id));
         modelMap.addAttribute("fileName",fileName.getOriginalFileName());
-        if(boardMemberId != member.getId())
+
+        if(!boardMemberId.equals(member.getId()))
             modelMap.addAttribute("isMember", false);
         else
             modelMap.addAttribute("isMember", true);
 
         return "detail";
     }
+
     @GetMapping("/download/{id}")
     @ResponseBody
     public void download(@PathVariable("id")Long id,

@@ -55,6 +55,7 @@ public class MemberServiceImpl implements MemberService {
         return memberDao.selectMemberByEmail(email);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Member findMemberById(Long id) {
         return memberDao.selectMemberById(id);
@@ -75,11 +76,13 @@ public class MemberServiceImpl implements MemberService {
         return memberDao.updateMember(member);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Member> findMembers() {
         return memberDao.selectAllMember();
     }
 
+    @Transactional
     @Override
     public int applyMemberPermission(Member member, int[] permissions) {
         return memberDao.updateMemberPermission(member, permissions);

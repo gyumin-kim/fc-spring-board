@@ -150,6 +150,7 @@ public class MemberDaoImpl implements MemberDao {
             map.put("id", member.getId());
             map.put("permission_id", permission);
             jdbcTemplate.update(sql, map);
+            log.info("Member(id: " + member.getId() + ")에게 권한 (" + permission + ") 부여함.");
         }
 
         return 0;

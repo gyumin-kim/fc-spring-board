@@ -8,9 +8,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
 </head>
-<body>
+<body id="list-bg">
+    <%--<c:if test="${readPermission == false}">--%>
+        <%--<script>permissionAlert()</script>--%>
+    <%--</c:if>--%>
+
     <div align="center">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="/">Spring board</a>
@@ -34,7 +37,7 @@
             </c:if>
         </nav>
 
-        <b>글 목 록</b>
+        <h3 class="category-h2">게시판 ${categoryId}</h3>
         <table border="0" width="100%">
             <tr bgcolor="white">
                 <td align="right"><a href="/boards/write">글쓰기</a></td>
@@ -135,5 +138,6 @@
             }
         }
     </script>
+    <script src="/js/main.js"></script>
 </body>
 </html>

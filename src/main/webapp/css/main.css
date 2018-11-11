@@ -9,6 +9,16 @@ body, html {
     margin: 0;
 }
 
+#list-bg {
+    padding: 0 150px;
+}
+
+#detail-bg {
+    /*margin: 40px 100px;*/
+    padding: 0 150px;
+    margin-bottom: 100px;
+}
+
 .top-header {
     border-bottom: 0.2px white solid;
     width: 75%;
@@ -110,6 +120,7 @@ body, html {
 
 .index-card {
     text-decoration: none;
+    margin: 0 25px;
 }
 
 .index-card:hover {
@@ -138,4 +149,8 @@ body, html {
 
 .table {
     margin: 20px 0;
+}
+
+.category-h2 {
+    margin-top: 80px;
 }

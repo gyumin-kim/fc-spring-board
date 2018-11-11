@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 
-<body style="margin: 40px 100px">
+<body id="detail-bg">
     <%-- Nav Bar --%>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand" href="/">Spring board</a>
@@ -53,24 +53,6 @@
                 <td>${board.regDate}</td>
                 <td>${board.ipAddr}</td>
             </tr>
-            <%--첨부파일 나타내기--%>
-            <td>${fileName}</td> <button type="button" onclick="location.href='/boards/download/${board.id}'">다운로드</button>
-          
-            <tr align="right" valign="middle">
-                <td colspan="5">
-                    <button type="button" onclick="location.href='/boards/modify'">수정</button>
-                    <button type="button" onclick="location.href='/boards/delete'">삭제</button>
-                    <button type="button" onclick="location.href='/boards/write'">답글</button>
-                    <button type="button"
-                            <c:if test="${criteria.searchType == null || criteria.keyword == null}">
-                                onclick="location.href='/boards/${categoryId}?page=${criteria.page}'">
-                            </c:if>
-                            <c:if test="${criteria.searchType != null && criteria.keyword != null}">
-                                onclick="location.href='/boards/${categoryId}?page=${criteria.page}&searchType=${criteria.searchType}&keyword=${criteria.keyword}'">
-                            </c:if>
-                            목록</button>
-                </td>
-            </tr>
         </tbody>
     </table>
   
@@ -80,6 +62,10 @@
             <p class="card-text">${board.content}</p>
         </div>
     </div>
+
+    <%--첨부파일 나타내기--%>
+    <p>${fileName}</p>
+    <button type="button" onclick="location.href='/boards/download/${board.id}'">다운로드</button>
 
     <div id="board-detail-btns">
         <tr align="right" valign="middle">
@@ -184,7 +170,7 @@
                     <%-- TODO: 대댓글에 대한 들여쓰기 UI --%>
                     <c:if test="${comment.id != comment.parentCommentId}">
                     <tr class="recomment-tr">
-                        <td>${comment.name}</td>
+                        <td>ㄴ ${comment.name}</td>
                         <td>${comment.content}</td>
                         <td>${comment.regDate}</td>
                         <%-- 댓글버튼 없음. 원댓글에만 대댓글을 달 수 있음 --%>
