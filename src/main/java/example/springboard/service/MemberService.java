@@ -10,6 +10,8 @@ public interface MemberService {
     String findPasswordByName(String memberName);
     Member findMemberByEmail(String email);
 //    Member findMemberByName(String memberName);
+    Member findMemberById(Long id);
     int updateMemberInfo(Member member);
-    List findMembers();
+    List<Member> findMembers();
+    int applyMemberPermission(Member member, int[] permissions);
 }

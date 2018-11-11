@@ -55,7 +55,12 @@ public class MemberServiceImpl implements MemberService {
         return memberDao.selectMemberByEmail(email);
     }
 
-//    @Transactional(readOnly = true)
+    @Override
+    public Member findMemberById(Long id) {
+        return memberDao.selectMemberById(id);
+    }
+
+    //    @Transactional(readOnly = true)
 //    @Override
 //    public Member findMemberByName(String memberName) {
 //        return memberDao.selectMemberByName(memberName);
@@ -75,5 +80,8 @@ public class MemberServiceImpl implements MemberService {
         return memberDao.selectAllMember();
     }
 
-
+    @Override
+    public int applyMemberPermission(Member member, int[] permissions) {
+        return memberDao.updateMemberPermission(member, permissions);
+    }
 }

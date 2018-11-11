@@ -9,7 +9,9 @@ public interface MemberDao {
     String selectNameById(Long id);
     String selectPasswordByName(String name);
     Member selectMemberByEmail(String email);
+    Member selectMemberById(Long id);
 //    Member selectMemberByName(String name);
     int updateMember(Member member);
     List<Member> selectAllMember();
+    int updateMemberPermission(Member member, int[] permissions);
 }
