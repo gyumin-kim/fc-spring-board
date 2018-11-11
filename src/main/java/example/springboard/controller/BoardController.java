@@ -49,14 +49,15 @@ public class BoardController {
                         @RequestParam("file")MultipartFile file,
                         HttpServletRequest httpServletRequest,
                         HttpSession httpSession){     // RequestParam 으로 값을 받아준다.
-        HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-        String ip = req.getHeader("X-FORWARDED-FOR");
-        if (ip == null)
-            ip = req.getRemoteAddr();
 
         // 로그인 안된 상태로 글쓰기 제출 시 index 페이지로 redirect
         if (httpSession.getAttribute("authUser") == null)
             return "redirect:/";
+
+        HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        String ip = req.getHeader("X-FORWARDED-FOR");
+        if (ip == null)
+            ip = req.getRemoteAddr();
 
         String ipAddr = "";
         try {
@@ -74,7 +75,7 @@ public class BoardController {
         board.setContent(content);
         board.setRegDate(new Date());
         board.setIpAddr(ip);
-        FileInfo fileInfo = fileUtil.handleFileStream(httpServletRequest,httpSession,file);
+        FileInfo fileInfo = fileUtil.handleFileStream(httpServletRequest, httpSession, file);
         board.setIpAddr(ipAddr);
         board.setFileInfo(fileInfo);
         boardService.writeBoard(board);

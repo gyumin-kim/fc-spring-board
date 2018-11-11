@@ -27,7 +27,7 @@ body, html {
     /*font-family: 'Trocchi', serif;*/
 }
 
-.top-header .logout-button {
+.top-header .logout-btn {
     position: absolute;
     top: 3%;
     right: 15%;
@@ -35,9 +35,24 @@ body, html {
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-    background-color: #4CAF50; /* Green */
+    background-color: #4CAF50;
     color: white;
     border: 2px solid #4CAF50;
+    border-radius: 8px;
+    transition-duration: 0.4s;
+}
+
+.top-header .admin-btn {
+    position: absolute;
+    top: 3%;
+    right: 23%;
+    padding: 8px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: #0435af;
+    color: white;
+    border: 2px solid #0435af;
     border-radius: 8px;
     transition-duration: 0.4s;
 }
@@ -119,4 +134,8 @@ body, html {
 
 .delete-comment {
     cursor: pointer;
+}
+
+.table {
+    margin: 20px 0;
 }

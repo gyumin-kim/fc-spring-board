@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -112,5 +113,11 @@ public class MemberDaoImpl implements MemberDao {
                 "WHERE id = :id";
         SqlParameterSource params = new BeanPropertySqlParameterSource(member);
         return jdbcTemplate.update(sql, params);
+    }
+
+    @Override
+    public List<Member> selectAllMember() {
+        String sql = "SELECT id, name, email, password FROM member";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper(Member.class));
     }
 }
