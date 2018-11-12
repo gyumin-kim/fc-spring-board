@@ -1,6 +1,7 @@
 package example.springboard.service;
 
 import example.springboard.dto.Comment;
+import example.springboard.dto.Member;
 
 import java.util.List;
 

@@ -14,9 +14,13 @@
 <body class="bg">
     <div class="top-header">
         <span class="logo">AMERICAN APPAREL</span>
+        <%-- 관리자일 경우 --%>
+        <c:if test="${sessionScope.admin != null}">
+            <a href="/admin"><button class="admin-btn btn btn-light">관리자</button></a>
+        </c:if>
         <%-- 로그인 되어 있으면 로그아웃 버튼 보이게 --%>
         <c:if test="${sessionScope.authUser != null}">
-            <a href="/logout"><button class="logout-button btn btn-light">로그아웃</button></a>
+            <a href="/logout"><button class="logout-btn btn btn-light">로그아웃</button></a>
         </c:if>
     </div>
 

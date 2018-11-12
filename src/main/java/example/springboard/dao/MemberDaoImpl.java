@@ -13,6 +13,8 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -90,7 +92,19 @@ public class MemberDaoImpl implements MemberDao {
         }
     }
 
-//    @Override
+    @Override
+    public Member selectMemberById(Long id) {
+        String sql = "SELECT id, name, email, password FROM member WHERE id = :id";
+        try {
+            RowMapper<Member> rowMapper = BeanPropertyRowMapper.newInstance(Member.class);
+            Map<String, ?> params = Collections.singletonMap("id", id);
+            return jdbcTemplate.queryForObject(sql, params, rowMapper);
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    //    @Override
 //    public Member selectMemberByName(String name) {
 //        String sql = "SELECT id, name, email, password FROM member WHERE name = :name";
 //        try {
@@ -112,5 +126,33 @@ public class MemberDaoImpl implements MemberDao {
                 "WHERE id = :id";
         SqlParameterSource params = new BeanPropertySqlParameterSource(member);
         return jdbcTemplate.update(sql, params);
+    }
+
+    @Override
+    public List<Member> selectAllMember() {
+        String sql = "SELECT id, name, email, password FROM member";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper(Member.class));
+    }
+
+    @Override
+    public int updateMemberPermission(Member member, int[] permissions) {
+        // 해당 member의 permission 정보를 모두 지운 뒤, 매개변수로 받은 permissions을 다시 추가한다.
+        String sql = "DELETE FROM member_permission WHERE member_id = :member_id";
+        Map<String, ?> params = Collections.singletonMap("member_id", member.getId());
+        jdbcTemplate.update(sql, params);
+
+        for (int permission : permissions) {
+            // permission이 0이면 admin.jsp에서 해당 권한에 체크하지 않았다는 의미
+            if (permission == 0)    continue;
+
+            sql = "INSERT INTO member_permission (member_id, permission_id) VALUES (:id, :permission_id)";
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", member.getId());
+            map.put("permission_id", permission);
+            jdbcTemplate.update(sql, map);
+            log.info("Member(id: " + member.getId() + ")에게 권한 (" + permission + ") 부여함.");
+        }
+
+        return 0;
     }
 }

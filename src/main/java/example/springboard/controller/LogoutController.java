@@ -19,7 +19,10 @@ public class LogoutController {
 
     @GetMapping("/logout")
     public String logout(HttpSession httpSession) {
+        if (httpSession.getAttribute("admin") != null)
+            httpSession.removeAttribute("admin");
         httpSession.removeAttribute("authUser");
+
         return "redirect:/";
     }
 }

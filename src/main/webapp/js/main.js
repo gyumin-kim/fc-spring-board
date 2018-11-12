@@ -1,6 +1,14 @@
 let loginFormBtn = document.querySelector('#login-submit');
 let signupFormBtn = document.querySelector('#signup-submit');
 
+let handleError = function() {
+    console.log('AJAX call error.');
+};
+
+let permissionAlert = function() {
+    alert('권한이 없습니다. 관리자에게 문의하세요.');
+};
+
 loginFormBtn.addEventListener('click', () => {
     let loginEmail = document.getElementById('login-email').value;          // input 태그에 입력된 email
     let loginPassword = document.getElementById('login-password').value;    // input 태그에 입력된 password
@@ -80,7 +88,3 @@ signupFormBtn.addEventListener('click', () => {
         error: handleError
     });
 });
-
-function handleError() {
-    console.log('AJAX call error.');
-}

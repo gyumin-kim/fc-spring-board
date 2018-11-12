@@ -4,15 +4,23 @@ import example.springboard.dto.Member;
 import example.springboard.service.MemberService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+@PropertySource("classpath:application.properties")
 @RestController
 public class LoginController {
     private static final Log log = LogFactory.getLog(LoginController.class);
     private MemberService memberService;
+
+    @Value("${adminEmail}")
+    private String adminEmail;
+    @Value("${adminPw}")
+    private String adminPw;
 
     public LoginController(MemberService memberService) {
         this.memberService = memberService;
@@ -38,6 +46,10 @@ public class LoginController {
                     return "wrongPassword";
                 // 비밀번호 일치할 경우 (로그인 성공)
                 else {
+                    // 관리자일 경우
+                    if (email.equals(adminEmail) && password.equals(adminPw))
+                        httpSession.setAttribute("admin", "admin");
+
                     httpSession.setAttribute("authUser", member);
                     log.info(member.toString());
                     return "loginSuccess";

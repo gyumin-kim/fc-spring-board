@@ -5,6 +5,8 @@ import example.springboard.dto.Member;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class MemberServiceImpl implements MemberService {
     private MemberDao memberDao;
@@ -53,7 +55,13 @@ public class MemberServiceImpl implements MemberService {
         return memberDao.selectMemberByEmail(email);
     }
 
-//    @Transactional(readOnly = true)
+    @Transactional(readOnly = true)
+    @Override
+    public Member findMemberById(Long id) {
+        return memberDao.selectMemberById(id);
+    }
+
+    //    @Transactional(readOnly = true)
 //    @Override
 //    public Member findMemberByName(String memberName) {
 //        return memberDao.selectMemberByName(memberName);
@@ -66,5 +74,17 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public int updateMemberInfo(Member member) {
         return memberDao.updateMember(member);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<Member> findMembers() {
+        return memberDao.selectAllMember();
+    }
+
+    @Transactional
+    @Override
+    public int applyMemberPermission(Member member, int[] permissions) {
+        return memberDao.updateMemberPermission(member, permissions);
     }
 }
